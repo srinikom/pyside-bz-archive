@@ -1,0 +1,1340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                      "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <title>Bug 727 &ndash; PySide crashes on OS X</title>
+
+
+<link rel="Top" href="http://bugs.pyside.org/">
+
+  
+
+
+  
+    <link rel="Show" title="Dependency Tree"
+          href="showdependencytree.cgi?id=727&amp;hide_resolved=1">
+      <link rel="Show" title="Dependency Graph"
+            href="showdependencygraph.cgi?id=727">
+
+      <link rel="Show" title="Bug Activity"
+            href="show_activity.cgi?id=727">
+      <link rel="Show" title="Printer-Friendly Version"
+            href="show_bug.cgi?format=multiple&amp;id=727">
+
+
+
+    
+    
+    <link href="skins/standard/global.css"
+          rel="alternate stylesheet" 
+          title="Classic"><link href="js/yui/assets/skins/sam/autocomplete.css" rel="stylesheet"
+        type="text/css" ><link href="js/yui/assets/skins/sam/calendar.css" rel="stylesheet"
+        type="text/css" ><link href="skins/standard/global.css" rel="stylesheet"
+        type="text/css" ><link href="skins/standard/show_bug.css" rel="stylesheet"
+        type="text/css" ><!--[if lte IE 7]>
+      
+
+
+
+  <link href="skins/standard/IE-fixes.css" rel="stylesheet"
+        type="text/css" >
+<![endif]-->
+
+    <link href="skins/contrib/OpenBossa/global.css" rel="stylesheet"
+        type="text/css" title="OpenBossa">
+<link href="skins/contrib/Dusk/global.css" rel="alternate stylesheet"
+        type="text/css" title="Dusk">
+
+    
+
+    
+
+    
+<script type="text/javascript" src="js/yui/yahoo-dom-event/yahoo-dom-event.js"></script><script type="text/javascript" src="js/yui/cookie/cookie-min.js"></script><script type="text/javascript" src="js/yui/datasource/datasource-min.js"></script><script type="text/javascript" src="js/yui/connection/connection-min.js"></script><script type="text/javascript" src="js/yui/json/json-min.js"></script><script type="text/javascript" src="js/yui/autocomplete/autocomplete-min.js"></script><script type="text/javascript" src="js/yui/calendar/calendar-min.js"></script><script type="text/javascript" src="js/global.js"></script>
+
+    <script type="text/javascript">
+    <!--
+        YAHOO.namespace('bugzilla');
+        YAHOO.util.Event.addListener = function (el, sType, fn, obj, overrideContext) {
+               if ( ("onpagehide" in window || YAHOO.env.ua.gecko) && sType === "unload") { sType = "pagehide"; };
+               var capture = ((sType == "focusin" || sType == "focusout") && !YAHOO.env.ua.ie) ? true : false;
+               return this._addListener(el, this._getType(sType), fn, obj, overrideContext, capture);
+         };
+        if ( "onpagehide" in window || YAHOO.env.ua.gecko) {
+            YAHOO.util.Event._simpleRemove(window, "unload", 
+                                           YAHOO.util.Event._unload);
+        }
+        
+        function unhide_language_selector() { 
+            YAHOO.util.Dom.removeClass(
+                'lang_links_container', 'bz_default_hidden'
+            ); 
+        } 
+        YAHOO.util.Event.onDOMReady(unhide_language_selector);
+
+        
+        var BUGZILLA = {
+            param: {
+                cookiepath: '\/',
+                maxusermatches: 1000
+            },
+
+            string: {
+                
+
+                attach_desc_required:
+                    'You must enter a Description for this attachment.',
+                component_required:
+                    'You must select a Component for this bug.',
+                description_required:
+                    'You must enter a Description for this bug.',
+                short_desc_required:
+                    'You must enter a Summary for this bug.',
+                version_required:
+                    'You must select a Version for this bug.'
+            }
+        };
+
+    // -->
+    </script>
+<script type="text/javascript" src="js/util.js"></script><script type="text/javascript" src="js/field.js"></script>
+
+    
+
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+                       title="Bugzilla" href="./search_plugin.cgi">
+    <link rel="shortcut icon" href="images/favicon.ico" >
+  </head>
+
+
+
+  <body onload=""
+        class="bugs-pyside-org bz_bug bz_status_CLOSED bz_product_PySide bz_component_QtGui bz_bug_727 yui-skin-sam">
+
+
+
+<div id="header">
+<div id="banner">
+  </div>
+
+<table border="0" cellspacing="0" cellpadding="0" id="titles">
+<tr>
+    <td><a id="pysidelogo" href="http://www.pyside.org">&nbsp;</a></td>
+    <td id="title">
+      <p>Bugzilla &ndash; Bug&nbsp;727</p>
+    </td>
+
+    <td id="subtitle">
+      <p class="subheader">PySide crashes on OS X</p>
+    </td>
+
+    <td id="information">
+      <p class="header_addl_info">Last modified: 2011-04-01 23:16:04 EEST</p>
+    </td>
+</tr>
+</table>
+
+<table id="lang_links_container" cellpadding="0" cellspacing="0"
+       class="bz_default_hidden"><tr><td>
+</td></tr></table>
+<ul class="links">
+  <li><a href="./">Home</a></li>
+  <li><span class="separator">| </span><a href="enter_bug.cgi">New</a></li>
+  <li><span class="separator">| </span><a href="describecomponents.cgi">Browse</a></li>
+  <li><span class="separator">| </span><a href="query.cgi">Search</a></li>
+
+  <li class="form">
+    <span class="separator">| </span>
+    <form action="buglist.cgi" method="get"
+        onsubmit="if (this.quicksearch.value == '')
+                  { alert('Please enter one or more search terms first.');
+                    return false; } return true;">
+    <input class="txt" type="text" id="quicksearch_top" name="quicksearch" 
+           value="">
+    <input class="btn" type="submit" value="Search" 
+           id="find_top"></form>
+  <a href="page.cgi?id=quicksearch.html" title="Quicksearch Help">[?]</a></li>
+
+  <li><span class="separator">| </span><a href="report.cgi">Reports</a></li>
+
+  <li></li>
+
+  <li>
+        <span class="separator">| </span>
+        <a href="docs/en/html/bug_page.html" target="_blank">Help</a>
+      </li>
+    
+      <li id="new_account_container_top">
+        <span class="separator">| </span>
+        <a href="createaccount.cgi">New&nbsp;Account</a>
+      </li>
+
+    <li id="mini_login_container_top">
+  <span class="separator">| </span>
+  <a id="login_link_top" href="http://bugs.pyside.org/show_bug.cgi?id=727&amp;GoAheadAndLogIn=1"
+     onclick="return show_mini_login_form('_top')">Log In</a>
+  <form action="http://bugs.pyside.org/show_bug.cgi?id=727" method="POST" 
+        class="mini_login bz_default_hidden"
+        id="mini_login_top"
+        onsubmit="return check_mini_login_fields( '_top' );"
+  >
+    <input id="Bugzilla_login_top" 
+           class="bz_login"
+           name="Bugzilla_login"
+           onfocus="mini_login_on_focus('_top')"
+    >
+    <input class="bz_password" 
+           id="Bugzilla_password_top" 
+           name="Bugzilla_password"
+           type="password"
+    >
+    <input class="bz_password bz_default_hidden bz_mini_login_help" type="text" 
+           id="Bugzilla_password_dummy_top" value="password"
+           onfocus="mini_login_on_focus('_top')"
+    >
+    <input type="submit" name="GoAheadAndLogIn" value="Log in" 
+            id="log_in_top">
+    <script type="text/javascript">
+      mini_login_constants = {
+          "login" : "login",
+          "warning" : "You must set the login and password before logging in."
+      };
+      
+      if (YAHOO.env.ua.gecko || YAHOO.env.ua.ie || YAHOO.env.ua.opera) {
+          YAHOO.util.Event.onDOMReady(function() {
+              init_mini_login_form('_top');
+          });
+      }
+      else {
+          YAHOO.util.Event.on(window, 'load', function () {
+              window.setTimeout(function() {
+                  init_mini_login_form('_top');
+              }, 200);
+          });
+    }
+    </script>
+    <a href="#" onclick="return hide_mini_login_form('_top')">[x]</a>
+  </form>
+</li>
+<li id="forgot_container_top">
+  <span class="separator">| </span>
+  <a id="forgot_link_top" href="http://bugs.pyside.org/show_bug.cgi?id=727&amp;GoAheadAndLogIn=1#forgot"
+     onclick="return show_forgot_form('_top')">Forgot Password</a>
+  <form action="token.cgi" method="post" id="forgot_form_top"
+        class="mini_forgot bz_default_hidden">
+    <label>Login: <input type="text" name="loginname" size="20"></label>
+    <input id="forgot_button_top" value="Reset Password" 
+           type="submit">
+    <input type="hidden" name="a" value="reqpw">
+    <a href="#" onclick="return hide_forgot_form('_top')">[x]</a>
+  </form>
+</li>
+</ul>
+</div> 
+
+<div id="bugzilla-body">
+<div id="message">
+<p><strong>PySide Bugzilla Closed for New Bugs</strong></p>
+<p>PySide is now a Qt Add-on and uses the Qt Project's <a href="https://bugreports.qt-project.org/">JIRA Bug Tracker</a> instead of this Bugzilla instance. This Bugzilla is left for reference purposes.</p>
+</div>
+
+<div class="navigation">
+  
+  <i><font color="#777777">First</font></i>
+  <i><font color="#777777">Last</font></i>
+  <i><font color="#777777">Prev</font></i>
+  <i><font color="#777777">Next</font></i>
+  &nbsp;&nbsp;
+  <i><font color="#777777">This bug is not in your last
+    search results.</font></i>
+</div>
+<script type="text/javascript">
+  <!--
+  
+  /* Outputs a link to call replyToComment(); used to reduce HTML output */
+  function addReplyLink(id, real_id) {
+      /* XXX this should really be updated to use the DOM Core's
+       * createElement, but finding a container isn't trivial.
+       */
+        document.write('[<a href="#add_comment" onclick="replyToComment(' + 
+                       id + ',' + real_id + '); return false;">reply<' + '/a>]');
+  }
+
+  /* Adds the reply text to the `comment' textarea */
+  function replyToComment(id, real_id) {
+      var prefix = "(In reply to comment #" + id + ")\n";
+      var replytext = "";
+        /* pre id="comment_name_N" */
+        var text_elem = document.getElementById('comment_text_'+id);
+        var text = getText(text_elem);
+
+        /* make sure we split on all newlines -- IE or Moz use \r and \n
+         * respectively.
+         */
+        text = text.split(/\r|\n/);
+
+        for (var i=0; i < text.length; i++) {
+            replytext += "> " + text[i] + "\n"; 
+        }
+
+        replytext = prefix + replytext + "\n";
+
+
+      /* <textarea id="comment"> */
+      var textarea = document.getElementById('comment');
+      textarea.value += replytext;
+
+      textarea.focus();
+  }
+
+  if (typeof Node == 'undefined') {
+      /* MSIE doesn't define Node, so provide a compatibility object */
+      window.Node = {
+          TEXT_NODE: 3,
+          ENTITY_REFERENCE_NODE: 5
+      };
+  }
+
+  /* Concatenates all text from element's childNodes. This is used
+   * instead of innerHTML because we want the actual text (and
+   * innerText is non-standard).
+   */
+  function getText(element) {
+      var child, text = "";
+      for (var i=0; i < element.childNodes.length; i++) {
+          child = element.childNodes[i];
+          var type = child.nodeType;
+          if (type == Node.TEXT_NODE || type == Node.ENTITY_REFERENCE_NODE) {
+              text += child.nodeValue;
+          } else {
+              /* recurse into nodes of other types */
+              text += getText(child);
+          }
+      }
+      return text;
+  }
+
+
+  /* Index all classifications so we can keep track of the classification
+   * for the selected product, which could control field visibility.
+   */
+  var all_classifications = new Array(1);
+      all_classifications['PySide'] = 'Unclassified';
+
+  //-->
+  </script>
+
+<form name="changeform" id="changeform" method="post" action="process_bug.cgi">
+
+  <input type="hidden" name="delta_ts" value="2011-04-01 23:16:04">
+  <input type="hidden" name="longdesclength" value="8">
+  <input type="hidden" name="id" value="727">
+  <input type="hidden" name="token" value="1336600546-59256efa8b57d9e0ecaa47c72a2bf55f">
+<div class="bz_alias_short_desc_container edit_form">
+     <a href="show_bug.cgi?id=727"><b>Bug&nbsp;727</b></a> -<span id="summary_alias_container" class="bz_default_hidden"> 
+      <span id="short_desc_nonedit_display">PySide crashes on OS X</span>
+     </span>
+  
+       
+    <div id="summary_alias_input">
+      <table id="summary">  
+        
+        <tr>
+          <td>
+            <label accesskey="s" for="short_desc"><u>S</u>ummary</label>:
+          </td>
+          <td>PySide crashes on OS X
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script type="text/javascript">
+    hideAliasAndSummary('PySide crashes on OS X', '');
+  </script>
+  <table class="edit_form">
+    <tr>
+      
+      <td id="bz_show_bug_column_1" class="bz_show_bug_column">     
+        <table>
+          <tr>
+    <td class="field_label">
+      <b><a href="page.cgi?id=fields.html#status">Status</a></b>:
+    </td>
+    <td id="bz_field_status">
+      <span id="static_bug_status">CLOSED
+          DUPLICATE
+            of <span class="bz_closed"><a href="show_bug.cgi?id=735" title="CLOSED FIXED - ownership_reparenting_test.py fail on Ubuntu natty amd64">bug 735</a></span>
+      </span>
+    </td>
+  </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          <tr><th class="field_label "
+    id="field_label_product">
+
+
+  <a 
+      title="Bugs are categorised into Products and Components."
+      class="field_help_link"
+      href="describecomponents.cgi"
+  >Product:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_product" >PySide</td>
+    </tr>
+
+    
+    <tr class="bz_default_hidden"><th class="field_label "
+    id="field_label_classification">
+
+
+  <a 
+      title="Bugs are categorised into Classifications, Products and Components. classifications is the top-level categorisation."
+      class="field_help_link"
+      href="page.cgi?id=fields.html#classification"
+  >Classification:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_classification" >Unclassified</td>
+    </tr>
+        
+    
+    
+    <tr><th class="field_label "
+    id="field_label_component">
+
+
+  <a 
+      title="Components are second-level categories; each belongs to a particular Product. Select a Product to narrow down this list."
+      class="field_help_link"
+      href="describecomponents.cgi?product=PySide"
+  >Component:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_component" >QtGui</td>
+    </tr>
+    <tr>
+      <td class="field_label">
+        <label for="version"><b>Version</b></label>:
+      </td>
+<td>1.0.0
+  </td>
+    </tr>
+        
+    
+        
+    <tr>
+      <td class="field_label">
+        <label for="rep_platform" accesskey="h"><b>Platform</b></label>:
+      </td>
+      <td class="field_value">Macintosh
+       Mac OS
+       <script type="text/javascript">
+         assignToDefaultOnChange(['product', 'component']);
+       </script>
+      </td>
+    </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          
+          <tr>
+      <td class="field_label">
+        <label for="priority" accesskey="i">
+          <b><a href="page.cgi?id=fields.html#importance"><u>I</u>mportance</a></b></label>:
+      </td>
+      <td>P2
+       normal
+      </td>
+    </tr>            
+          
+          <tr>
+      <td class="field_label">
+        <b><a href="page.cgi?id=fields.html#assigned_to">Assigned To</a></b>:
+      </td>
+      <td><span class="vcard"><span class="fn">renato filho</span>
+</span>
+      </td>
+    </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          <tr>
+    <td class="field_label">
+      <label for="bug_file_loc" accesskey="u"><b>
+          <u>U</u>RL</b></label>:
+    </td>
+    <td>
+      <span id="bz_url_input_area">
+      </span>
+    </td>
+  </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          
+          <tr><th class="field_label">
+    <label for="dependson">Depends&nbsp;on</label>:
+  </th>
+  <td>    
+    <span id="dependson_input_area">
+    </span>
+    
+  </td>
+  </tr>
+  
+  <tr><th class="field_label">
+    <label for="blocked" accesskey="b"><u>B</u>locks</label>:
+  </th>
+  <td>    
+    <span id="blocked_input_area">
+    </span>
+    
+  </td>
+  
+  <tr>
+    <th>&nbsp;</th>
+  
+    <td colspan="2" align="left" id="show_dependency_tree_or_graph">
+      Show dependency <a href="showdependencytree.cgi?id=727&amp;hide_resolved=1">tree</a>
+  
+        /&nbsp;<a href="showdependencygraph.cgi?id=727">graph</a>
+    </td>
+  </tr>
+          
+        </table>
+      </td>
+      <td>
+        <div class="bz_column_spacer">&nbsp;</div>
+      </td>
+      
+      <td id="bz_show_bug_column_2" class="bz_show_bug_column">
+        <table cellpadding="3" cellspacing="1">
+        <tr>
+    <td class="field_label">
+      <b>Reported</b>:
+    </td>
+    <td>2011-03-12 09:50 EET by <span class="vcard"><span class="fn">Jari Tenhunen</span>
+</span>
+    </td>
+  </tr>
+  
+  <tr>
+    <td class="field_label">
+      <b> Modified</b>:
+    </td>
+    <td>2011-04-01 23:16 EEST 
+      (<a href="show_activity.cgi?id=727">History</a>)
+    </td>
+  
+  </tr>
+         <tr>
+      <td class="field_label">
+        <label for="newcc" accesskey="a"><b>CC List</b>:</label>
+      </td>
+      <td>8 
+          users
+          <span id="cc_edit_area_showhide_container" class="bz_default_hidden">
+            (<a href="#" id="cc_edit_area_showhide">show</a>)
+          </span>
+        <div id="cc_edit_area">
+          <br>
+            <select id="cc" name="cc" multiple="multiple" size="5">
+                <option value="bruno.araujo">bruno.araujo</option>
+                <option value="hugo.lima">hugo.lima</option>
+                <option value="lauro.neto">lauro.neto</option>
+                <option value="luciano.wolf">luciano.wolf</option>
+                <option value="marcelo.lira">marcelo.lira</option>
+                <option value="matti.p.airas">matti.p.airas</option>
+                <option value="renatox">renatox</option>
+                <option value="willer.moreira">willer.moreira</option>
+            </select>
+        </div>
+          <script type="text/javascript">
+            hideEditableField( 'cc_edit_area_showhide_container', 
+                               'cc_edit_area', 
+                               'cc_edit_area_showhide', 
+                               '', 
+                               '');  
+          </script>
+      </td>
+    </tr>
+         <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+<tr><th class="field_label "
+    id="field_label_see_also">
+
+
+  <a 
+      title="This allows you to refer to bugs in other installations. You can enter a URL to a bug in the 'Add Bug URLs' field to note that that bug is related to this one. You can enter multiple URLs at once by separating them with a comma. You should normally use this field to refer to bugs in other installations. For bugs in this installation, it is better to use the Depends on and Blocks fields."
+      class="field_help_link"
+      href="page.cgi?id=fields.html#see_also"
+  >See Also:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_see_also" ></td>
+    </tr> 
+         
+         <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+         
+                
+
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+          <hr id="bz_top_half_spacer">
+      </td>
+    </tr>
+  </table>
+
+  <table id="bz_big_form_parts" cellspacing="0" cellpadding="0"><tr>
+  <td>
+
+    
+<script type="text/javascript">
+<!--
+function toggle_display(link) {
+    var table = document.getElementById("attachment_table");
+    // Store current height for scrolling later
+    var originalHeight = table.offsetHeight;
+    var rows = YAHOO.util.Dom.getElementsByClassName(
+        'bz_tr_obsolete', 'tr', table);
+
+    for (var i = 0; i < rows.length; i++) {
+        bz_toggleClass(rows[i], 'bz_default_hidden');
+    }
+
+    if (YAHOO.util.Dom.hasClass(rows[0], 'bz_default_hidden')) {
+        link.innerHTML = "Show Obsolete";
+    }
+    else {
+        link.innerHTML = "Hide Obsolete";
+    }
+
+    var newHeight = table.offsetHeight;
+    // This scrolling makes the window appear to not move at all.
+    window.scrollBy(0, newHeight - originalHeight);
+
+    return false;
+}
+//-->
+</script>
+
+<br>
+<table id="attachment_table" cellspacing="0" cellpadding="4">
+  <tr id="a0">
+    <th colspan="2" align="left">
+      Attachments
+    </th>
+  </tr>
+
+
+
+  <tr class="bz_attach_footer">
+    <td colspan="2">
+        <a href="attachment.cgi?bugid=727&amp;action=enter">Add an attachment</a>
+        (proposed patch, testcase, etc.)
+    </td>
+  </tr>
+</table>
+<br>
+<div id="add_comment" class="bz_section_additional_comments">
+      <table><tr><td><fieldset>
+        <legend>Note</legend>
+        You need to
+        <a href="show_bug.cgi?id=727&amp;GoAheadAndLogIn=1">log in</a>
+         before you can comment on or make changes to this bug.
+      </fieldset></table><tr></td>
+  </div>
+  </td>
+  <td>
+  </td>
+  </tr></table>
+
+  
+  <div id="comments"><script src="js/comments.js" type="text/javascript">
+</script>
+
+
+
+
+
+
+
+<!-- This auto-sizes the comments and positions the collapse/expand links 
+     to the right. -->
+<table class="bz_comment_table" cellpadding="0" cellspacing="0"><tr>
+<td>
+<div id="c0" class="bz_comment bz_first_comment">
+
+      <div class="bz_first_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=727#c0">Description</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Jari Tenhunen</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-03-12 09:50:50 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Using PySide binary from [1] and Qt 4.7.1, my own test program [2] always
+crashes. The crash can manifest as segmentation fault, bus error or incorrect
+checksum for freed object. FWIW, the program works with PyQt bindings.
+
+One example:
+
+$ /usr/bin/python qtupelo.py
+...
+python(9024,0x7fff70fecca0) malloc: *** error for object 0x103ec4998: incorrect
+checksum for freed object - object was probably modified after being freed.
+*** set a breakpoint in malloc_error_break to debug
+Abort trap
+
+
+[1] <a href="http://pyside.markus-ullmann.de/pyside-1.0.0-qt47-py26apple-r1.pkg">http://pyside.markus-ullmann.de/pyside-1.0.0-qt47-py26apple-r1.pkg</a>
+[2] <a href="https://github.com/jait/tupelo/tree/qt">https://github.com/jait/tupelo/tree/qt</a></pre>
+    </div>
+  <div id="c1" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=727#c1">Comment 1</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Jari Tenhunen</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-03-12 10:16:48 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Some backtraces:
+
+$ gdb --args /usr/bin/python qtupelo.py
+...
+DEBUG: entering draw_cards()
+state_changed(): state: ONGOING, mode: RAMI, score: [0, 0], tricks: [0, 0],
+dealer: 0, len(table): 3
+DEBUG: entering draw_cards()
+
+Program received signal EXC_BAD_ACCESS, Could not access memory.
+Reason: KERN_INVALID_ADDRESS at address: 0x0000000000000000
+0x00007fff88fed120 in objc_msgSend ()
+(gdb) bt
+#0  0x00007fff88fed120 in objc_msgSend ()
+#1  0x00007fff87646216 in CGSUnionRegionWithRect ()
+#2  0x00007fff86707467 in -[NSRegion addRect:] ()
+#3  0x00007fff86707231 in -[NSWindow _setNeedsDisplayInRect:] ()
+#4  0x00007fff8670c121 in -[NSView(NSInternal)
+_setWindowNeedsDisplayInViewsDrawableRect] ()
+#5  0x00007fff8674e67b in -[NSView _removeSubview:] ()
+#6  0x00007fff8670aec2 in -[NSView _setSuperview:] ()
+#7  0x00007fff8674e1ff in -[NSView removeFromSuperview] ()
+#8  0x00000001030f2699 in qt_mac_destructView ()
+#9  0x00000001030f4d37 in QWidget::destroy ()
+#10 0x00000001031aca03 in QWidget::~QWidget ()
+#11 0x00000001024bce4b in QLabelWrapper::~QLabelWrapper ()
+#12 0x000000010140b73f in QObjectPrivate::deleteChildren ()
+#13 0x00000001031ac9e9 in QWidget::~QWidget ()
+#14 0x000000010294352b in QWidgetWrapper::~QWidgetWrapper ()
+#15 0x0000000101500efe in QObject::event ()
+#16 0x00000001031b079e in QWidget::event ()
+#17 0x000000010294f29d in Sbk_QWidgetFunc_event ()
+#18 0x000000010000aff3 in PyObject_Call ()
+#19 0x00000001000849db in PyEval_CallObjectWithKeywords ()
+#20 0x000000010001f548 in PyDescr_NewMethod ()
+#21 0x000000010000aff3 in PyObject_Call ()
+#22 0x000000010008a51a in PyEval_EvalFrameEx ()
+#23 0x000000010008acce in PyEval_EvalCodeEx ()
+#24 0x000000010002c8e1 in PyClassMethod_New ()
+#25 0x000000010000aff3 in PyObject_Call ()
+#26 0x000000010001a9df in PyClass_New ()
+#27 0x000000010000aff3 in PyObject_Call ()
+#28 0x0000000102948fa9 in QWidgetWrapper::event ()
+#29 0x000000010315950d in QApplicationPrivate::notify_helper ()
+#30 0x000000010315f53d in QApplication::notify ()
+#31 0x00000001021961bd in QApplicationWrapper::notify ()
+#32 0x000000010140669c in QCoreApplication::notifyInternal ()
+#33 0x00000001014f41db in QCoreApplicationPrivate::sendPostedEvents ()
+#34 0x00007fff83eb8401 in __CFRunLoopDoSources0 ()
+#35 0x00007fff83eb65f9 in __CFRunLoopRun ()
+#36 0x00007fff83eb5dbf in CFRunLoopRunSpecific ()
+#37 0x00007fff80ab193a in RunCurrentEventLoopInMode ()
+#38 0x00007fff80ab169d in ReceiveNextEventCommon ()
+#39 0x00007fff80ab15f8 in BlockUntilNextEventMatchingListInMode ()
+#40 0x00007fff8672be64 in _DPSNextEvent ()
+#41 0x00007fff8672b7a9 in -[NSApplication
+nextEventMatchingMask:untilDate:inMode:dequeue:] ()
+#42 0x00007fff866f148b in -[NSApplication run] ()
+#43 0x0000000103114624 in QEventDispatcherMac::processEvents ()
+#44 0x00000001014f2b44 in QEventLoop::processEvents ()
+#45 0x00000001014f2e64 in QEventLoop::exec ()
+#46 0x00000001014f448c in QCoreApplication::exec ()
+#47 0x0000000102191114 in Sbk_QApplicationFunc_exec_ ()
+#48 0x0000000100088f3f in PyEval_EvalFrameEx ()
+#49 0x00000001000892e1 in PyEval_EvalFrameEx ()
+#50 0x000000010008acce in PyEval_EvalCodeEx ()
+#51 0x000000010008ad61 in PyEval_EvalCode ()
+#52 0x00000001000a265a in Py_CompileString ()
+#53 0x00000001000a2723 in PyRun_FileExFlags ()
+#54 0x00000001000a423d in PyRun_SimpleFileExFlags ()
+#55 0x00000001000b0286 in Py_Main ()
+#56 0x0000000100000e6c in ?? ()
+
+Program received signal EXC_BAD_ACCESS, Could not access memory.
+Reason: 13 at address: 0x0000000000000000
+0x00000001030686c7 in QBoxLayout::~QBoxLayout ()
+(gdb) bt
+#0  0x00000001030686c7 in QBoxLayout::~QBoxLayout ()
+#1  0x000000010232a2bb in QHBoxLayoutWrapper::~QHBoxLayoutWrapper ()
+#2  0x00000001030ac8ab in QWidget::~QWidget ()
+#3  0x000000010284352b in QWidgetWrapper::~QWidgetWrapper ()
+#4  0x0000000101500efe in QObject::event ()
+#5  0x00000001030b079e in QWidget::event ()
+#6  0x000000010284f29d in Sbk_QWidgetFunc_event ()
+#7  0x000000010000aff3 in PyObject_Call ()
+#8  0x00000001000849db in PyEval_CallObjectWithKeywords ()
+#9  0x000000010001f548 in PyDescr_NewMethod ()
+#10 0x000000010000aff3 in PyObject_Call ()
+#11 0x000000010008a51a in PyEval_EvalFrameEx ()
+#12 0x000000010008acce in PyEval_EvalCodeEx ()
+#13 0x000000010002c8e1 in PyClassMethod_New ()
+#14 0x000000010000aff3 in PyObject_Call ()
+#15 0x000000010001a9df in PyClass_New ()
+#16 0x000000010000aff3 in PyObject_Call ()
+#17 0x0000000102848fa9 in QWidgetWrapper::event ()
+#18 0x000000010305950d in QApplicationPrivate::notify_helper ()
+#19 0x000000010305f53d in QApplication::notify ()
+#20 0x00000001020961bd in QApplicationWrapper::notify ()
+#21 0x000000010140669c in QCoreApplication::notifyInternal ()
+#22 0x00000001014f41db in QCoreApplicationPrivate::sendPostedEvents ()
+#23 0x00007fff83eb8401 in __CFRunLoopDoSources0 ()
+#24 0x00007fff83eb65f9 in __CFRunLoopRun ()
+#25 0x00007fff83eb5dbf in CFRunLoopRunSpecific ()
+#26 0x00007fff80ab193a in RunCurrentEventLoopInMode ()
+#27 0x00007fff80ab169d in ReceiveNextEventCommon ()
+#28 0x00007fff80ab15f8 in BlockUntilNextEventMatchingListInMode ()
+#29 0x00007fff8672be64 in _DPSNextEvent ()
+#30 0x00007fff8672b7a9 in -[NSApplication
+nextEventMatchingMask:untilDate:inMode:dequeue:] ()
+#31 0x00007fff866f148b in -[NSApplication run] ()
+#32 0x0000000103014624 in QEventDispatcherMac::processEvents ()
+#33 0x00000001014f2b44 in QEventLoop::processEvents ()
+#34 0x00000001014f2e64 in QEventLoop::exec ()
+#35 0x00000001014f448c in QCoreApplication::exec ()
+#36 0x0000000102091114 in Sbk_QApplicationFunc_exec_ ()
+#37 0x0000000100088f3f in PyEval_EvalFrameEx ()
+#38 0x00000001000892e1 in PyEval_EvalFrameEx ()
+#39 0x000000010008acce in PyEval_EvalCodeEx ()
+#40 0x000000010008ad61 in PyEval_EvalCode ()
+#41 0x00000001000a265a in Py_CompileString ()
+#42 0x00000001000a2723 in PyRun_FileExFlags ()
+#43 0x00000001000a423d in PyRun_SimpleFileExFlags ()
+#44 0x00000001000b0286 in Py_Main ()
+#45 0x0000000100000e6c in ?? ()</pre>
+    </div>
+  <div id="c2" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=727#c2">Comment 2</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-03-15 16:37:07 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Thanks for reporting, if you could reduce the crash to a small one-file test
+case instead of a whole program would be even better and easy for us to track
+and fix the issue.</pre>
+    </div>
+  <div id="c3" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=727#c3">Comment 3</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">renato filho</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-03-21 19:39:20 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >With the current git version you got a exception if you try usage a class
+without first call the PySide base constructor, then first I got this error:
+
+raceback (most recent call last):
+  File &quot;./qtupelo.py&quot;, line 206, in &lt;module&gt;
+    main()
+  File &quot;./qtupelo.py&quot;, line 196, in main
+    win = TupeloApp(**opts.__dict__)
+  File &quot;./qtupelo.py&quot;, line 100, in __init__
+    self.create_game(remote, server)
+  File &quot;./qtupelo.py&quot;, line 109, in create_game
+    self.player = GPlayer('Ihiminen')
+  File &quot;/home/renato/work/pyside/test/tupelo/tupelo/qcommon.py&quot;, line 213, in
+__init__
+    CliPlayer.__init__(self, name)
+  File &quot;/home/renato/work/pyside/test/tupelo/tupelo/players.py&quot;, line 93, in
+__init__
+    threading.Thread.__init__(self, None, None, name)
+  File &quot;/usr/lib/python2.7/threading.py&quot;, line 446, in __init__
+    self.__daemonic = self._set_daemon()
+RuntimeError: '__init__' method of object's base class (GPlayer) not called.
+
+
+Then after fix this with this code:
+
+--- a/tupelo/qcommon.py
++++ b/tupelo/qcommon.py
+&#64;&#64; -210,8 +210,8 &#64;&#64; class _GPlayerBase(QtCore.QObject):
+ class GPlayer(_GPlayerBase, CliPlayer):
+
+     def __init__(self, name):
+-        CliPlayer.__init__(self, name)
+         _GPlayerBase.__init__(self, CliPlayer)
++        CliPlayer.__init__(self, name)
+
+
+Now I got this error:
+
+Traceback (most recent call last):
+  File &quot;./qtupelo.py&quot;, line 206, in &lt;module&gt;
+    main()
+  File &quot;./qtupelo.py&quot;, line 196, in main
+    win = TupeloApp(**opts.__dict__)
+  File &quot;./qtupelo.py&quot;, line 100, in __init__
+    self.create_game(remote, server)
+  File &quot;./qtupelo.py&quot;, line 113, in create_game
+    self.player.game_state.stateChanged.connect(self.state_changed)
+AttributeError: 'GameState' object has no attribute 'stateChanged
+
+Then I got stuck here.
+Could you check this and give me some feedback. Would be nice try this
+together, ping me on IRC then I can help you to solve this.</pre>
+    </div>
+  <div id="c4" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=727#c4">Comment 4</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Jari Tenhunen</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-03-21 21:36:18 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >(In reply to <a href="show_bug.cgi?id=727#c3">comment #3</a>)
+<span class="quote">&gt; With the current git version you got a exception if you try usage a class
+&gt; without first call the PySide base constructor, </span >
+
+Pardon?
+
+<span class="quote">&gt; then first I got this error:
+&gt; 
+&gt; raceback (most recent call last):
+&gt;   File &quot;./qtupelo.py&quot;, line 206, in &lt;module&gt;
+&gt;     main()
+&gt;   File &quot;./qtupelo.py&quot;, line 196, in main
+&gt;     win = TupeloApp(**opts.__dict__)
+&gt;   File &quot;./qtupelo.py&quot;, line 100, in __init__
+&gt;     self.create_game(remote, server)
+&gt;   File &quot;./qtupelo.py&quot;, line 109, in create_game
+&gt;     self.player = GPlayer('Ihiminen')
+&gt;   File &quot;/home/renato/work/pyside/test/tupelo/tupelo/qcommon.py&quot;, line 213, in
+&gt; __init__
+&gt;     CliPlayer.__init__(self, name)
+&gt;   File &quot;/home/renato/work/pyside/test/tupelo/tupelo/players.py&quot;, line 93, in
+&gt; __init__
+&gt;     threading.Thread.__init__(self, None, None, name)
+&gt;   File &quot;/usr/lib/python2.7/threading.py&quot;, line 446, in __init__
+&gt;     self.__daemonic = self._set_daemon()
+&gt; RuntimeError: '__init__' method of object's base class (GPlayer) not called.</span >
+
+I don't understand why you would get this. Works fine for me with Python 2.5
+and 2.6.
+
+<span class="quote">&gt; Then after fix this with this code:
+&gt; 
+&gt; --- a/tupelo/qcommon.py
+&gt; +++ b/tupelo/qcommon.py
+&gt; &#64;&#64; -210,8 +210,8 &#64;&#64; class _GPlayerBase(QtCore.QObject):
+&gt;  class GPlayer(_GPlayerBase, CliPlayer):
+&gt; 
+&gt;      def __init__(self, name):
+&gt; -        CliPlayer.__init__(self, name)
+&gt;          _GPlayerBase.__init__(self, CliPlayer)
+&gt; +        CliPlayer.__init__(self, name)
+&gt; 
+&gt; 
+&gt; Now I got this error:
+&gt; 
+&gt; Traceback (most recent call last):
+&gt;   File &quot;./qtupelo.py&quot;, line 206, in &lt;module&gt;
+&gt;     main()
+&gt;   File &quot;./qtupelo.py&quot;, line 196, in main
+&gt;     win = TupeloApp(**opts.__dict__)
+&gt;   File &quot;./qtupelo.py&quot;, line 100, in __init__
+&gt;     self.create_game(remote, server)
+&gt;   File &quot;./qtupelo.py&quot;, line 113, in create_game
+&gt;     self.player.game_state.stateChanged.connect(self.state_changed)
+&gt; AttributeError: 'GameState' object has no attribute 'stateChanged
+&gt; 
+&gt; Then I got stuck here.</span >
+
+This is because you changed the constructor call order. player.game_state is a
+different type object now.
+
+With this dirty hack you can get pass this if it helps in debugging:
+
+jari&#64;macbook:~/projects/tupelo $ git diff
+diff --git a/tupelo/qcommon.py b/tupelo/qcommon.py
+index 37cf3cc..edcd666 100644
+--- a/tupelo/qcommon.py
++++ b/tupelo/qcommon.py
+&#64;&#64; -210,8 +210,9 &#64;&#64; class _GPlayerBase(QtCore.QObject):
+ class GPlayer(_GPlayerBase, CliPlayer):
+
+     def __init__(self, name):
+-        CliPlayer.__init__(self, name)
+         _GPlayerBase.__init__(self, CliPlayer)
++        CliPlayer.__init__(self, name)
++        self.game_state = GGameState()</pre>
+    </div>
+  <div id="c5" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=727#c5">Comment 5</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">renato filho</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-03-22 16:27:05 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >After some more deep investigation I found the problem, and that is related
+with <span class="bz_closed"><a href="show_bug.cgi?id=735" title="CLOSED FIXED - ownership_reparenting_test.py fail on Ubuntu natty amd64">bug #735</a></span>.
+
+I will mark this duplicated of <span class="bz_closed"><a href="show_bug.cgi?id=735" title="CLOSED FIXED - ownership_reparenting_test.py fail on Ubuntu natty amd64">bug #735</a></span> (The <span class="bz_closed"><a href="show_bug.cgi?id=735" title="CLOSED FIXED - ownership_reparenting_test.py fail on Ubuntu natty amd64">bug 735</a></span> was fixed today).
+
+Could try run the program with git HEAD source code? And check if everything is
+ok.
+
+
+Thanks for your help.
+
+*** This bug has been marked as a duplicate of <span class="bz_closed"><a href="show_bug.cgi?id=735" title="CLOSED FIXED - ownership_reparenting_test.py fail on Ubuntu natty amd64">bug 735</a></span> ***</pre>
+    </div>
+  <div id="c6" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=727#c6">Comment 6</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Jari Tenhunen</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-03-22 22:34:49 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >(In reply to <a href="show_bug.cgi?id=727#c5">comment #5</a>)
+<span class="quote">&gt; After some more deep investigation I found the problem, and that is related
+&gt; with <span class="bz_closed"><a href="show_bug.cgi?id=735" title="CLOSED FIXED - ownership_reparenting_test.py fail on Ubuntu natty amd64">bug #735</a></span>.
+&gt; 
+&gt; I will mark this duplicated of <span class="bz_closed"><a href="show_bug.cgi?id=735" title="CLOSED FIXED - ownership_reparenting_test.py fail on Ubuntu natty amd64">bug #735</a></span> (The <span class="bz_closed"><a href="show_bug.cgi?id=735" title="CLOSED FIXED - ownership_reparenting_test.py fail on Ubuntu natty amd64">bug 735</a></span> was fixed today).
+&gt; 
+&gt; Could try run the program with git HEAD source code? And check if everything is
+&gt; ok.</span >
+
+That's a bit tricky... Last time I tried to build for OS X I was facing quite a
+lot of problems. Unless somebody can provide a OS X build, I will have to trust
+you or verify when you have an official release with the fix and OS X binaries.</pre>
+    </div>
+  <div id="c7" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=727#c7">Comment 7</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-04-01 23:16:04 EEST
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Closing bug after release of PySide 1.0.1.</pre>
+    </div>
+  
+
+
+  
+
+</td>
+<td>
+</td>
+</tr></table>
+  </div>
+        
+
+</form>
+
+<hr>
+<ul class="related_actions">
+    <li><a href="show_bug.cgi?format=multiple&amp;id=727">Format For Printing</a></li>
+    <li>&nbsp;-&nbsp;<a href="show_bug.cgi?ctype=xml&amp;id=727">XML</a></li>
+    <li>&nbsp;-&nbsp;<a href="enter_bug.cgi?cloned_bug_id=727">Clone This Bug</a></li>
+    
+    <li>&nbsp;-&nbsp;<a href="#">Top of page </a></li>
+    </ul>        
+
+
+<div class="navigation">
+  
+  <i><font color="#777777">First</font></i>
+  <i><font color="#777777">Last</font></i>
+  <i><font color="#777777">Prev</font></i>
+  <i><font color="#777777">Next</font></i>
+  &nbsp;&nbsp;
+  <i><font color="#777777">This bug is not in your last
+    search results.</font></i>
+</div>
+
+<br>
+</div>
+
+
+
+<div id="footer">
+  <div class="intro"></div>
+
+
+
+
+<ul id="useful-links">
+  <li id="links-actions"><ul class="links">
+  <li><a href="./">Home</a></li>
+  <li><span class="separator">| </span><a href="enter_bug.cgi">New</a></li>
+  <li><span class="separator">| </span><a href="describecomponents.cgi">Browse</a></li>
+  <li><span class="separator">| </span><a href="query.cgi">Search</a></li>
+
+  <li class="form">
+    <span class="separator">| </span>
+    <form action="buglist.cgi" method="get"
+        onsubmit="if (this.quicksearch.value == '')
+                  { alert('Please enter one or more search terms first.');
+                    return false; } return true;">
+    <input class="txt" type="text" id="quicksearch_bottom" name="quicksearch" 
+           value="">
+    <input class="btn" type="submit" value="Search" 
+           id="find_bottom"></form>
+  <a href="page.cgi?id=quicksearch.html" title="Quicksearch Help">[?]</a></li>
+
+  <li><span class="separator">| </span><a href="report.cgi">Reports</a></li>
+
+  <li></li>
+
+  <li>
+        <span class="separator">| </span>
+        <a href="docs/en/html/bug_page.html" target="_blank">Help</a>
+      </li>
+    
+      <li id="new_account_container_bottom">
+        <span class="separator">| </span>
+        <a href="createaccount.cgi">New&nbsp;Account</a>
+      </li>
+
+    <li id="mini_login_container_bottom">
+  <span class="separator">| </span>
+  <a id="login_link_bottom" href="http://bugs.pyside.org/show_bug.cgi?id=727&amp;GoAheadAndLogIn=1"
+     onclick="return show_mini_login_form('_bottom')">Log In</a>
+  <form action="http://bugs.pyside.org/show_bug.cgi?id=727" method="POST" 
+        class="mini_login bz_default_hidden"
+        id="mini_login_bottom"
+        onsubmit="return check_mini_login_fields( '_bottom' );"
+  >
+    <input id="Bugzilla_login_bottom" 
+           class="bz_login"
+           name="Bugzilla_login"
+           onfocus="mini_login_on_focus('_bottom')"
+    >
+    <input class="bz_password" 
+           id="Bugzilla_password_bottom" 
+           name="Bugzilla_password"
+           type="password"
+    >
+    <input class="bz_password bz_default_hidden bz_mini_login_help" type="text" 
+           id="Bugzilla_password_dummy_bottom" value="password"
+           onfocus="mini_login_on_focus('_bottom')"
+    >
+    <input type="submit" name="GoAheadAndLogIn" value="Log in" 
+            id="log_in_bottom">
+    <script type="text/javascript">
+      mini_login_constants = {
+          "login" : "login",
+          "warning" : "You must set the login and password before logging in."
+      };
+      
+      if (YAHOO.env.ua.gecko || YAHOO.env.ua.ie || YAHOO.env.ua.opera) {
+          YAHOO.util.Event.onDOMReady(function() {
+              init_mini_login_form('_bottom');
+          });
+      }
+      else {
+          YAHOO.util.Event.on(window, 'load', function () {
+              window.setTimeout(function() {
+                  init_mini_login_form('_bottom');
+              }, 200);
+          });
+    }
+    </script>
+    <a href="#" onclick="return hide_mini_login_form('_bottom')">[x]</a>
+  </form>
+</li>
+<li id="forgot_container_bottom">
+  <span class="separator">| </span>
+  <a id="forgot_link_bottom" href="http://bugs.pyside.org/show_bug.cgi?id=727&amp;GoAheadAndLogIn=1#forgot"
+     onclick="return show_forgot_form('_bottom')">Forgot Password</a>
+  <form action="token.cgi" method="post" id="forgot_form_bottom"
+        class="mini_forgot bz_default_hidden">
+    <label>Login: <input type="text" name="loginname" size="20"></label>
+    <input id="forgot_button_bottom" value="Reset Password" 
+           type="submit">
+    <input type="hidden" name="a" value="reqpw">
+    <a href="#" onclick="return hide_forgot_form('_bottom')">[x]</a>
+  </form>
+</li>
+</ul>
+  </li>
+
+  
+    
+
+  
+
+
+  
+</ul>
+
+  <div class="outro"></div>
+</div>
+
+
+</body>
+</html>

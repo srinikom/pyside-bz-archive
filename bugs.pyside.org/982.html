@@ -1,0 +1,2050 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                      "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <title>Bug 982 &ndash; Frequent crashes on OS X</title>
+
+
+<link rel="Top" href="http://bugs.pyside.org/">
+
+  
+
+
+  
+    <link rel="Show" title="Dependency Tree"
+          href="showdependencytree.cgi?id=982&amp;hide_resolved=1">
+      <link rel="Show" title="Dependency Graph"
+            href="showdependencygraph.cgi?id=982">
+
+      <link rel="Show" title="Bug Activity"
+            href="show_activity.cgi?id=982">
+      <link rel="Show" title="Printer-Friendly Version"
+            href="show_bug.cgi?format=multiple&amp;id=982">
+
+
+
+    
+    
+    <link href="skins/standard/global.css"
+          rel="alternate stylesheet" 
+          title="Classic"><link href="js/yui/assets/skins/sam/autocomplete.css" rel="stylesheet"
+        type="text/css" ><link href="js/yui/assets/skins/sam/calendar.css" rel="stylesheet"
+        type="text/css" ><link href="skins/standard/global.css" rel="stylesheet"
+        type="text/css" ><link href="skins/standard/show_bug.css" rel="stylesheet"
+        type="text/css" ><!--[if lte IE 7]>
+      
+
+
+
+  <link href="skins/standard/IE-fixes.css" rel="stylesheet"
+        type="text/css" >
+<![endif]-->
+
+    <link href="skins/contrib/OpenBossa/global.css" rel="stylesheet"
+        type="text/css" title="OpenBossa">
+<link href="skins/contrib/Dusk/global.css" rel="alternate stylesheet"
+        type="text/css" title="Dusk">
+
+    
+
+    
+
+    
+<script type="text/javascript" src="js/yui/yahoo-dom-event/yahoo-dom-event.js"></script><script type="text/javascript" src="js/yui/cookie/cookie-min.js"></script><script type="text/javascript" src="js/yui/datasource/datasource-min.js"></script><script type="text/javascript" src="js/yui/connection/connection-min.js"></script><script type="text/javascript" src="js/yui/json/json-min.js"></script><script type="text/javascript" src="js/yui/autocomplete/autocomplete-min.js"></script><script type="text/javascript" src="js/yui/calendar/calendar-min.js"></script><script type="text/javascript" src="js/global.js"></script>
+
+    <script type="text/javascript">
+    <!--
+        YAHOO.namespace('bugzilla');
+        YAHOO.util.Event.addListener = function (el, sType, fn, obj, overrideContext) {
+               if ( ("onpagehide" in window || YAHOO.env.ua.gecko) && sType === "unload") { sType = "pagehide"; };
+               var capture = ((sType == "focusin" || sType == "focusout") && !YAHOO.env.ua.ie) ? true : false;
+               return this._addListener(el, this._getType(sType), fn, obj, overrideContext, capture);
+         };
+        if ( "onpagehide" in window || YAHOO.env.ua.gecko) {
+            YAHOO.util.Event._simpleRemove(window, "unload", 
+                                           YAHOO.util.Event._unload);
+        }
+        
+        function unhide_language_selector() { 
+            YAHOO.util.Dom.removeClass(
+                'lang_links_container', 'bz_default_hidden'
+            ); 
+        } 
+        YAHOO.util.Event.onDOMReady(unhide_language_selector);
+
+        
+        var BUGZILLA = {
+            param: {
+                cookiepath: '\/',
+                maxusermatches: 1000
+            },
+
+            string: {
+                
+
+                attach_desc_required:
+                    'You must enter a Description for this attachment.',
+                component_required:
+                    'You must select a Component for this bug.',
+                description_required:
+                    'You must enter a Description for this bug.',
+                short_desc_required:
+                    'You must enter a Summary for this bug.',
+                version_required:
+                    'You must select a Version for this bug.'
+            }
+        };
+
+    // -->
+    </script>
+<script type="text/javascript" src="js/util.js"></script><script type="text/javascript" src="js/field.js"></script>
+
+    
+
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+                       title="Bugzilla" href="./search_plugin.cgi">
+    <link rel="shortcut icon" href="images/favicon.ico" >
+  </head>
+
+
+
+  <body onload=""
+        class="bugs-pyside-org bz_bug bz_status_NEW bz_product_PySide bz_component_PySide bz_bug_982 yui-skin-sam">
+
+
+
+<div id="header">
+<div id="banner">
+  </div>
+
+<table border="0" cellspacing="0" cellpadding="0" id="titles">
+<tr>
+    <td><a id="pysidelogo" href="http://www.pyside.org">&nbsp;</a></td>
+    <td id="title">
+      <p>Bugzilla &ndash; Bug&nbsp;982</p>
+    </td>
+
+    <td id="subtitle">
+      <p class="subheader">Frequent crashes on OS X</p>
+    </td>
+
+    <td id="information">
+      <p class="header_addl_info">Last modified: 2012-03-08 16:57:18 EET</p>
+    </td>
+</tr>
+</table>
+
+<table id="lang_links_container" cellpadding="0" cellspacing="0"
+       class="bz_default_hidden"><tr><td>
+</td></tr></table>
+<ul class="links">
+  <li><a href="./">Home</a></li>
+  <li><span class="separator">| </span><a href="enter_bug.cgi">New</a></li>
+  <li><span class="separator">| </span><a href="describecomponents.cgi">Browse</a></li>
+  <li><span class="separator">| </span><a href="query.cgi">Search</a></li>
+
+  <li class="form">
+    <span class="separator">| </span>
+    <form action="buglist.cgi" method="get"
+        onsubmit="if (this.quicksearch.value == '')
+                  { alert('Please enter one or more search terms first.');
+                    return false; } return true;">
+    <input class="txt" type="text" id="quicksearch_top" name="quicksearch" 
+           value="">
+    <input class="btn" type="submit" value="Search" 
+           id="find_top"></form>
+  <a href="page.cgi?id=quicksearch.html" title="Quicksearch Help">[?]</a></li>
+
+  <li><span class="separator">| </span><a href="report.cgi">Reports</a></li>
+
+  <li></li>
+
+  <li>
+        <span class="separator">| </span>
+        <a href="docs/en/html/bug_page.html" target="_blank">Help</a>
+      </li>
+    
+      <li id="new_account_container_top">
+        <span class="separator">| </span>
+        <a href="createaccount.cgi">New&nbsp;Account</a>
+      </li>
+
+    <li id="mini_login_container_top">
+  <span class="separator">| </span>
+  <a id="login_link_top" href="http://bugs.pyside.org/show_bug.cgi?id=982&amp;GoAheadAndLogIn=1"
+     onclick="return show_mini_login_form('_top')">Log In</a>
+  <form action="http://bugs.pyside.org/show_bug.cgi?id=982" method="POST" 
+        class="mini_login bz_default_hidden"
+        id="mini_login_top"
+        onsubmit="return check_mini_login_fields( '_top' );"
+  >
+    <input id="Bugzilla_login_top" 
+           class="bz_login"
+           name="Bugzilla_login"
+           onfocus="mini_login_on_focus('_top')"
+    >
+    <input class="bz_password" 
+           id="Bugzilla_password_top" 
+           name="Bugzilla_password"
+           type="password"
+    >
+    <input class="bz_password bz_default_hidden bz_mini_login_help" type="text" 
+           id="Bugzilla_password_dummy_top" value="password"
+           onfocus="mini_login_on_focus('_top')"
+    >
+    <input type="submit" name="GoAheadAndLogIn" value="Log in" 
+            id="log_in_top">
+    <script type="text/javascript">
+      mini_login_constants = {
+          "login" : "login",
+          "warning" : "You must set the login and password before logging in."
+      };
+      
+      if (YAHOO.env.ua.gecko || YAHOO.env.ua.ie || YAHOO.env.ua.opera) {
+          YAHOO.util.Event.onDOMReady(function() {
+              init_mini_login_form('_top');
+          });
+      }
+      else {
+          YAHOO.util.Event.on(window, 'load', function () {
+              window.setTimeout(function() {
+                  init_mini_login_form('_top');
+              }, 200);
+          });
+    }
+    </script>
+    <a href="#" onclick="return hide_mini_login_form('_top')">[x]</a>
+  </form>
+</li>
+<li id="forgot_container_top">
+  <span class="separator">| </span>
+  <a id="forgot_link_top" href="http://bugs.pyside.org/show_bug.cgi?id=982&amp;GoAheadAndLogIn=1#forgot"
+     onclick="return show_forgot_form('_top')">Forgot Password</a>
+  <form action="token.cgi" method="post" id="forgot_form_top"
+        class="mini_forgot bz_default_hidden">
+    <label>Login: <input type="text" name="loginname" size="20"></label>
+    <input id="forgot_button_top" value="Reset Password" 
+           type="submit">
+    <input type="hidden" name="a" value="reqpw">
+    <a href="#" onclick="return hide_forgot_form('_top')">[x]</a>
+  </form>
+</li>
+</ul>
+</div> 
+
+<div id="bugzilla-body">
+<div id="message">
+<p><strong>PySide Bugzilla Closed for New Bugs</strong></p>
+<p>PySide is now a Qt Add-on and uses the Qt Project's <a href="https://bugreports.qt-project.org/">JIRA Bug Tracker</a> instead of this Bugzilla instance. This Bugzilla is left for reference purposes.</p>
+</div>
+
+<div class="navigation">
+  
+  <i><font color="#777777">First</font></i>
+  <i><font color="#777777">Last</font></i>
+  <i><font color="#777777">Prev</font></i>
+  <i><font color="#777777">Next</font></i>
+  &nbsp;&nbsp;
+  <i><font color="#777777">This bug is not in your last
+    search results.</font></i>
+</div>
+<script type="text/javascript">
+  <!--
+  
+  /* Outputs a link to call replyToComment(); used to reduce HTML output */
+  function addReplyLink(id, real_id) {
+      /* XXX this should really be updated to use the DOM Core's
+       * createElement, but finding a container isn't trivial.
+       */
+        document.write('[<a href="#add_comment" onclick="replyToComment(' + 
+                       id + ',' + real_id + '); return false;">reply<' + '/a>]');
+  }
+
+  /* Adds the reply text to the `comment' textarea */
+  function replyToComment(id, real_id) {
+      var prefix = "(In reply to comment #" + id + ")\n";
+      var replytext = "";
+        /* pre id="comment_name_N" */
+        var text_elem = document.getElementById('comment_text_'+id);
+        var text = getText(text_elem);
+
+        /* make sure we split on all newlines -- IE or Moz use \r and \n
+         * respectively.
+         */
+        text = text.split(/\r|\n/);
+
+        for (var i=0; i < text.length; i++) {
+            replytext += "> " + text[i] + "\n"; 
+        }
+
+        replytext = prefix + replytext + "\n";
+
+
+      /* <textarea id="comment"> */
+      var textarea = document.getElementById('comment');
+      textarea.value += replytext;
+
+      textarea.focus();
+  }
+
+  if (typeof Node == 'undefined') {
+      /* MSIE doesn't define Node, so provide a compatibility object */
+      window.Node = {
+          TEXT_NODE: 3,
+          ENTITY_REFERENCE_NODE: 5
+      };
+  }
+
+  /* Concatenates all text from element's childNodes. This is used
+   * instead of innerHTML because we want the actual text (and
+   * innerText is non-standard).
+   */
+  function getText(element) {
+      var child, text = "";
+      for (var i=0; i < element.childNodes.length; i++) {
+          child = element.childNodes[i];
+          var type = child.nodeType;
+          if (type == Node.TEXT_NODE || type == Node.ENTITY_REFERENCE_NODE) {
+              text += child.nodeValue;
+          } else {
+              /* recurse into nodes of other types */
+              text += getText(child);
+          }
+      }
+      return text;
+  }
+
+
+  /* Index all classifications so we can keep track of the classification
+   * for the selected product, which could control field visibility.
+   */
+  var all_classifications = new Array(1);
+      all_classifications['PySide'] = 'Unclassified';
+
+  //-->
+  </script>
+
+<form name="changeform" id="changeform" method="post" action="process_bug.cgi">
+
+  <input type="hidden" name="delta_ts" value="2012-03-08 16:57:18">
+  <input type="hidden" name="longdesclength" value="13">
+  <input type="hidden" name="id" value="982">
+  <input type="hidden" name="token" value="1336601021-4d045add0d1a42dab98f54d1489f490f">
+<div class="bz_alias_short_desc_container edit_form">
+     <a href="show_bug.cgi?id=982"><b>Bug&nbsp;982</b></a> -<span id="summary_alias_container" class="bz_default_hidden"> 
+      <span id="short_desc_nonedit_display">Frequent crashes on OS X</span>
+     </span>
+  
+       
+    <div id="summary_alias_input">
+      <table id="summary">  
+        
+        <tr>
+          <td>
+            <label accesskey="s" for="short_desc"><u>S</u>ummary</label>:
+          </td>
+          <td>Frequent crashes on OS X
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script type="text/javascript">
+    hideAliasAndSummary('Frequent crashes on OS X', '');
+  </script>
+  <table class="edit_form">
+    <tr>
+      
+      <td id="bz_show_bug_column_1" class="bz_show_bug_column">     
+        <table>
+          <tr>
+    <td class="field_label">
+      <b><a href="page.cgi?id=fields.html#status">Status</a></b>:
+    </td>
+    <td id="bz_field_status">
+      <span id="static_bug_status">NEW
+      </span>
+    </td>
+  </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          <tr><th class="field_label "
+    id="field_label_product">
+
+
+  <a 
+      title="Bugs are categorised into Products and Components."
+      class="field_help_link"
+      href="describecomponents.cgi"
+  >Product:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_product" >PySide</td>
+    </tr>
+
+    
+    <tr class="bz_default_hidden"><th class="field_label "
+    id="field_label_classification">
+
+
+  <a 
+      title="Bugs are categorised into Classifications, Products and Components. classifications is the top-level categorisation."
+      class="field_help_link"
+      href="page.cgi?id=fields.html#classification"
+  >Classification:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_classification" >Unclassified</td>
+    </tr>
+        
+    
+    
+    <tr><th class="field_label "
+    id="field_label_component">
+
+
+  <a 
+      title="Components are second-level categories; each belongs to a particular Product. Select a Product to narrow down this list."
+      class="field_help_link"
+      href="describecomponents.cgi?product=PySide"
+  >Component:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_component" >PySide</td>
+    </tr>
+    <tr>
+      <td class="field_label">
+        <label for="version"><b>Version</b></label>:
+      </td>
+<td>1.0.5
+  </td>
+    </tr>
+        
+    
+        
+    <tr>
+      <td class="field_label">
+        <label for="rep_platform" accesskey="h"><b>Platform</b></label>:
+      </td>
+      <td class="field_value">Macintosh
+       Mac OS
+       <script type="text/javascript">
+         assignToDefaultOnChange(['product', 'component']);
+       </script>
+      </td>
+    </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          
+          <tr>
+      <td class="field_label">
+        <label for="priority" accesskey="i">
+          <b><a href="page.cgi?id=fields.html#importance"><u>I</u>mportance</a></b></label>:
+      </td>
+      <td>P3
+       normal
+      </td>
+    </tr>            
+          
+          <tr>
+      <td class="field_label">
+        <b><a href="page.cgi?id=fields.html#assigned_to">Assigned To</a></b>:
+      </td>
+      <td><span class="vcard"><span class="fn">renato filho</span>
+</span>
+      </td>
+    </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          <tr>
+    <td class="field_label">
+      <label for="bug_file_loc" accesskey="u"><b>
+          <u>U</u>RL</b></label>:
+    </td>
+    <td>
+      <span id="bz_url_input_area">
+      </span>
+    </td>
+  </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          
+          <tr><th class="field_label">
+    <label for="dependson">Depends&nbsp;on</label>:
+  </th>
+  <td>    
+    <span id="dependson_input_area">
+    </span>
+    
+  </td>
+  </tr>
+  
+  <tr><th class="field_label">
+    <label for="blocked" accesskey="b"><u>B</u>locks</label>:
+  </th>
+  <td>    
+    <span id="blocked_input_area">
+    </span>
+    
+  </td>
+  
+  <tr>
+    <th>&nbsp;</th>
+  
+    <td colspan="2" align="left" id="show_dependency_tree_or_graph">
+      Show dependency <a href="showdependencytree.cgi?id=982&amp;hide_resolved=1">tree</a>
+  
+        /&nbsp;<a href="showdependencygraph.cgi?id=982">graph</a>
+    </td>
+  </tr>
+          
+        </table>
+      </td>
+      <td>
+        <div class="bz_column_spacer">&nbsp;</div>
+      </td>
+      
+      <td id="bz_show_bug_column_2" class="bz_show_bug_column">
+        <table cellpadding="3" cellspacing="1">
+        <tr>
+    <td class="field_label">
+      <b>Reported</b>:
+    </td>
+    <td>2011-08-22 05:28 EEST by <span class="vcard"><span class="fn">Chris Withers</span>
+</span>
+    </td>
+  </tr>
+  
+  <tr>
+    <td class="field_label">
+      <b> Modified</b>:
+    </td>
+    <td>2012-03-08 16:57 EET 
+      (<a href="show_activity.cgi?id=982">History</a>)
+    </td>
+  
+  </tr>
+         <tr>
+      <td class="field_label">
+        <label for="newcc" accesskey="a"><b>CC List</b>:</label>
+      </td>
+      <td>9 
+          users
+          <span id="cc_edit_area_showhide_container" class="bz_default_hidden">
+            (<a href="#" id="cc_edit_area_showhide">show</a>)
+          </span>
+        <div id="cc_edit_area">
+          <br>
+            <select id="cc" name="cc" multiple="multiple" size="5">
+                <option value="banchali">banchali</option>
+                <option value="bruno.araujo">bruno.araujo</option>
+                <option value="hugo.lima">hugo.lima</option>
+                <option value="lauro.neto">lauro.neto</option>
+                <option value="luciano.wolf">luciano.wolf</option>
+                <option value="marcelo.lira">marcelo.lira</option>
+                <option value="matti.p.airas">matti.p.airas</option>
+                <option value="renatox">renatox</option>
+                <option value="willer.moreira">willer.moreira</option>
+            </select>
+        </div>
+          <script type="text/javascript">
+            hideEditableField( 'cc_edit_area_showhide_container', 
+                               'cc_edit_area', 
+                               'cc_edit_area_showhide', 
+                               '', 
+                               '');  
+          </script>
+      </td>
+    </tr>
+         <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+<tr><th class="field_label "
+    id="field_label_see_also">
+
+
+  <a 
+      title="This allows you to refer to bugs in other installations. You can enter a URL to a bug in the 'Add Bug URLs' field to note that that bug is related to this one. You can enter multiple URLs at once by separating them with a comma. You should normally use this field to refer to bugs in other installations. For bugs in this installation, it is better to use the Depends on and Blocks fields."
+      class="field_help_link"
+      href="page.cgi?id=fields.html#see_also"
+  >See Also:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_see_also" ></td>
+    </tr> 
+         
+         <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+         
+                
+
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+          <hr id="bz_top_half_spacer">
+      </td>
+    </tr>
+  </table>
+
+  <table id="bz_big_form_parts" cellspacing="0" cellpadding="0"><tr>
+  <td>
+
+    
+<script type="text/javascript">
+<!--
+function toggle_display(link) {
+    var table = document.getElementById("attachment_table");
+    // Store current height for scrolling later
+    var originalHeight = table.offsetHeight;
+    var rows = YAHOO.util.Dom.getElementsByClassName(
+        'bz_tr_obsolete', 'tr', table);
+
+    for (var i = 0; i < rows.length; i++) {
+        bz_toggleClass(rows[i], 'bz_default_hidden');
+    }
+
+    if (YAHOO.util.Dom.hasClass(rows[0], 'bz_default_hidden')) {
+        link.innerHTML = "Show Obsolete";
+    }
+    else {
+        link.innerHTML = "Hide Obsolete";
+    }
+
+    var newHeight = table.offsetHeight;
+    // This scrolling makes the window appear to not move at all.
+    window.scrollBy(0, newHeight - originalHeight);
+
+    return false;
+}
+//-->
+</script>
+
+<br>
+<table id="attachment_table" cellspacing="0" cellpadding="4">
+  <tr id="a0">
+    <th colspan="2" align="left">
+      Attachments
+    </th>
+  </tr>
+
+
+
+  <tr class="bz_attach_footer">
+    <td colspan="2">
+        <a href="attachment.cgi?bugid=982&amp;action=enter">Add an attachment</a>
+        (proposed patch, testcase, etc.)
+    </td>
+  </tr>
+</table>
+<br>
+<div id="add_comment" class="bz_section_additional_comments">
+      <table><tr><td><fieldset>
+        <legend>Note</legend>
+        You need to
+        <a href="show_bug.cgi?id=982&amp;GoAheadAndLogIn=1">log in</a>
+         before you can comment on or make changes to this bug.
+      </fieldset></table><tr></td>
+  </div>
+  </td>
+  <td>
+  </td>
+  </tr></table>
+
+  
+  <div id="comments"><script src="js/comments.js" type="text/javascript">
+</script>
+
+
+
+
+
+
+
+<!-- This auto-sizes the comments and positions the collapse/expand links 
+     to the right. -->
+<table class="bz_comment_table" cellpadding="0" cellspacing="0"><tr>
+<td>
+<div id="c0" class="bz_comment bz_first_comment">
+
+      <div class="bz_first_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=982#c0">Description</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Chris Withers</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-08-22 05:28:10 EEST
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Hi,
+
+I'm using EPD 7.1 on Mac OS X, which ships with PySide 1.0.5 and IPython 0.11.
+
+I'm using the IPython Qt Console a lot, but I'm finding that it crashes pretty
+frequently and for no apparent reason. I initially raised this as an IPython
+bug, but they suggested it was a PySide issue so filing here.
+
+Here's an example from Apple's crash reporter:
+
+
+Process:         python [73234]
+Path:            /Applications/Enthought/QtConsole
+(64-bit).app/Contents/MacOS/QtConsole (64-bit)
+Identifier:      com.QtConsole (64-bit)
+Version:         1.0.0 (1.0.0)
+Code Type:       X86-64 (Native)
+Parent Process:  sh [73233]
+
+Date/Time:       2011-08-21 19:22:43.108 -0700
+OS Version:      Mac OS X 10.6.8 (10K549)
+Report Version:  6
+
+Interval Since Last Report:          930643 sec
+Crashes Since Last Report:           9
+Per-App Interval Since Last Report:  37173 sec
+Per-App Crashes Since Last Report:   6
+Anonymous UUID:                      284E992B-724F-4DAB-8889-E5C31063E9CB
+
+Exception Type:  EXC_BAD_ACCESS (SIGSEGV)
+Exception Codes: KERN_INVALID_ADDRESS at 0x0000000000000010
+Crashed Thread:  0  Dispatch queue: com.apple.main-thread
+
+Thread 0 Crashed:  Dispatch queue: com.apple.main-thread
+0   libshiboken.dylib                 0x0000000101d62b50
+Shiboken::Object::hasParentInfo(SbkObject*) + 16
+1   QtGui.so                          0x0000000104ded4ee
+Sbk_QApplicationFunc_topLevelAt + 1022
+2   org.python.python                 0x00000001000cabb1 PyEval_EvalFrameEx +
+24081
+3   org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+4   org.python.python                 0x00000001000cca15 PyEval_EvalCodeEx +
+1733
+5   org.python.python                 0x000000010003fce2 function_call + 178
+6   org.python.python                 0x000000010000d002 PyObject_Call + 98
+7   org.python.python                 0x000000010001f7c1 instancemethod_call +
+401
+8   org.python.python                 0x000000010000d002 PyObject_Call + 98
+9   QtGui.so                          0x000000010512a327
+QLabelWrapper::eventFilter(QObject*, QEvent*) + 263
+10  QtCore                            0x0000000101edd477
+QCoreApplicationPrivate::sendThroughObjectEventFilters(QObject*, QEvent*) + 151
+11  QtGui                             0x0000000105e074ce
+QApplicationPrivate::notify_helper(QObject*, QEvent*) + 142
+12  QtGui                             0x0000000105e0d52d
+QApplication::notify(QObject*, QEvent*) + 349
+13  QtGui.so                          0x0000000104de896e
+QApplicationWrapper::notify(QObject*, QEvent*) + 654
+14  QtCore                            0x0000000101df066c
+QCoreApplication::notifyInternal(QObject*, QEvent*) + 124
+15  QtGui                             0x0000000105daf8a9 -[QCocoaView
+mouseExited:] + 329
+16  com.apple.AppKit                  0x00007fff89cc19de -[NSApplication
+sendEvent:] + 4435
+17  QtGui                             0x0000000105db892a -[QNSApplication
+sendEvent:] + 74
+18  com.apple.AppKit                  0x00007fff89c586de -[NSApplication run] +
+474
+19  QtGui                             0x0000000105dc2614
+QEventDispatcherMac::processEvents(QFlags&lt;QEventLoop::ProcessEventsFlag&gt;) +
+1588
+20  QtCore                            0x0000000101edcb34
+QEventLoop::processEvents(QFlags&lt;QEventLoop::ProcessEventsFlag&gt;) + 68
+21  QtCore                            0x0000000101edce54
+QEventLoop::exec(QFlags&lt;QEventLoop::ProcessEventsFlag&gt;) + 180
+22  QtCore                            0x0000000101ede47c
+QCoreApplication::exec() + 188
+23  QtGui.so                          0x0000000104de5c90
+Sbk_QApplicationFunc_exec_ + 112
+24  org.python.python                 0x00000001000cad59 PyEval_EvalFrameEx +
+24505
+25  org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+26  org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+27  org.python.python                 0x00000001000cca15 PyEval_EvalCodeEx +
+1733
+28  org.python.python                 0x00000001000ccd16 PyEval_EvalCode + 54
+29  org.python.python                 0x00000001000f11ee PyRun_FileExFlags +
+174
+30  org.python.python                 0x00000001000f2001
+PyRun_SimpleFileExFlags + 817
+31  org.python.python                 0x0000000100107c65 Py_Main + 3189
+32  python                            0x0000000100000f54 start + 52
+
+Thread 1:  Dispatch queue: com.apple.libdispatch-manager
+0   libSystem.B.dylib                 0x00007fff800a5c0a kevent + 10
+1   libSystem.B.dylib                 0x00007fff800a7add _dispatch_mgr_invoke +
+154
+2   libSystem.B.dylib                 0x00007fff800a77b4 _dispatch_queue_invoke
++ 185
+3   libSystem.B.dylib                 0x00007fff800a72de
+_dispatch_worker_thread2 + 252
+4   libSystem.B.dylib                 0x00007fff800a6c08 _pthread_wqthread +
+353
+5   libSystem.B.dylib                 0x00007fff800a6aa5 start_wqthread + 13
+
+Thread 2:
+0   libSystem.B.dylib                 0x00007fff800a5c0a kevent + 10
+1   libzmq.1.dylib                    0x000000010761eee6 zmq::kqueue_t::loop()
++ 248
+2   libzmq.1.dylib                    0x000000010761f185
+zmq::kqueue_t::worker_routine(void*) + 19
+3   libzmq.1.dylib                    0x000000010763ae14 thread_routine + 234
+4   libSystem.B.dylib                 0x00007fff800c5fd6 _pthread_start + 331
+5   libSystem.B.dylib                 0x00007fff800c5e89 thread_start + 13
+
+Thread 3:
+0   libSystem.B.dylib                 0x00007fff800a5c0a kevent + 10
+1   libzmq.1.dylib                    0x000000010761eee6 zmq::kqueue_t::loop()
++ 248
+2   libzmq.1.dylib                    0x000000010761f185
+zmq::kqueue_t::worker_routine(void*) + 19
+3   libzmq.1.dylib                    0x000000010763ae14 thread_routine + 234
+4   libSystem.B.dylib                 0x00007fff800c5fd6 _pthread_start + 331
+5   libSystem.B.dylib                 0x00007fff800c5e89 thread_start + 13
+
+Thread 4:
+0   libSystem.B.dylib                 0x00007fff8010fd62 poll + 10
+1   libzmq.1.dylib                    0x0000000107642746 zmq_poll + 870
+2   poll.so                           0x0000000106af3c6a
+__pyx_pf_3zmq_4core_4poll__poll + 1466
+3   org.python.python                 0x000000010000d002 PyObject_Call + 98
+4   org.python.python                 0x00000001000c3d27
+PyEval_CallObjectWithKeywords + 87
+5   poll.so                           0x0000000106af11a9
+__pyx_pf_3zmq_4core_4poll_6Poller_4poll + 777
+6   org.python.python                 0x000000010000d002 PyObject_Call + 98
+7   org.python.python                 0x00000001000c8ea4 PyEval_EvalFrameEx +
+16644
+8   org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+9   org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+10  org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+11  org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+12  org.python.python                 0x00000001000cca15 PyEval_EvalCodeEx +
+1733
+13  org.python.python                 0x000000010003fce2 function_call + 178
+14  org.python.python                 0x000000010000d002 PyObject_Call + 98
+15  org.python.python                 0x000000010001f7c1 instancemethod_call +
+401
+16  org.python.python                 0x000000010000d002 PyObject_Call + 98
+17  org.python.python                 0x00000001000c3d27
+PyEval_CallObjectWithKeywords + 87
+18  org.python.python                 0x000000010010a383 t_bootstrap + 67
+19  libSystem.B.dylib                 0x00007fff800c5fd6 _pthread_start + 331
+20  libSystem.B.dylib                 0x00007fff800c5e89 thread_start + 13
+
+Thread 5:
+0   libSystem.B.dylib                 0x00007fff8010fd62 poll + 10
+1   libzmq.1.dylib                    0x0000000107642746 zmq_poll + 870
+2   poll.so                           0x0000000106af3c6a
+__pyx_pf_3zmq_4core_4poll__poll + 1466
+3   org.python.python                 0x000000010000d002 PyObject_Call + 98
+4   org.python.python                 0x00000001000c3d27
+PyEval_CallObjectWithKeywords + 87
+5   poll.so                           0x0000000106af11a9
+__pyx_pf_3zmq_4core_4poll_6Poller_4poll + 777
+6   org.python.python                 0x000000010000d002 PyObject_Call + 98
+7   org.python.python                 0x00000001000c8ea4 PyEval_EvalFrameEx +
+16644
+8   org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+9   org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+10  org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+11  org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+12  org.python.python                 0x00000001000cca15 PyEval_EvalCodeEx +
+1733
+13  org.python.python                 0x000000010003fce2 function_call + 178
+14  org.python.python                 0x000000010000d002 PyObject_Call + 98
+15  org.python.python                 0x000000010001f7c1 instancemethod_call +
+401
+16  org.python.python                 0x000000010000d002 PyObject_Call + 98
+17  org.python.python                 0x00000001000c3d27
+PyEval_CallObjectWithKeywords + 87
+18  org.python.python                 0x000000010010a383 t_bootstrap + 67
+19  libSystem.B.dylib                 0x00007fff800c5fd6 _pthread_start + 331
+20  libSystem.B.dylib                 0x00007fff800c5e89 thread_start + 13
+
+Thread 6:
+0   libSystem.B.dylib                 0x00007fff8010fd62 poll + 10
+1   libzmq.1.dylib                    0x0000000107642746 zmq_poll + 870
+2   poll.so                           0x0000000106af3c6a
+__pyx_pf_3zmq_4core_4poll__poll + 1466
+3   org.python.python                 0x000000010000d002 PyObject_Call + 98
+4   org.python.python                 0x00000001000c3d27
+PyEval_CallObjectWithKeywords + 87
+5   poll.so                           0x0000000106af11a9
+__pyx_pf_3zmq_4core_4poll_6Poller_4poll + 777
+6   org.python.python                 0x000000010000d002 PyObject_Call + 98
+7   org.python.python                 0x00000001000c8ea4 PyEval_EvalFrameEx +
+16644
+8   org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+9   org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+10  org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+11  org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+12  org.python.python                 0x00000001000cca15 PyEval_EvalCodeEx +
+1733
+13  org.python.python                 0x000000010003fce2 function_call + 178
+14  org.python.python                 0x000000010000d002 PyObject_Call + 98
+15  org.python.python                 0x000000010001f7c1 instancemethod_call +
+401
+16  org.python.python                 0x000000010000d002 PyObject_Call + 98
+17  org.python.python                 0x00000001000c3d27
+PyEval_CallObjectWithKeywords + 87
+18  org.python.python                 0x000000010010a383 t_bootstrap + 67
+19  libSystem.B.dylib                 0x00007fff800c5fd6 _pthread_start + 331
+20  libSystem.B.dylib                 0x00007fff800c5e89 thread_start + 13
+
+Thread 7:
+0   libSystem.B.dylib                 0x00007fff800d0932 select$DARWIN_EXTSN +
+10
+1   time.so                           0x000000010079ff68 time_sleep + 136
+2   org.python.python                 0x00000001000cabb1 PyEval_EvalFrameEx +
+24081
+3   org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+4   org.python.python                 0x00000001000cb3f6 PyEval_EvalFrameEx +
+26198
+5   org.python.python                 0x00000001000cca15 PyEval_EvalCodeEx +
+1733
+6   org.python.python                 0x000000010003fce2 function_call + 178
+7   org.python.python                 0x000000010000d002 PyObject_Call + 98
+8   org.python.python                 0x000000010001f7c1 instancemethod_call +
+401
+9   org.python.python                 0x000000010000d002 PyObject_Call + 98
+10  org.python.python                 0x00000001000c3d27
+PyEval_CallObjectWithKeywords + 87
+11  org.python.python                 0x000000010010a383 t_bootstrap + 67
+12  libSystem.B.dylib                 0x00007fff800c5fd6 _pthread_start + 331
+13  libSystem.B.dylib                 0x00007fff800c5e89 thread_start + 13
+
+Thread 8:
+0   libSystem.B.dylib                 0x00007fff800a6a2a __workq_kernreturn +
+10
+1   libSystem.B.dylib                 0x00007fff800a6e3c _pthread_wqthread +
+917
+2   libSystem.B.dylib                 0x00007fff800a6aa5 start_wqthread + 13
+
+Thread 0 crashed with X86 Thread State (64-bit):
+  rax: 0x0000000000000000  rbx: 0x000000010017ebf0  rcx: 0x0000000000000000 
+rdx: 0x0000000000000000
+  rdi: 0x000000010017ebf0  rsi: 0x0000000000000000  rbp: 0x00007fff5fbfd7d0 
+rsp: 0x00007fff5fbfd7d0
+   r8: 0x00000001012aa420   r9: 0x0000000000001200  r10: 0x00007fff87543105 
+r11: 0x00000001073773c0
+  r12: 0x0000000000000000  r13: 0x0000000105b5cf20  r14: 0x0000000100309300 
+r15: 0x0000000000000001
+  rip: 0x0000000101d62b50  rfl: 0x0000000000010202  cr2: 0x0000000000000010
+
+Binary Images:
+       0x100000000 -        0x100000ff7 +python ??? (???)
+&lt;BB33E44D-3A09-431E-ACBE-68266E2937BE&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/bin/python
+       0x100003000 -        0x100169fef +org.python.python 2.7.2, (c) 2004-2011
+Python Software Foundation. (2.7.2) &lt;6AD587B1-5D42-218F-A529-D23707CF82D0&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/Python
+       0x1002f4000 -        0x1002f8ff7 +_collections.so ??? (???)
+&lt;0B0FEE29-6784-BA83-A9D8-5AB6F10A913E&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_collections.so
+       0x100530000 -        0x100534fff +operator.so ??? (???)
+&lt;EC8B5762-5B46-3D83-F63E-5761B55C44EF&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/operator.so
+       0x10053b000 -        0x100542ff7 +itertools.so ??? (???)
+&lt;61CF85E8-BF53-5046-8D15-936CCAA03BBA&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/itertools.so
+       0x10054d000 -        0x10054dff7 +_bisect.so ??? (???)
+&lt;19FEAF80-FBBC-DA2B-9EDD-5F3B8AB6B1AA&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_bisect.so
+       0x100550000 -        0x100551ff7 +_heapq.so ??? (???)
+&lt;D771D7F6-E935-7D06-5753-1E4623ABA17A&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_heapq.so
+       0x100555000 -        0x100558fff +strop.so ??? (???)
+&lt;F5602089-5D4C-D1B7-9BF3-CFC29899EE3F&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/strop.so
+       0x10055d000 -        0x10055eff7 +_functools.so ??? (???)
+&lt;CF152159-7630-5723-8545-A3DE33325151&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_functools.so
+       0x100561000 -        0x100563fff +_locale.so ??? (???)
+&lt;E55BA1C9-9B35-57AD-B198-ABFF1327B047&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_locale.so
+       0x100566000 -        0x10056bff7 +_struct.so ??? (???)
+&lt;07E43E59-D571-E985-37F2-D71717858090&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_struct.so
+       0x1005f2000 -        0x1005f6ff7 +math.so ??? (???)
+&lt;E7351ADC-430C-7327-19D6-26831290EAFE&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/math.so
+       0x1005fd000 -        0x1005fffff +binascii.so ??? (???)
+&lt;B9B8550B-96B2-8928-D4AD-81CCE4335B2D&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/binascii.so
+       0x100603000 -        0x100604ff7 +_hashlib.so ??? (???)
+&lt;F0DAF2BE-5E42-D850-BA57-08AE9393B931&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_hashlib.so
+       0x100608000 -        0x100634fff  libssl.0.9.7.dylib 0.9.7
+(compatibility 0.9.7) &lt;980AF3AF-510A-AAD1-1077-1B6D50BEB3FC&gt;
+/usr/lib/libssl.0.9.7.dylib
+       0x100646000 -        0x10072cfe7  libcrypto.0.9.7.dylib 0.9.7
+(compatibility 0.9.7) &lt;26FC56A6-EFD6-22FA-E1F1-4E1BA61C85BB&gt;
+/usr/lib/libcrypto.0.9.7.dylib
+       0x100784000 -        0x100786ff7 +_sha256.so ??? (???)
+&lt;95BFDAA7-9D6A-366E-9F76-BAB0814B2A92&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_sha256.so
+       0x100789000 -        0x10078dfff +_sha512.so ??? (???)
+&lt;FDA90C56-9FB1-58F5-CCBD-ACF6A110A18A&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_sha512.so
+       0x100790000 -        0x100791ff7 +_random.so ??? (???)
+&lt;A15358DE-0761-A66C-47E7-668840D8E9C0&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_random.so
+       0x100794000 -        0x100795ff7 +cStringIO.so ??? (???)
+&lt;A6D93618-4ACB-B85D-60CE-A1A50800940A&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/cStringIO.so
+       0x10079a000 -        0x10079bfff +fcntl.so ??? (???)
+&lt;38463620-FDD0-2649-6610-20195EA6D9E5&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/fcntl.so
+       0x10079e000 -        0x1007a0ff7 +time.so ??? (???)
+&lt;608D226B-0401-DBEE-ED33-3F77B91503A4&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/time.so
+       0x1007a5000 -        0x1007a8fff +select.so ??? (???)
+&lt;849C90AD-512C-DDD2-C1DD-3E4D3E365EFB&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/select.so
+       0x1007ed000 -        0x1007eeff7 +resource.so ??? (???)
+&lt;CF758FBE-1053-5420-F278-468EE921EFFF&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/resource.so
+       0x1007f1000 -        0x1007f2ff7 +termios.so ??? (???)
+&lt;BB8E9B1E-D324-15F1-CA24-B64814815BAE&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/termios.so
+       0x1007f7000 -        0x1007f7ff7 +grp.so ??? (???)
+&lt;9A2E1174-9CE0-B51C-09EA-2663E67E0FD5&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/grp.so
+       0x1007fa000 -        0x1007fcfff +_lsprof.so ??? (???)
+&lt;61B25244-B6C9-665A-FC69-3226C01DCAB8&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_lsprof.so
+       0x101300000 -        0x10130eff7 +datetime.so ??? (???)
+&lt;B0D1F53D-24E3-796D-E8E3-64882ABEE364&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/datetime.so
+       0x10155a000 -        0x101567ff7 +_curses.so ??? (???)
+&lt;655C2A5D-DCD2-A1B7-ACEF-C2DFD7D0A322&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_curses.so
+       0x101572000 -        0x10162cfff +_sqlite3.so ??? (???)
+&lt;8AC4331E-25B0-9285-7728-7CD39D30159C&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_sqlite3.so
+       0x10164c000 -        0x101653ff7 +_socket.so ??? (???)
+&lt;DA896C87-5FF6-6B9A-3EE0-3D425ED5726A&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_socket.so
+       0x10165d000 -        0x101661ff7 +_ssl.so ??? (???)
+&lt;C4378D84-880F-0E95-8654-B27863FEFC80&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_ssl.so
+       0x101666000 -        0x10167dffb +_ctypes.so ??? (???)
+&lt;81FC5449-1BD3-E260-A235-1FEED0667AF6&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_ctypes.so
+       0x1016ce000 -        0x1016d4ff7 +array.so ??? (???)
+&lt;69CCAD1F-EB81-9615-EE04-2393A6C3C74F&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/array.so
+       0x1016db000 -        0x1016deff7 +zlib.so ??? (???)
+&lt;0E82EAB3-D26C-897B-BBAF-647B8865E6A2&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/zlib.so
+       0x1016e3000 -        0x1016f3ff7 +cPickle.so ??? (???)
+&lt;6175F0B8-2C90-E5B2-C0C9-AC688EC86FCC&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/cPickle.so
+       0x101900000 -        0x101915fff +_io.so ??? (???)
+&lt;1F374AA7-97AE-7370-37E4-8927196CA495&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_io.so
+       0x10192c000 -        0x10195ffe7 +pyexpat.so ??? (???)
+&lt;7FDB82C6-C5F8-B7D7-BA74-54CC60F1E083&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/pyexpat.so
+       0x101971000 -        0x101c45fff +QtCore.so ??? (???)
+&lt;2E39FCA5-80E6-8567-FB7C-A1EC188C04A2&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/PySide/QtCore.so
+       0x101d37000 -        0x101d51fe9 +libpyside.dylib 1.0.5 (compatibility
+1.0.0) &lt;0041E55B-E4D5-2234-50A2-EA5AE4525787&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/libpyside.dylib
+       0x101d60000 -        0x101d80fff +libshiboken.dylib 1.0.5 (compatibility
+1.0.0) &lt;0F18396D-C8FB-9F69-14BF-E4E8FA3CDEF4&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/libshiboken.dylib
+       0x101d9d000 -        0x102025ff7 +QtCore 4.7.3 (compatibility 4.7.0)
+&lt;1A2CF13B-BB74-85EA-5A4D-1C477E02DF6E&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/Frameworks/QtCore.framework/Versions/4/QtCore
+       0x1021f7000 -        0x1021f9ff7 +_imagingft.so ??? (???)
+&lt;83D13E4D-3B44-12DC-3EF8-E393912DCC87&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/PIL/_imagingft.so
+       0x1021fc000 -        0x1021fdfff +initthreads.so ??? (???)
+&lt;2A26FF26-FABB-D2E2-3C88-798A93536A25&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/zmq/utils/initthreads.so
+       0x102442000 -        0x102448ff7 +libqgif.dylib ??? (???)
+&lt;AC0E5098-0072-37F3-91D9-966ED1350AE0&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/PlugIns/imageformats/libqgif.dylib
+       0x10244d000 -        0x102453ff7 +libqico.dylib ??? (???)
+&lt;FAC1200C-4067-6874-8B75-C1EA22383333&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/PlugIns/imageformats/libqico.dylib
+       0x102459000 -        0x10245dff7 +libqsvg.dylib ??? (???)
+&lt;CBDC7C38-B5E1-1551-EF76-3AD76CCD7EE5&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/PlugIns/imageformats/libqsvg.dylib
+       0x1024c3000 -        0x1024e8fff +QtSvg.so ??? (???)
+&lt;FA7668E6-ECAC-765E-0E72-F85633DFD385&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/PySide/QtSvg.so
+       0x102600000 -        0x10264ffef +QtSvg 4.7.3 (compatibility 4.7.0)
+&lt;A7789926-A9A6-9BE3-4C11-E8D58E816DFC&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/Frameworks/QtSvg.framework/Versions/4/QtSvg
+       0x1027de000 -        0x1027e4ff7 +constants.so ??? (???)
+&lt;0A69D14D-BC54-9D80-7629-08A2767A8913&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/zmq/core/constants.so
+       0x1027eb000 -        0x1027eefff +error.so ??? (???)
+&lt;9D31EAAE-48BE-12D2-E008-5858507B40C4&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/zmq/core/error.so
+       0x1027f3000 -        0x1027f7ff7 +context.so ??? (???)
+&lt;FB47030E-30FE-4A2C-96E5-C091A12732E6&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/zmq/core/context.so
+       0x104d5b000 -        0x10593cfea +QtGui.so ??? (???)
+&lt;42EF1947-1D9E-DDED-7909-0EAC3671F8C3&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/PySide/QtGui.so
+       0x105d83000 -        0x106760ff7 +QtGui 4.7.3 (compatibility 4.7.0)
+&lt;1F568542-C5A4-8A3C-5006-EA65FEDE23F6&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/Frameworks/QtGui.framework/Versions/4/QtGui
+       0x106a4a000 -        0x106a7affc +libjpeg.7.dylib 8.0.0 (compatibility
+8.0.0) &lt;65172D5C-ECBB-BE59-6C40-30525775C156&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/libjpeg.7.dylib
+       0x106aca000 -        0x106ad5ff7 +message.so ??? (???)
+&lt;014F3390-B7C9-7246-F047-39CD50113232&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/zmq/core/message.so
+       0x106ae1000 -        0x106ae7ff7 +_json.so ??? (???)
+&lt;3F0B7826-B340-6CC8-B816-97944E52488E&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_json.so
+       0x106aec000 -        0x106af6ff7 +poll.so ??? (???)
+&lt;35D9283D-EE41-BDF0-A015-30153BEA9818&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/zmq/core/poll.so
+       0x10724c000 -        0x107250ff7 +unicodedata.so ??? (???)
+&lt;6F536D04-809D-63BB-E579-DA3FF998BA53&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/unicodedata.so
+       0x1072f7000 -        0x1072f9ff7 +stopwatch.so ??? (???)
+&lt;DBF691E7-482D-948B-284C-5AAD3D80FB92&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/zmq/core/stopwatch.so
+       0x107500000 -        0x107532ffb +_imaging.so ??? (???)
+&lt;BE59EF59-87D0-E55A-CCE2-42B74E7C9481&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/PIL/_imaging.so
+       0x107553000 -        0x1075f9fef +libfreetype.6.dylib 13.2.0
+(compatibility 13.0.0) &lt;1211F0F2-D0AA-E812-CAF8-56A614AAB71C&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/libfreetype.6.dylib
+       0x107610000 -        0x10765afff +libzmq.1.dylib 2.0.0 (compatibility
+2.0.0) &lt;4DFC3D57-022D-7343-7536-5B5D75C07A27&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/libzmq.1.dylib
+       0x10768a000 -        0x10769ffff +socket.so ??? (???)
+&lt;82736A20-626E-79CF-293E-D41D9B014086&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/zmq/core/socket.so
+       0x1076b0000 -        0x1076b1ff7 +version.so ??? (???)
+&lt;E4285323-A315-AE6C-FEA5-CC617F5D7833&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/zmq/core/version.so
+       0x1076b5000 -        0x1076b7ff7 +device.so ??? (???)
+&lt;B1D6FDDE-CA8C-5CE8-8AE6-85E6E0FD83A2&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/zmq/core/device.so
+       0x1076bb000 -        0x1076befff +_multiprocessing.so ??? (???)
+&lt;E73E15A5-7F9B-D2A0-5C7F-7F23B88A7869&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/lib-dynload/_multiprocessing.so
+       0x1076c3000 -        0x1076c8fff +monitoredqueue.so ??? (???)
+&lt;FAB78C84-C211-6D16-7C4C-132F9D90861E&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/lib/python2.7/site-packages/zmq/devices/monitoredqueue.so
+       0x11133d000 -        0x111378ff7 +libqjpeg.dylib ??? (???)
+&lt;2D99F9D4-B313-6024-82E7-42B9EB233A47&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/PlugIns/imageformats/libqjpeg.dylib
+       0x111381000 -        0x1113d5fe7 +libqmng.dylib ??? (???)
+&lt;88C41254-FFF8-D8AB-306C-6D1C2F14ACC9&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/PlugIns/imageformats/libqmng.dylib
+       0x1113e6000 -        0x111423fff +QtXml 4.7.3 (compatibility 4.7.0)
+&lt;811907C3-6FE0-EA37-67F0-8BE955F0BA1B&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/Frameworks/QtXml.framework/Versions/4/QtXml
+       0x11143d000 -        0x111492fe7 +libqtiff.dylib ??? (???)
+&lt;BED2CA75-FB75-C83C-90A7-D19CA24233BF&gt;
+/Library/Frameworks/EPD64.framework/Versions/7.1/PlugIns/imageformats/libqtiff.dylib
+    0x7fff5fc00000 -     0x7fff5fc3bdef  dyld 132.1 (???)
+&lt;B536F2F1-9DF1-3B6C-1C2C-9075EA219A06&gt; /usr/lib/dyld
+    0x7fff8008c000 -     0x7fff8024dfef  libSystem.B.dylib 125.2.11
+(compatibility 1.0.0) &lt;9AB4F1D1-89DC-0E8A-DC8E-A4FE4D69DB69&gt;
+/usr/lib/libSystem.B.dylib
+    0x7fff8027f000 -     0x7fff8039efe7  libcrypto.0.9.8.dylib 0.9.8
+(compatibility 0.9.8) &lt;14115D29-432B-CF02-6B24-A60CC533A09E&gt;
+/usr/lib/libcrypto.0.9.8.dylib
+    0x7fff80875000 -     0x7fff80876ff7  com.apple.audio.units.AudioUnit 1.6.7
+(1.6.7) &lt;53299948-2554-0F8F-7501-04B34E49F6CF&gt;
+/System/Library/Frameworks/AudioUnit.framework/Versions/A/AudioUnit
+    0x7fff80877000 -     0x7fff80b75fff  com.apple.HIToolbox 1.6.5 (???)
+&lt;AD1C18F6-51CB-7E39-35DD-F16B1EB978A8&gt;
+/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox
+    0x7fff80ce8000 -     0x7fff80d6dff7  com.apple.print.framework.PrintCore
+6.3 (312.7) &lt;CDFE82DD-D811-A091-179F-6E76069B432D&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/PrintCore
+    0x7fff80ee5000 -     0x7fff81328fef  libLAPACK.dylib 219.0.0 (compatibility
+1.0.0) &lt;0CC61C98-FF51-67B3-F3D8-C5E430C201A9&gt;
+/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLAPACK.dylib
+    0x7fff81329000 -     0x7fff8132cff7  com.apple.securityhi 4.0 (36638)
+&lt;38935851-09E4-DDAB-DB1D-30ADC39F7ED0&gt;
+/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SecurityHI.framework/Versions/A/SecurityHI
+    0x7fff81371000 -     0x7fff81373fff  com.apple.print.framework.Print 6.1
+(237.1) &lt;CA8564FB-B366-7413-B12E-9892DA3C6157&gt;
+/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Print.framework/Versions/A/Print
+    0x7fff81526000 -     0x7fff81534ff7  libkxld.dylib ??? (???)
+&lt;8145A534-95CC-9F3C-B78B-AC9898F38C6F&gt; /usr/lib/system/libkxld.dylib
+    0x7fff81535000 -     0x7fff8153aff7  com.apple.CommonPanels 1.2.4 (91)
+&lt;4D84803B-BD06-D80E-15AE-EFBE43F93605&gt;
+/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/CommonPanels.framework/Versions/A/CommonPanels
+    0x7fff8153b000 -     0x7fff8154dfe7  libsasl2.2.dylib 3.15.0 (compatibility
+3.0.0) &lt;76B83C8D-8EFE-4467-0F75-275648AFED97&gt; /usr/lib/libsasl2.2.dylib
+    0x7fff8154e000 -     0x7fff8158ffef  com.apple.QD 3.36 (???)
+&lt;5DC41E81-32C9-65B2-5528-B33E934D5BB4&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/QD.framework/Versions/A/QD
+    0x7fff818f4000 -     0x7fff8190bfff  com.apple.ImageCapture 6.1 (6.1)
+&lt;79AB2131-2A6C-F351-38A9-ED58B25534FD&gt;
+/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/ImageCapture.framework/Versions/A/ImageCapture
+    0x7fff81922000 -     0x7fff81927fff  libGIF.dylib ??? (???)
+&lt;201B8077-B5CC-11AA-E1B0-1D057ABE416A&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libGIF.dylib
+    0x7fff81928000 -     0x7fff819f3fff  ColorSyncDeprecated.dylib 4.6.0
+(compatibility 1.0.0) &lt;E72880D9-3B5D-D086-9266-F4F3C294619F&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ColorSync.framework/Versions/A/Resources/ColorSyncDeprecated.dylib
+    0x7fff819f4000 -     0x7fff81b32fff  com.apple.CoreData 102.1 (251)
+&lt;32233D4D-00B7-CE14-C881-6BF19FD05A03&gt;
+/System/Library/Frameworks/CoreData.framework/Versions/A/CoreData
+    0x7fff81d04000 -     0x7fff81d3efff  libcups.2.dylib 2.8.0 (compatibility
+2.0.0) &lt;7982734A-B66B-44AA-DEEC-364D2C10009B&gt; /usr/lib/libcups.2.dylib
+    0x7fff81d3f000 -     0x7fff81d41fff  libRadiance.dylib ??? (???)
+&lt;A9DB4D5D-4072-971B-DEF6-DDE645F415EA&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libRadiance.dylib
+    0x7fff81d42000 -     0x7fff81e27fef  com.apple.DesktopServices 1.5.11
+(1.5.11) &lt;39FAA3D2-6863-B5AB-AED9-92D878EA2438&gt;
+/System/Library/PrivateFrameworks/DesktopServicesPriv.framework/Versions/A/DesktopServicesPriv
+    0x7fff81f1f000 -     0x7fff81f9cfef  libstdc++.6.dylib 7.9.0 (compatibility
+7.0.0) &lt;35ECA411-2C08-FD7D-11B1-1B7A04921A5C&gt; /usr/lib/libstdc++.6.dylib
+    0x7fff8202c000 -     0x7fff8202cff7  com.apple.vecLib 3.6 (vecLib 3.6)
+&lt;08D3D45D-908B-B86A-00BA-0F978D2702A7&gt;
+/System/Library/Frameworks/vecLib.framework/Versions/A/vecLib
+    0x7fff82041000 -     0x7fff8211efff  com.apple.vImage 4.1 (4.1)
+&lt;C3F44AA9-6F71-0684-2686-D3BBC903F020&gt;
+/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vImage.framework/Versions/A/vImage
+    0x7fff82122000 -     0x7fff82129fff  com.apple.OpenDirectory 10.6 (10.6)
+&lt;4200CFB0-DBA1-62B8-7C7C-91446D89551F&gt;
+/System/Library/Frameworks/OpenDirectory.framework/Versions/A/OpenDirectory
+    0x7fff82132000 -     0x7fff82179ff7  com.apple.coreui 2 (114)
+&lt;D7645B59-0431-6283-7322-957D944DAB21&gt;
+/System/Library/PrivateFrameworks/CoreUI.framework/Versions/A/CoreUI
+    0x7fff8217a000 -     0x7fff82291fef  libxml2.2.dylib 10.3.0 (compatibility
+10.0.0) &lt;1B27AFDD-DF87-2009-170E-C129E1572E8B&gt; /usr/lib/libxml2.2.dylib
+    0x7fff8229e000 -     0x7fff822b7fff  com.apple.CFOpenDirectory 10.6 (10.6)
+&lt;CCF79716-7CC6-2520-C6EB-A4F56AD0A207&gt;
+/System/Library/Frameworks/OpenDirectory.framework/Versions/A/Frameworks/CFOpenDirectory.framework/Versions/A/CFOpenDirectory
+    0x7fff82302000 -     0x7fff8269ffe7  com.apple.QuartzCore 1.6.3 (227.37)
+&lt;16DFF6CD-EA58-CE62-A1D7-5F6CE3D066DD&gt;
+/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore
+    0x7fff826a0000 -     0x7fff826abff7  com.apple.speech.recognition.framework
+3.11.1 (3.11.1) &lt;F0DDF27E-DB55-07CE-E548-C62095BE8167&gt;
+/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SpeechRecognition.framework/Versions/A/SpeechRecognition
+    0x7fff826ac000 -     0x7fff826acff7  com.apple.CoreServices 44 (44)
+&lt;DC7400FB-851E-7B8A-5BF6-6F50094302FB&gt;
+/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices
+    0x7fff826ad000 -     0x7fff82717fe7  libvMisc.dylib 268.0.1 (compatibility
+1.0.0) &lt;75A8D840-4ACE-6560-0889-2AFB6BE08E59&gt;
+/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvMisc.dylib
+    0x7fff8295b000 -     0x7fff82a90fff  com.apple.audio.toolbox.AudioToolbox
+1.6.7 (1.6.7) &lt;E5D7DBDB-6DDF-E6F9-C71C-86F4520EE5A3&gt;
+/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox
+    0x7fff82a91000 -     0x7fff82a91ff7  com.apple.Accelerate 1.6 (Accelerate
+1.6) &lt;2BB7D669-4B40-6A52-ADBD-DA4DB3BC0B1B&gt;
+/System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate
+    0x7fff82abc000 -     0x7fff82ac0ff7  libCGXType.A.dylib 545.0.0
+(compatibility 64.0.0) &lt;DB710299-B4D9-3714-66F7-5D2964DE585B&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libCGXType.A.dylib
+    0x7fff82ad0000 -     0x7fff832dafe7  libBLAS.dylib 219.0.0 (compatibility
+1.0.0) &lt;FC941ECB-71D0-FAE3-DCBF-C5A619E594B8&gt;
+/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
+    0x7fff832db000 -     0x7fff832dbff7  com.apple.Accelerate.vecLib 3.6
+(vecLib 3.6) &lt;DA9BFF01-40DF-EBD5-ABB7-787DAF2D77CF&gt;
+/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/vecLib
+    0x7fff832dc000 -     0x7fff83326ff7  com.apple.Metadata 10.6.3 (507.15)
+&lt;2EF19055-D7AE-4D77-E589-7B71B0BC1E59&gt;
+/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Metadata
+    0x7fff8343a000 -     0x7fff83554fef  libGLProgrammability.dylib ??? (???)
+&lt;8A4B86E3-0FA7-8684-2EF2-C5F8079428DB&gt;
+/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLProgrammability.dylib
+    0x7fff83555000 -     0x7fff83556fff  liblangid.dylib ??? (???)
+&lt;EA4D1607-2BD5-2EE2-2A3B-632EEE5A444D&gt; /usr/lib/liblangid.dylib
+    0x7fff83557000 -     0x7fff8357eff7  libJPEG.dylib ??? (???)
+&lt;46A413EA-4FD1-A050-2EF0-6279F3EAD581&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libJPEG.dylib
+    0x7fff8371c000 -     0x7fff83744fff  com.apple.DictionaryServices 1.1.2
+(1.1.2) &lt;E9269069-93FA-2B71-F9BA-FDDD23C4A65E&gt;
+/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/DictionaryServices.framework/Versions/A/DictionaryServices
+    0x7fff83745000 -     0x7fff83798ff7  com.apple.HIServices 1.8.3 (???)
+&lt;F6E0C7A7-C11D-0096-4DDA-2C77793AA6CD&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/HIServices
+    0x7fff83799000 -     0x7fff837dafff  com.apple.SystemConfiguration 1.10.8
+(1.10.2) &lt;78D48D27-A9C4-62CA-2803-D0BBED82855A&gt;
+/System/Library/Frameworks/SystemConfiguration.framework/Versions/A/SystemConfiguration
+    0x7fff837db000 -     0x7fff837dbff7  com.apple.ApplicationServices 38 (38)
+&lt;10A0B9E9-4988-03D4-FC56-DDE231A02C63&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/ApplicationServices
+    0x7fff83854000 -     0x7fff83854ff7  com.apple.Carbon 150 (152)
+&lt;19B37B7B-1594-AD0A-7F14-FA2F85AD7241&gt;
+/System/Library/Frameworks/Carbon.framework/Versions/A/Carbon
+    0x7fff83855000 -     0x7fff83890fff  com.apple.AE 496.5 (496.5)
+&lt;208DF391-4DE6-81ED-C697-14A2930D1BC6&gt;
+/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/AE.framework/Versions/A/AE
+    0x7fff83d98000 -     0x7fff83db9fff  libresolv.9.dylib 41.0.0
+(compatibility 1.0.0) &lt;6993F348-428F-C97E-7A84-7BD2EDC46A62&gt;
+/usr/lib/libresolv.9.dylib
+    0x7fff8422d000 -     0x7fff84241fff  libGL.dylib ??? (???)
+&lt;2ECE3B0F-39E1-3938-BF27-7205C6D0358B&gt;
+/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib
+    0x7fff84242000 -     0x7fff84275ff7  libTrueTypeScaler.dylib ??? (???)
+&lt;69D4A213-45D2-196D-7FF8-B52A31DFD329&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libTrueTypeScaler.dylib
+    0x7fff84276000 -     0x7fff84337fff  libFontParser.dylib ??? (???)
+&lt;A00BB0A7-E46C-1D07-1391-194745566C7E&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontParser.dylib
+    0x7fff84338000 -     0x7fff84358ff7  com.apple.DirectoryService.Framework
+3.6 (621.11) &lt;AD76C757-6701-BDB5-631E-1CB77D669586&gt;
+/System/Library/Frameworks/DirectoryService.framework/Versions/A/DirectoryService
+    0x7fff84359000 -     0x7fff84416fff  com.apple.CoreServices.OSServices
+359.2 (359.2) &lt;BBB8888E-18DE-5D09-3C3A-F4C029EC7886&gt;
+/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/OSServices.framework/Versions/A/OSServices
+    0x7fff84652000 -     0x7fff846a1ff7 
+com.apple.DirectoryService.PasswordServerFramework 6.1 (6.1)
+&lt;01B370FB-D524-F660-3826-E85B7F0D85CD&gt;
+/System/Library/PrivateFrameworks/PasswordServer.framework/Versions/A/PasswordServer
+    0x7fff8490c000 -     0x7fff84949ff7  libFontRegistry.dylib ??? (???)
+&lt;4C3293E2-851B-55CE-3BE3-29C425DD5DFF&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontRegistry.dylib
+    0x7fff850eb000 -     0x7fff8512afef  libncurses.5.4.dylib 5.4.0
+(compatibility 5.4.0) &lt;E1F34D53-3D62-78C0-CAD8-8AD22C110A9E&gt;
+/usr/lib/libncurses.5.4.dylib
+    0x7fff8628f000 -     0x7fff8644dfff  libicucore.A.dylib 40.0.0
+(compatibility 1.0.0) &lt;4274FC73-A257-3A56-4293-5968F3428854&gt;
+/usr/lib/libicucore.A.dylib
+    0x7fff86559000 -     0x7fff865aeff7  com.apple.framework.familycontrols
+2.0.2 (2020) &lt;F09541B6-5E28-1C01-C1AE-F6A2508670C7&gt;
+/System/Library/PrivateFrameworks/FamilyControls.framework/Versions/A/FamilyControls
+    0x7fff865af000 -     0x7fff865c3ff7  com.apple.speech.synthesis.framework
+3.10.35 (3.10.35) &lt;621B7415-A0B9-07A7-F313-36BEEDD7B132&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/SpeechSynthesis.framework/Versions/A/SpeechSynthesis
+    0x7fff865c4000 -     0x7fff86654fff  com.apple.SearchKit 1.3.0 (1.3.0)
+&lt;4175DC31-1506-228A-08FD-C704AC9DF642&gt;
+/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/SearchKit.framework/Versions/A/SearchKit
+    0x7fff86686000 -     0x7fff86705fe7  com.apple.audio.CoreAudio 3.2.6
+(3.2.6) &lt;79E256EB-43F1-C7AA-6436-124A4FFB02D0&gt;
+/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio
+    0x7fff86706000 -     0x7fff867feff7  libiconv.2.dylib 7.0.0 (compatibility
+7.0.0) &lt;7E4ADB5A-CC77-DCFD-3E54-2F35A2C8D95A&gt; /usr/lib/libiconv.2.dylib
+    0x7fff867ff000 -     0x7fff86805ff7  com.apple.CommerceCore 1.0 (9.1)
+&lt;3691E9BA-BCF4-98C7-EFEC-78DA6825004E&gt;
+/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Frameworks/CommerceCore.framework/Versions/A/CommerceCore
+    0x7fff86846000 -     0x7fff86acfff7  com.apple.security 6.1.2 (55002)
+&lt;4419AFFC-DAE7-873E-6A7D-5C9A5A4497A6&gt;
+/System/Library/Frameworks/Security.framework/Versions/A/Security
+    0x7fff86bae000 -     0x7fff86bb3fff  libGFXShared.dylib ??? (???)
+&lt;1D0D3531-9561-632C-D620-1A8652BEF5BC&gt;
+/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGFXShared.dylib
+    0x7fff86bb4000 -     0x7fff86d2bfe7  com.apple.CoreFoundation 6.6.5
+(550.43) &lt;31A1C118-AD96-0A11-8BDF-BD55B9940EDC&gt;
+/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
+    0x7fff86f96000 -     0x7fff8704bfe7  com.apple.ink.framework 1.3.3 (107)
+&lt;FFC46EE0-3544-A459-2AB9-94778A75E3D4&gt;
+/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Ink.framework/Versions/A/Ink
+    0x7fff87086000 -     0x7fff87087ff7  com.apple.TrustEvaluationAgent 1.1 (1)
+&lt;74800EE8-C14C-18C9-C208-20BBDB982D40&gt;
+/System/Library/PrivateFrameworks/TrustEvaluationAgent.framework/Versions/A/TrustEvaluationAgent
+    0x7fff87088000 -     0x7fff8708eff7  IOSurface ??? (???)
+&lt;04EDCEDE-E36F-15F8-DC67-E61E149D2C9A&gt;
+/System/Library/Frameworks/IOSurface.framework/Versions/A/IOSurface
+    0x7fff870ac000 -     0x7fff870affff  com.apple.help 1.3.2 (41.1)
+&lt;BD1B0A22-1CB8-263E-FF85-5BBFDE3660B9&gt;
+/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Help.framework/Versions/A/Help
+    0x7fff870cc000 -     0x7fff8714aff7  com.apple.CoreText 151.10 (???)
+&lt;54961997-55D8-DC0F-2634-674E452D5A8E&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreText.framework/Versions/A/CoreText
+    0x7fff8714b000 -     0x7fff87193ff7  libvDSP.dylib 268.0.1 (compatibility
+1.0.0) &lt;170DE04F-89AB-E295-0880-D69CAFBD7979&gt;
+/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvDSP.dylib
+    0x7fff87194000 -     0x7fff87197ff7  libCoreVMClient.dylib ??? (???)
+&lt;E03D7C81-A3DA-D44A-A88A-DDBB98AF910B&gt;
+/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libCoreVMClient.dylib
+    0x7fff87198000 -     0x7fff87259fef  com.apple.ColorSync 4.6.6 (4.6.6)
+&lt;BB2C5813-C61D-3CBA-A8F7-0E59E46EBEE8&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync
+    0x7fff87273000 -     0x7fff87431ff7  com.apple.ImageIO.framework 3.0.4
+(3.0.4) &lt;0A4F51A1-4502-767B-8A4E-F14C6214EF88&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/ImageIO
+    0x7fff87432000 -     0x7fff87506fe7  com.apple.CFNetwork 454.12.4
+(454.12.4) &lt;C83E2BA1-1818-B3E8-5334-860AD21D1C80&gt;
+/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CFNetwork.framework/Versions/A/CFNetwork
+    0x7fff87507000 -     0x7fff87514fe7  libCSync.A.dylib 545.0.0
+(compatibility 64.0.0) &lt;1C35FA50-9C70-48DC-9E8D-2054F7A266B1&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libCSync.A.dylib
+    0x7fff87515000 -     0x7fff87526ff7  libz.1.dylib 1.2.3 (compatibility
+1.0.0) &lt;FB5EE53A-0534-0FFA-B2ED-486609433717&gt; /usr/lib/libz.1.dylib
+    0x7fff87540000 -     0x7fff877c2fe7  com.apple.Foundation 6.6.7 (751.62)
+&lt;6F2A5BBF-6990-D561-2928-AD61E94036D9&gt;
+/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation
+    0x7fff87805000 -     0x7fff87836fff  libGLImage.dylib ??? (???)
+&lt;7F102A07-E4FB-9F52-B2F6-4E2D2383CA13&gt;
+/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLImage.dylib
+    0x7fff87837000 -     0x7fff87b6bfef  com.apple.CoreServices.CarbonCore
+861.39 (861.39) &lt;1386A24D-DD15-5903-057E-4A224FAF580B&gt;
+/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/CarbonCore
+    0x7fff87b93000 -     0x7fff87b97ff7  libmathCommon.A.dylib 315.0.0
+(compatibility 1.0.0) &lt;95718673-FEEE-B6ED-B127-BCDBDB60D4E5&gt;
+/usr/lib/system/libmathCommon.A.dylib
+    0x7fff87b98000 -     0x7fff87bb5ff7  libPng.dylib ??? (???)
+&lt;6D8E515B-E0A2-2BA1-9CAC-8CB8A8B35879&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libPng.dylib
+    0x7fff87bb6000 -     0x7fff87c16fe7  com.apple.framework.IOKit 2.0 (???)
+&lt;4F071EF0-8260-01E9-C641-830E582FA416&gt;
+/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
+    0x7fff87e5d000 -     0x7fff87e80fff  com.apple.opencl 12.3.6 (12.3.6)
+&lt;42FA5783-EB80-1168-4015-B8C68F55842F&gt;
+/System/Library/Frameworks/OpenCL.framework/Versions/A/OpenCL
+    0x7fff87e81000 -     0x7fff87ed0fef  libTIFF.dylib ??? (???)
+&lt;1E2593D1-A7F6-84C6-DF8F-0B46AE445926&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libTIFF.dylib
+    0x7fff88102000 -     0x7fff88108ff7  com.apple.DiskArbitration 2.3 (2.3)
+&lt;857F6E43-1EF4-7D53-351B-10DE0A8F992A&gt;
+/System/Library/Frameworks/DiskArbitration.framework/Versions/A/DiskArbitration
+    0x7fff88109000 -     0x7fff8811ffef  libbsm.0.dylib ??? (???)
+&lt;42D3023A-A1F7-4121-6417-FCC6B51B3E90&gt; /usr/lib/libbsm.0.dylib
+    0x7fff88120000 -     0x7fff8812ffff  com.apple.NetFS 3.2.2 (3.2.2)
+&lt;7CCBD70E-BF31-A7A7-DB98-230687773145&gt;
+/System/Library/Frameworks/NetFS.framework/Versions/A/NetFS
+    0x7fff88180000 -     0x7fff8887cff7  com.apple.CoreGraphics 1.545.0 (???)
+&lt;58D597B1-EB3B-710E-0B8C-EC114D54E11B&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics
+    0x7fff888c9000 -     0x7fff888e4ff7  com.apple.openscripting 1.3.1 (???)
+&lt;FD46A0FE-AC79-3EF7-AB4F-396D376DDE71&gt;
+/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/OpenScripting.framework/Versions/A/OpenScripting
+    0x7fff888e5000 -     0x7fff88971fef  SecurityFoundation ??? (???)
+&lt;6860DE26-0D42-D1E8-CD7C-5B42D78C1E1D&gt;
+/System/Library/Frameworks/SecurityFoundation.framework/Versions/A/SecurityFoundation
+    0x7fff8897a000 -     0x7fff88a14fe7  com.apple.ApplicationServices.ATS
+275.16 (???) &lt;4B70A2FC-1902-5F27-5C3B-5C78C283C6EA&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/ATS
+    0x7fff88be7000 -     0x7fff88c97fff  edu.mit.Kerberos 6.5.11 (6.5.11)
+&lt;085D80F5-C9DC-E252-C21B-03295E660C91&gt;
+/System/Library/Frameworks/Kerberos.framework/Versions/A/Kerberos
+    0x7fff88c98000 -     0x7fff88d51fff  libsqlite3.dylib 9.6.0 (compatibility
+9.0.0) &lt;2C5ED312-E646-9ADE-73A9-6199A2A43150&gt; /usr/lib/libsqlite3.dylib
+    0x7fff88ee6000 -     0x7fff88f2ffef  libGLU.dylib ??? (???)
+&lt;1C050088-4AB2-2BC2-62E6-C969F925A945&gt;
+/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLU.dylib
+    0x7fff88f78000 -     0x7fff88f9dff7  com.apple.CoreVideo 1.6.2 (45.6)
+&lt;E138C8E7-3CB6-55A9-0A2C-B73FE63EA288&gt;
+/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo
+    0x7fff89019000 -     0x7fff89028fef  com.apple.opengl 1.6.13 (1.6.13)
+&lt;516098B3-4517-8A55-64BB-195CDAA5334D&gt;
+/System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL
+    0x7fff89853000 -     0x7fff89896ff7  libRIP.A.dylib 545.0.0 (compatibility
+64.0.0) &lt;5FF3D7FD-84D8-C5FA-D640-90BB82EC651D&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libRIP.A.dylib
+    0x7fff89964000 -     0x7fff89979ff7  com.apple.LangAnalysis 1.6.6 (1.6.6)
+&lt;DC999B32-BF41-94C8-0583-27D9AB463E8B&gt;
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/LangAnalysis.framework/Versions/A/LangAnalysis
+    0x7fff899c0000 -     0x7fff89a60fff  com.apple.LaunchServices 362.3 (362.3)
+&lt;B90B7C31-FEF8-3C26-BFB3-D8A48BD2C0DA&gt;
+/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/LaunchServices
+    0x7fff89a66000 -     0x7fff89a7cfe7  com.apple.MultitouchSupport.framework
+207.11 (207.11) &lt;8233CE71-6F8D-8B3C-A0E1-E123F6406163&gt;
+/System/Library/PrivateFrameworks/MultitouchSupport.framework/Versions/A/MultitouchSupport
+    0x7fff89ac7000 -     0x7fff89af2ff7  libxslt.1.dylib 3.24.0 (compatibility
+3.0.0) &lt;8AB4CA9E-435A-33DA-7041-904BA7FA11D5&gt; /usr/lib/libxslt.1.dylib
+    0x7fff89af3000 -     0x7fff89ba9ff7  libobjc.A.dylib 227.0.0 (compatibility
+1.0.0) &lt;03140531-3B2D-1EBA-DA7F-E12CC8F63969&gt; /usr/lib/libobjc.A.dylib
+    0x7fff89baa000 -     0x7fff89bf6fff  libauto.dylib ??? (???)
+&lt;F7221B46-DC4F-3153-CE61-7F52C8C293CF&gt; /usr/lib/libauto.dylib
+    0x7fff89c4f000 -     0x7fff8a649ff7  com.apple.AppKit 6.6.8 (1038.36)
+&lt;4CFBE04C-8FB3-B0EA-8DDB-7E7D10E9D251&gt;
+/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit
+    0x7fffffe00000 -     0x7fffffe01fff  libSystem.B.dylib ??? (???)
+&lt;9AB4F1D1-89DC-0E8A-DC8E-A4FE4D69DB69&gt; /usr/lib/libSystem.B.dylib
+
+Model: MacBookPro3,1, BootROM MBP31.0070.B07, 2 processors, Intel Core 2 Duo,
+2.2 GHz, 2 GB, SMC 1.16f11
+Graphics: NVIDIA GeForce 8600M GT, GeForce 8600M GT, PCIe, 128 MB
+Memory Module: global_name
+AirPort: spairport_wireless_card_type_airport_extreme (0x168C, 0x87), Atheros
+5416: 2.1.14.6
+Bluetooth: Version 2.4.5f3, 2 service, 19 devices, 1 incoming serial ports
+Network Service: AirPort, AirPort, en1
+PCI Card: pci168c,24, sppci_othernetwork, PCI Slot 5
+Serial ATA Device: FUJITSU MHW2120BH, 111.79 GB
+Parallel ATA Device: HL-DT-ST DVDRW  GSA-S10N
+USB Device: Built-in iSight, 0x05ac  (Apple Inc.), 0x8502, 0xfd400000 / 2
+USB Device: Apple Internal Keyboard / Trackpad, 0x05ac  (Apple Inc.), 0x021b,
+0x5d200000 / 3
+USB Device: IR Receiver, 0x05ac  (Apple Inc.), 0x8242, 0x5d100000 / 2
+USB Device: Bluetooth USB Host Controller, 0x05ac  (Apple Inc.), 0x8205,
+0x1a100000 / 2</pre>
+    </div>
+  <div id="c1" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=982#c1">Comment 1</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Chris Withers</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-08-22 22:09:25 EEST
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Seems to be potentially related to the tool tips that pop up when you open a
+bracket after a callable name in IPython, but this is just an observation...</pre>
+    </div>
+  <div id="c2" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=982#c2">Comment 2</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-08-23 20:21:03 EEST
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >We need a way to reproduce the crash, a stacktrace without debug symbols and
+with no info about what Python code was executed give us absolutely no chance
+to fix this bug.
+
+Could you provide more info?</pre>
+    </div>
+  <div id="c3" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=982#c3">Comment 3</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Chris Withers</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-08-23 20:32:12 EEST
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >The &quot;way to reproduce&quot; for me is just to use the IPython console, typing,
+moving mouse, etc.
+Within an hour, I will have had at least one and likely two or 3 crashes. As I
+said, the tooltips that appear when the ( of a function call is types seem to
+be often, but not always, when the crashes happen.
+
+I don't know how to get debug symbols working, I use EPD specifically so that I
+don't have to fight the war of compiling things on Mac OS X.</pre>
+    </div>
+  <div id="c4" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=982#c4">Comment 4</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-08-23 20:40:52 EEST
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Ok, let see what can we do... if you find a code snippet that crash more often,
+feel free to attach it.</pre>
+    </div>
+  <div id="c5" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=982#c5">Comment 5</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Chris Withers</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-08-23 20:42:14 EEST
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >If it helps, I don't think I've ever seen a crash while actually running a
+piece of code.
+It's always been while just typing or moving the mouse over the IPython winder,
+or dragging to select code to copy'n'paste.</pre>
+    </div>
+  <div id="c6" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=982#c6">Comment 6</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-08-23 21:00:54 EEST
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >And the code has some event handler?</pre>
+    </div>
+  <div id="c7" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=982#c7">Comment 7</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Chris Withers</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-08-25 21:32:51 EEST
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >&quot;IPython winder&quot; -&gt; &quot;IPython window&quot;
+
+Event handlers? No idea, I'd guess so, but I'm just using IPython, which I've
+been told is using pyside for its Qt bindings...</pre>
+    </div>
+  <div id="c8" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=982#c8">Comment 8</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">renato filho</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-08-31 00:00:50 EEST
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >this happen only when coding PySide code?
+
+. Did you have write some code, or only import PySide?
+. What kind of code have you write?
+. Could you provide step by step how to reproduce the bug?</pre>
+    </div>
+  <div id="c9" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=982#c9">Comment 9</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Chris Withers</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-08-31 10:53:50 EEST
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Please see <a href="https://github.com/ipython/ipython/issues/711">https://github.com/ipython/ipython/issues/711</a> for reference.
+
+I am not &quot;coding pyside code&quot;.
+I did not write code, other than in the IPython window.
+I did not write code that imports PySide. I believe IPython 0.11 uses PySide
+for its Qt bindings when using IPython's qtconsole.
+
+I have experienced this code when just using IPython, the code I'm writing
+doesn't seem to matter.
+The problem appears to be with IPython's use of PySide on Mac OS X.
+
+I have already provided a step-by-step guide to reproduce in my comments 3 and
+5 above.</pre>
+    </div>
+  <div id="c10" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=982#c10">Comment 10</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Min RK</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-11-01 21:35:44 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >I've isolated the issue.  It happens reliably when
+`QtGui.qApp.topLevelAt(QtGui.QCursor.pos())` is called and the cursor is not
+over a Qt element.
+
+PyQt returns None in this case, while PySide segfaults every time.  I presume
+this is just a NULL return that PySide doesn't check.
+
+Simple Test case: <a href="https://gist.github.com/1331650">https://gist.github.com/1331650</a>
+
+I was running PySide 1.0.6 on OSX, and could reproduce this issue 100% of the
+time, but it seems to be fixed in 1.0.7, so you may be able to close the issue.</pre>
+    </div>
+  <div id="c11" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=982#c11">Comment 11</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-11-01 22:44:10 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >PySide also returns None here and no crashes happens, but I'm not on Mac.
+
+Linux
+PySide from git HEAD of today.
+Qt 4.7.4</pre>
+    </div>
+  <div id="c12" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=982#c12">Comment 12</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Matti Airas</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2012-03-08 16:57:18 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >PySide is now a Qt-addon and uses Qt Project's JIRA tool for tracking bugs.
+Please verify that the bug is still valid and re-submit it in the address
+below:
+
+<a href="https://bugreports.qt-project.org/">https://bugreports.qt-project.org/</a>
+
+Sorry for the inconvenience!</pre>
+    </div>
+  
+
+
+  
+
+</td>
+<td>
+</td>
+</tr></table>
+  </div>
+        
+
+</form>
+
+<hr>
+<ul class="related_actions">
+    <li><a href="show_bug.cgi?format=multiple&amp;id=982">Format For Printing</a></li>
+    <li>&nbsp;-&nbsp;<a href="show_bug.cgi?ctype=xml&amp;id=982">XML</a></li>
+    <li>&nbsp;-&nbsp;<a href="enter_bug.cgi?cloned_bug_id=982">Clone This Bug</a></li>
+    
+    <li>&nbsp;-&nbsp;<a href="#">Top of page </a></li>
+    </ul>        
+
+
+<div class="navigation">
+  
+  <i><font color="#777777">First</font></i>
+  <i><font color="#777777">Last</font></i>
+  <i><font color="#777777">Prev</font></i>
+  <i><font color="#777777">Next</font></i>
+  &nbsp;&nbsp;
+  <i><font color="#777777">This bug is not in your last
+    search results.</font></i>
+</div>
+
+<br>
+</div>
+
+
+
+<div id="footer">
+  <div class="intro"></div>
+
+
+
+
+<ul id="useful-links">
+  <li id="links-actions"><ul class="links">
+  <li><a href="./">Home</a></li>
+  <li><span class="separator">| </span><a href="enter_bug.cgi">New</a></li>
+  <li><span class="separator">| </span><a href="describecomponents.cgi">Browse</a></li>
+  <li><span class="separator">| </span><a href="query.cgi">Search</a></li>
+
+  <li class="form">
+    <span class="separator">| </span>
+    <form action="buglist.cgi" method="get"
+        onsubmit="if (this.quicksearch.value == '')
+                  { alert('Please enter one or more search terms first.');
+                    return false; } return true;">
+    <input class="txt" type="text" id="quicksearch_bottom" name="quicksearch" 
+           value="">
+    <input class="btn" type="submit" value="Search" 
+           id="find_bottom"></form>
+  <a href="page.cgi?id=quicksearch.html" title="Quicksearch Help">[?]</a></li>
+
+  <li><span class="separator">| </span><a href="report.cgi">Reports</a></li>
+
+  <li></li>
+
+  <li>
+        <span class="separator">| </span>
+        <a href="docs/en/html/bug_page.html" target="_blank">Help</a>
+      </li>
+    
+      <li id="new_account_container_bottom">
+        <span class="separator">| </span>
+        <a href="createaccount.cgi">New&nbsp;Account</a>
+      </li>
+
+    <li id="mini_login_container_bottom">
+  <span class="separator">| </span>
+  <a id="login_link_bottom" href="http://bugs.pyside.org/show_bug.cgi?id=982&amp;GoAheadAndLogIn=1"
+     onclick="return show_mini_login_form('_bottom')">Log In</a>
+  <form action="http://bugs.pyside.org/show_bug.cgi?id=982" method="POST" 
+        class="mini_login bz_default_hidden"
+        id="mini_login_bottom"
+        onsubmit="return check_mini_login_fields( '_bottom' );"
+  >
+    <input id="Bugzilla_login_bottom" 
+           class="bz_login"
+           name="Bugzilla_login"
+           onfocus="mini_login_on_focus('_bottom')"
+    >
+    <input class="bz_password" 
+           id="Bugzilla_password_bottom" 
+           name="Bugzilla_password"
+           type="password"
+    >
+    <input class="bz_password bz_default_hidden bz_mini_login_help" type="text" 
+           id="Bugzilla_password_dummy_bottom" value="password"
+           onfocus="mini_login_on_focus('_bottom')"
+    >
+    <input type="submit" name="GoAheadAndLogIn" value="Log in" 
+            id="log_in_bottom">
+    <script type="text/javascript">
+      mini_login_constants = {
+          "login" : "login",
+          "warning" : "You must set the login and password before logging in."
+      };
+      
+      if (YAHOO.env.ua.gecko || YAHOO.env.ua.ie || YAHOO.env.ua.opera) {
+          YAHOO.util.Event.onDOMReady(function() {
+              init_mini_login_form('_bottom');
+          });
+      }
+      else {
+          YAHOO.util.Event.on(window, 'load', function () {
+              window.setTimeout(function() {
+                  init_mini_login_form('_bottom');
+              }, 200);
+          });
+    }
+    </script>
+    <a href="#" onclick="return hide_mini_login_form('_bottom')">[x]</a>
+  </form>
+</li>
+<li id="forgot_container_bottom">
+  <span class="separator">| </span>
+  <a id="forgot_link_bottom" href="http://bugs.pyside.org/show_bug.cgi?id=982&amp;GoAheadAndLogIn=1#forgot"
+     onclick="return show_forgot_form('_bottom')">Forgot Password</a>
+  <form action="token.cgi" method="post" id="forgot_form_bottom"
+        class="mini_forgot bz_default_hidden">
+    <label>Login: <input type="text" name="loginname" size="20"></label>
+    <input id="forgot_button_bottom" value="Reset Password" 
+           type="submit">
+    <input type="hidden" name="a" value="reqpw">
+    <a href="#" onclick="return hide_forgot_form('_bottom')">[x]</a>
+  </form>
+</li>
+</ul>
+  </li>
+
+  
+    
+
+  
+
+
+  
+</ul>
+
+  <div class="outro"></div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,1190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                      "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <title>Bug 565 &ndash; QImage missing *data constructors</title>
+
+
+<link rel="Top" href="http://bugs.pyside.org/">
+
+  
+
+
+  
+    <link rel="Show" title="Dependency Tree"
+          href="showdependencytree.cgi?id=565&amp;hide_resolved=1">
+      <link rel="Show" title="Dependency Graph"
+            href="showdependencygraph.cgi?id=565">
+
+      <link rel="Show" title="Bug Activity"
+            href="show_activity.cgi?id=565">
+      <link rel="Show" title="Printer-Friendly Version"
+            href="show_bug.cgi?format=multiple&amp;id=565">
+
+
+
+    
+    
+    <link href="skins/standard/global.css"
+          rel="alternate stylesheet" 
+          title="Classic"><link href="js/yui/assets/skins/sam/autocomplete.css" rel="stylesheet"
+        type="text/css" ><link href="js/yui/assets/skins/sam/calendar.css" rel="stylesheet"
+        type="text/css" ><link href="skins/standard/global.css" rel="stylesheet"
+        type="text/css" ><link href="skins/standard/show_bug.css" rel="stylesheet"
+        type="text/css" ><!--[if lte IE 7]>
+      
+
+
+
+  <link href="skins/standard/IE-fixes.css" rel="stylesheet"
+        type="text/css" >
+<![endif]-->
+
+    <link href="skins/contrib/OpenBossa/global.css" rel="stylesheet"
+        type="text/css" title="OpenBossa">
+<link href="skins/contrib/Dusk/global.css" rel="alternate stylesheet"
+        type="text/css" title="Dusk">
+
+    
+
+    
+
+    
+<script type="text/javascript" src="js/yui/yahoo-dom-event/yahoo-dom-event.js"></script><script type="text/javascript" src="js/yui/cookie/cookie-min.js"></script><script type="text/javascript" src="js/yui/datasource/datasource-min.js"></script><script type="text/javascript" src="js/yui/connection/connection-min.js"></script><script type="text/javascript" src="js/yui/json/json-min.js"></script><script type="text/javascript" src="js/yui/autocomplete/autocomplete-min.js"></script><script type="text/javascript" src="js/yui/calendar/calendar-min.js"></script><script type="text/javascript" src="js/global.js"></script>
+
+    <script type="text/javascript">
+    <!--
+        YAHOO.namespace('bugzilla');
+        YAHOO.util.Event.addListener = function (el, sType, fn, obj, overrideContext) {
+               if ( ("onpagehide" in window || YAHOO.env.ua.gecko) && sType === "unload") { sType = "pagehide"; };
+               var capture = ((sType == "focusin" || sType == "focusout") && !YAHOO.env.ua.ie) ? true : false;
+               return this._addListener(el, this._getType(sType), fn, obj, overrideContext, capture);
+         };
+        if ( "onpagehide" in window || YAHOO.env.ua.gecko) {
+            YAHOO.util.Event._simpleRemove(window, "unload", 
+                                           YAHOO.util.Event._unload);
+        }
+        
+        function unhide_language_selector() { 
+            YAHOO.util.Dom.removeClass(
+                'lang_links_container', 'bz_default_hidden'
+            ); 
+        } 
+        YAHOO.util.Event.onDOMReady(unhide_language_selector);
+
+        
+        var BUGZILLA = {
+            param: {
+                cookiepath: '\/',
+                maxusermatches: 1000
+            },
+
+            string: {
+                
+
+                attach_desc_required:
+                    'You must enter a Description for this attachment.',
+                component_required:
+                    'You must select a Component for this bug.',
+                description_required:
+                    'You must enter a Description for this bug.',
+                short_desc_required:
+                    'You must enter a Summary for this bug.',
+                version_required:
+                    'You must select a Version for this bug.'
+            }
+        };
+
+    // -->
+    </script>
+<script type="text/javascript" src="js/util.js"></script><script type="text/javascript" src="js/field.js"></script>
+
+    
+
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+                       title="Bugzilla" href="./search_plugin.cgi">
+    <link rel="shortcut icon" href="images/favicon.ico" >
+  </head>
+
+
+
+  <body onload=""
+        class="bugs-pyside-org bz_bug bz_status_CLOSED bz_product_PySide bz_component_QtGui bz_bug_565 yui-skin-sam">
+
+
+
+<div id="header">
+<div id="banner">
+  </div>
+
+<table border="0" cellspacing="0" cellpadding="0" id="titles">
+<tr>
+    <td><a id="pysidelogo" href="http://www.pyside.org">&nbsp;</a></td>
+    <td id="title">
+      <p>Bugzilla &ndash; Bug&nbsp;565</p>
+    </td>
+
+    <td id="subtitle">
+      <p class="subheader">QImage missing *data constructors</p>
+    </td>
+
+    <td id="information">
+      <p class="header_addl_info">Last modified: 2011-02-02 15:46:05 EET</p>
+    </td>
+</tr>
+</table>
+
+<table id="lang_links_container" cellpadding="0" cellspacing="0"
+       class="bz_default_hidden"><tr><td>
+</td></tr></table>
+<ul class="links">
+  <li><a href="./">Home</a></li>
+  <li><span class="separator">| </span><a href="enter_bug.cgi">New</a></li>
+  <li><span class="separator">| </span><a href="describecomponents.cgi">Browse</a></li>
+  <li><span class="separator">| </span><a href="query.cgi">Search</a></li>
+
+  <li class="form">
+    <span class="separator">| </span>
+    <form action="buglist.cgi" method="get"
+        onsubmit="if (this.quicksearch.value == '')
+                  { alert('Please enter one or more search terms first.');
+                    return false; } return true;">
+    <input class="txt" type="text" id="quicksearch_top" name="quicksearch" 
+           value="">
+    <input class="btn" type="submit" value="Search" 
+           id="find_top"></form>
+  <a href="page.cgi?id=quicksearch.html" title="Quicksearch Help">[?]</a></li>
+
+  <li><span class="separator">| </span><a href="report.cgi">Reports</a></li>
+
+  <li></li>
+
+  <li>
+        <span class="separator">| </span>
+        <a href="docs/en/html/bug_page.html" target="_blank">Help</a>
+      </li>
+    
+      <li id="new_account_container_top">
+        <span class="separator">| </span>
+        <a href="createaccount.cgi">New&nbsp;Account</a>
+      </li>
+
+    <li id="mini_login_container_top">
+  <span class="separator">| </span>
+  <a id="login_link_top" href="http://bugs.pyside.org/show_bug.cgi?id=565&amp;GoAheadAndLogIn=1"
+     onclick="return show_mini_login_form('_top')">Log In</a>
+  <form action="http://bugs.pyside.org/show_bug.cgi?id=565" method="POST" 
+        class="mini_login bz_default_hidden"
+        id="mini_login_top"
+        onsubmit="return check_mini_login_fields( '_top' );"
+  >
+    <input id="Bugzilla_login_top" 
+           class="bz_login"
+           name="Bugzilla_login"
+           onfocus="mini_login_on_focus('_top')"
+    >
+    <input class="bz_password" 
+           id="Bugzilla_password_top" 
+           name="Bugzilla_password"
+           type="password"
+    >
+    <input class="bz_password bz_default_hidden bz_mini_login_help" type="text" 
+           id="Bugzilla_password_dummy_top" value="password"
+           onfocus="mini_login_on_focus('_top')"
+    >
+    <input type="submit" name="GoAheadAndLogIn" value="Log in" 
+            id="log_in_top">
+    <script type="text/javascript">
+      mini_login_constants = {
+          "login" : "login",
+          "warning" : "You must set the login and password before logging in."
+      };
+      
+      if (YAHOO.env.ua.gecko || YAHOO.env.ua.ie || YAHOO.env.ua.opera) {
+          YAHOO.util.Event.onDOMReady(function() {
+              init_mini_login_form('_top');
+          });
+      }
+      else {
+          YAHOO.util.Event.on(window, 'load', function () {
+              window.setTimeout(function() {
+                  init_mini_login_form('_top');
+              }, 200);
+          });
+    }
+    </script>
+    <a href="#" onclick="return hide_mini_login_form('_top')">[x]</a>
+  </form>
+</li>
+<li id="forgot_container_top">
+  <span class="separator">| </span>
+  <a id="forgot_link_top" href="http://bugs.pyside.org/show_bug.cgi?id=565&amp;GoAheadAndLogIn=1#forgot"
+     onclick="return show_forgot_form('_top')">Forgot Password</a>
+  <form action="token.cgi" method="post" id="forgot_form_top"
+        class="mini_forgot bz_default_hidden">
+    <label>Login: <input type="text" name="loginname" size="20"></label>
+    <input id="forgot_button_top" value="Reset Password" 
+           type="submit">
+    <input type="hidden" name="a" value="reqpw">
+    <a href="#" onclick="return hide_forgot_form('_top')">[x]</a>
+  </form>
+</li>
+</ul>
+</div> 
+
+<div id="bugzilla-body">
+<div id="message">
+<p><strong>PySide Bugzilla Closed for New Bugs</strong></p>
+<p>PySide is now a Qt Add-on and uses the Qt Project's <a href="https://bugreports.qt-project.org/">JIRA Bug Tracker</a> instead of this Bugzilla instance. This Bugzilla is left for reference purposes.</p>
+</div>
+
+<div class="navigation">
+  
+  <i><font color="#777777">First</font></i>
+  <i><font color="#777777">Last</font></i>
+  <i><font color="#777777">Prev</font></i>
+  <i><font color="#777777">Next</font></i>
+  &nbsp;&nbsp;
+  <i><font color="#777777">This bug is not in your last
+    search results.</font></i>
+</div>
+<script type="text/javascript">
+  <!--
+  
+  /* Outputs a link to call replyToComment(); used to reduce HTML output */
+  function addReplyLink(id, real_id) {
+      /* XXX this should really be updated to use the DOM Core's
+       * createElement, but finding a container isn't trivial.
+       */
+        document.write('[<a href="#add_comment" onclick="replyToComment(' + 
+                       id + ',' + real_id + '); return false;">reply<' + '/a>]');
+  }
+
+  /* Adds the reply text to the `comment' textarea */
+  function replyToComment(id, real_id) {
+      var prefix = "(In reply to comment #" + id + ")\n";
+      var replytext = "";
+        /* pre id="comment_name_N" */
+        var text_elem = document.getElementById('comment_text_'+id);
+        var text = getText(text_elem);
+
+        /* make sure we split on all newlines -- IE or Moz use \r and \n
+         * respectively.
+         */
+        text = text.split(/\r|\n/);
+
+        for (var i=0; i < text.length; i++) {
+            replytext += "> " + text[i] + "\n"; 
+        }
+
+        replytext = prefix + replytext + "\n";
+
+
+      /* <textarea id="comment"> */
+      var textarea = document.getElementById('comment');
+      textarea.value += replytext;
+
+      textarea.focus();
+  }
+
+  if (typeof Node == 'undefined') {
+      /* MSIE doesn't define Node, so provide a compatibility object */
+      window.Node = {
+          TEXT_NODE: 3,
+          ENTITY_REFERENCE_NODE: 5
+      };
+  }
+
+  /* Concatenates all text from element's childNodes. This is used
+   * instead of innerHTML because we want the actual text (and
+   * innerText is non-standard).
+   */
+  function getText(element) {
+      var child, text = "";
+      for (var i=0; i < element.childNodes.length; i++) {
+          child = element.childNodes[i];
+          var type = child.nodeType;
+          if (type == Node.TEXT_NODE || type == Node.ENTITY_REFERENCE_NODE) {
+              text += child.nodeValue;
+          } else {
+              /* recurse into nodes of other types */
+              text += getText(child);
+          }
+      }
+      return text;
+  }
+
+
+  /* Index all classifications so we can keep track of the classification
+   * for the selected product, which could control field visibility.
+   */
+  var all_classifications = new Array(1);
+      all_classifications['PySide'] = 'Unclassified';
+
+  //-->
+  </script>
+
+<form name="changeform" id="changeform" method="post" action="process_bug.cgi">
+
+  <input type="hidden" name="delta_ts" value="2011-02-02 15:46:05">
+  <input type="hidden" name="longdesclength" value="9">
+  <input type="hidden" name="id" value="565">
+  <input type="hidden" name="token" value="1336600245-cc51433babc882fcf68a85b75af6d136">
+<div class="bz_alias_short_desc_container edit_form">
+     <a href="show_bug.cgi?id=565"><b>Bug&nbsp;565</b></a> -<span id="summary_alias_container" class="bz_default_hidden"> 
+      <span id="short_desc_nonedit_display">QImage missing *data constructors</span>
+     </span>
+  
+       
+    <div id="summary_alias_input">
+      <table id="summary">  
+        
+        <tr>
+          <td>
+            <label accesskey="s" for="short_desc"><u>S</u>ummary</label>:
+          </td>
+          <td>QImage missing *data constructors
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script type="text/javascript">
+    hideAliasAndSummary('QImage missing *data constructors', '');
+  </script>
+  <table class="edit_form">
+    <tr>
+      
+      <td id="bz_show_bug_column_1" class="bz_show_bug_column">     
+        <table>
+          <tr>
+    <td class="field_label">
+      <b><a href="page.cgi?id=fields.html#status">Status</a></b>:
+    </td>
+    <td id="bz_field_status">
+      <span id="static_bug_status">CLOSED
+          FIXED
+      </span>
+    </td>
+  </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          <tr><th class="field_label "
+    id="field_label_product">
+
+
+  <a 
+      title="Bugs are categorised into Products and Components."
+      class="field_help_link"
+      href="describecomponents.cgi"
+  >Product:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_product" >PySide</td>
+    </tr>
+
+    
+    <tr class="bz_default_hidden"><th class="field_label "
+    id="field_label_classification">
+
+
+  <a 
+      title="Bugs are categorised into Classifications, Products and Components. classifications is the top-level categorisation."
+      class="field_help_link"
+      href="page.cgi?id=fields.html#classification"
+  >Classification:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_classification" >Unclassified</td>
+    </tr>
+        
+    
+    
+    <tr><th class="field_label "
+    id="field_label_component">
+
+
+  <a 
+      title="Components are second-level categories; each belongs to a particular Product. Select a Product to narrow down this list."
+      class="field_help_link"
+      href="describecomponents.cgi?product=PySide"
+  >Component:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_component" >QtGui</td>
+    </tr>
+    <tr>
+      <td class="field_label">
+        <label for="version"><b>Version</b></label>:
+      </td>
+<td>HEAD
+  </td>
+    </tr>
+        
+    
+        
+    <tr>
+      <td class="field_label">
+        <label for="rep_platform" accesskey="h"><b>Platform</b></label>:
+      </td>
+      <td class="field_value">All
+       All
+       <script type="text/javascript">
+         assignToDefaultOnChange(['product', 'component']);
+       </script>
+      </td>
+    </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          
+          <tr>
+      <td class="field_label">
+        <label for="priority" accesskey="i">
+          <b><a href="page.cgi?id=fields.html#importance"><u>I</u>mportance</a></b></label>:
+      </td>
+      <td>P3
+       normal
+      </td>
+    </tr>            
+          
+          <tr>
+      <td class="field_label">
+        <b><a href="page.cgi?id=fields.html#assigned_to">Assigned To</a></b>:
+      </td>
+      <td><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+      </td>
+    </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          <tr>
+    <td class="field_label">
+      <label for="bug_file_loc" accesskey="u"><b>
+          <u>U</u>RL</b></label>:
+    </td>
+    <td>
+      <span id="bz_url_input_area">
+      </span>
+    </td>
+  </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          
+          <tr><th class="field_label">
+    <label for="dependson">Depends&nbsp;on</label>:
+  </th>
+  <td>    
+    <span id="dependson_input_area">
+    </span>
+    
+  </td>
+  </tr>
+  
+  <tr><th class="field_label">
+    <label for="blocked" accesskey="b"><u>B</u>locks</label>:
+  </th>
+  <td>    
+    <span id="blocked_input_area">
+    </span>
+    
+  </td>
+  
+  <tr>
+    <th>&nbsp;</th>
+  
+    <td colspan="2" align="left" id="show_dependency_tree_or_graph">
+      Show dependency <a href="showdependencytree.cgi?id=565&amp;hide_resolved=1">tree</a>
+  
+        /&nbsp;<a href="showdependencygraph.cgi?id=565">graph</a>
+    </td>
+  </tr>
+          
+        </table>
+      </td>
+      <td>
+        <div class="bz_column_spacer">&nbsp;</div>
+      </td>
+      
+      <td id="bz_show_bug_column_2" class="bz_show_bug_column">
+        <table cellpadding="3" cellspacing="1">
+        <tr>
+    <td class="field_label">
+      <b>Reported</b>:
+    </td>
+    <td>2010-12-22 19:14 EET by <span class="vcard"><span class="fn">Daniel Ashbrook</span>
+</span>
+    </td>
+  </tr>
+  
+  <tr>
+    <td class="field_label">
+      <b> Modified</b>:
+    </td>
+    <td>2011-02-02 15:46 EET 
+      (<a href="show_activity.cgi?id=565">History</a>)
+    </td>
+  
+  </tr>
+         <tr>
+      <td class="field_label">
+        <label for="newcc" accesskey="a"><b>CC List</b>:</label>
+      </td>
+      <td>9 
+          users
+          <span id="cc_edit_area_showhide_container" class="bz_default_hidden">
+            (<a href="#" id="cc_edit_area_showhide">show</a>)
+          </span>
+        <div id="cc_edit_area">
+          <br>
+            <select id="cc" name="cc" multiple="multiple" size="5">
+                <option value="bruno.araujo">bruno.araujo</option>
+                <option value="hugo.lima">hugo.lima</option>
+                <option value="kcarnold">kcarnold</option>
+                <option value="lauro.neto">lauro.neto</option>
+                <option value="luciano.wolf">luciano.wolf</option>
+                <option value="marcelo.lira">marcelo.lira</option>
+                <option value="matti.p.airas">matti.p.airas</option>
+                <option value="renatox">renatox</option>
+                <option value="willer.moreira">willer.moreira</option>
+            </select>
+        </div>
+          <script type="text/javascript">
+            hideEditableField( 'cc_edit_area_showhide_container', 
+                               'cc_edit_area', 
+                               'cc_edit_area_showhide', 
+                               '', 
+                               '');  
+          </script>
+      </td>
+    </tr>
+         <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+<tr><th class="field_label "
+    id="field_label_see_also">
+
+
+  <a 
+      title="This allows you to refer to bugs in other installations. You can enter a URL to a bug in the 'Add Bug URLs' field to note that that bug is related to this one. You can enter multiple URLs at once by separating them with a comma. You should normally use this field to refer to bugs in other installations. For bugs in this installation, it is better to use the Depends on and Blocks fields."
+      class="field_help_link"
+      href="page.cgi?id=fields.html#see_also"
+  >See Also:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_see_also" ></td>
+    </tr> 
+         
+         <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+         
+                
+
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+          <hr id="bz_top_half_spacer">
+      </td>
+    </tr>
+  </table>
+
+  <table id="bz_big_form_parts" cellspacing="0" cellpadding="0"><tr>
+  <td>
+
+    
+<script type="text/javascript">
+<!--
+function toggle_display(link) {
+    var table = document.getElementById("attachment_table");
+    // Store current height for scrolling later
+    var originalHeight = table.offsetHeight;
+    var rows = YAHOO.util.Dom.getElementsByClassName(
+        'bz_tr_obsolete', 'tr', table);
+
+    for (var i = 0; i < rows.length; i++) {
+        bz_toggleClass(rows[i], 'bz_default_hidden');
+    }
+
+    if (YAHOO.util.Dom.hasClass(rows[0], 'bz_default_hidden')) {
+        link.innerHTML = "Show Obsolete";
+    }
+    else {
+        link.innerHTML = "Hide Obsolete";
+    }
+
+    var newHeight = table.offsetHeight;
+    // This scrolling makes the window appear to not move at all.
+    window.scrollBy(0, newHeight - originalHeight);
+
+    return false;
+}
+//-->
+</script>
+
+<br>
+<table id="attachment_table" cellspacing="0" cellpadding="4">
+  <tr id="a0">
+    <th colspan="2" align="left">
+      Attachments
+    </th>
+  </tr>
+
+
+
+  <tr class="bz_attach_footer">
+    <td colspan="2">
+        <a href="attachment.cgi?bugid=565&amp;action=enter">Add an attachment</a>
+        (proposed patch, testcase, etc.)
+    </td>
+  </tr>
+</table>
+<br>
+<div id="add_comment" class="bz_section_additional_comments">
+      <table><tr><td><fieldset>
+        <legend>Note</legend>
+        You need to
+        <a href="show_bug.cgi?id=565&amp;GoAheadAndLogIn=1">log in</a>
+         before you can comment on or make changes to this bug.
+      </fieldset></table><tr></td>
+  </div>
+  </td>
+  <td>
+  </td>
+  </tr></table>
+
+  
+  <div id="comments"><script src="js/comments.js" type="text/javascript">
+</script>
+
+
+
+
+
+
+
+<!-- This auto-sizes the comments and positions the collapse/expand links 
+     to the right. -->
+<table class="bz_comment_table" cellpadding="0" cellspacing="0"><tr>
+<td>
+<div id="c0" class="bz_comment bz_first_comment">
+
+      <div class="bz_first_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=565#c0">Description</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Daniel Ashbrook</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2010-12-22 19:14:40 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >QImage has several constructors that take data as input:
+
+QImage(uchar * data, int width, int height, Format format)
+QImage(const uchar * data, int width, int height, Format format)
+QImage(uchar * data, int width, int height, int bytesPerLine, Format format)
+QImage(const uchar * data, int width, int height, int bytesPerLine, Format
+format)
+QImage(const char * const[] xpm)
+
+however, the only supported constructors in PySide are:
+
+PySide.QtGui.QImage()
+PySide.QtGui.QImage(PySide.QtGui.QImage)
+PySide.QtGui.QImage(PySide.QtCore.QSize, PySide.QtGui.QImage.Format)
+PySide.QtGui.QImage(QString, str = None)
+PySide.QtGui.QImage(int, int, PySide.QtGui.QImage.Format)
+
+Given a large amount of image data in Python, it should be supported to create
+a QImage based on this data, rather than the extremely slow process of looping
+through a blank QImage and using setPixel().
+
+The Python Imaging Library has a function to convert its format to a QImage
+(unfortunately a PyQt.QImage rather than a PySide.QImage):
+
+<a href="http://www.pythonware.com/library/pil/handbook/imageqt.htm">http://www.pythonware.com/library/pil/handbook/imageqt.htm</a>
+
+which may provide some inspiration to more generic functionality for PySide.</pre>
+    </div>
+  <div id="c1" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=565#c1">Comment 1</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Matti Airas</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2010-12-23 06:49:38 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >A very brief look at the bug would suggest this to be a duplicate of <span class="bz_closed"><a href="show_bug.cgi?id=489" title="CLOSED FIXED - PySide.QtGui.QImage with string buffer argument">bug 489</a></span>,
+which has already been fixed in beta2. Once you get your hands to beta2
+packages, could you please verify whether this is the case.
+
+I'm leaving this UNCONFIRMED for now.</pre>
+    </div>
+  <div id="c2" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=565#c2">Comment 2</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Daniel Ashbrook</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2010-12-27 15:25:51 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >This does not seem to be fixed. The TypeError raised with wrong argument types
+still only lists
+
+PySide.QtGui.QImage()
+PySide.QtGui.QImage(PySide.QtGui.QImage)
+PySide.QtGui.QImage(PySide.QtCore.QSize, PySide.QtGui.QImage.Format)
+PySide.QtGui.QImage(QString, str = None)
+PySide.QtGui.QImage(int, int, PySide.QtGui.QImage.Format)
+
+as valid constructors; trying a QImage(str, int, int, Format) set of arguments
+gives
+
+TypeError: PySide.QtGui.QImage(): too many arguments.
+
+This suggests that <span class="bz_closed"><a href="show_bug.cgi?id=489" title="CLOSED FIXED - PySide.QtGui.QImage with string buffer argument">bug 489</a></span> may not be truly fixed?
+
+Note: I used the precompiled OS X binary pyside-1.0.0-beta1-qt47-py26apple.pkg
+from <a href="http://developer.qt.nokia.com/wiki/PySideBinariesMacOSX">http://developer.qt.nokia.com/wiki/PySideBinariesMacOSX</a> .</pre>
+    </div>
+  <div id="c3" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=565#c3">Comment 3</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Matti Airas</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-04 08:49:09 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >To clarify: did you test this on beta1 or beta2? The bug is expected to occur
+with beta1 but not on beta2, because <span class="bz_closed"><a href="show_bug.cgi?id=489" title="CLOSED FIXED - PySide.QtGui.QImage with string buffer argument">bug 489</a></span> was only released in beta2.</pre>
+    </div>
+  <div id="c4" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=565#c4">Comment 4</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Matti Airas</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-18 08:11:00 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >I'm making this NEW in any case to not keep it in limbo forever. P3.</pre>
+    </div>
+  <div id="c5" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=565#c5">Comment 5</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Kenneth Arnold</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-27 16:01:03 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >This appears to be incompletely fixed. In PyQt4 we are able to do:
+
+    self.pixels = numpy.zeros((height, width, 4), dtype='uint8')
+    self.img = QImage(self.pixels, width, height, QImage.Format_RGB32)
+
+Then each time self.img is painted, it gets the new contents of self.pixels.
+This is very important for performance since it removes the need to call
+setPixel for each point for each frame, or even packing the image data into a
+string and then having QImage unpack it.
+
+Instead, PySide HEAD gives me:
+
+TypeError: 'PySide.QtGui.QImage' called with wrong argument types:
+  PySide.QtGui.QImage(numpy.ndarray, int, int, Format)
+Supported signatures:
+  PySide.QtGui.QImage()
+  PySide.QtGui.QImage(PySide.QtGui.QImage)
+  PySide.QtGui.QImage(PySide.QtCore.QSize, PySide.QtGui.QImage.Format)
+  PySide.QtGui.QImage(QString, str = None)
+  PySide.QtGui.QImage(uchar, int, int, PySide.QtGui.QImage.Format)
+  PySide.QtGui.QImage(uchar, int, int, int, PySide.QtGui.QImage.Format)
+  PySide.QtGui.QImage(int, int, PySide.QtGui.QImage.Format)
+
+By comparison, when I force the PyQt version to fail (by passing `object()`
+instead of self.pixels), I get:
+
+TypeError: arguments did not match any overloaded call:
+  QImage(): too many arguments
+  QImage(QSize, QImage.Format): argument 1 has unexpected type 'object'
+  QImage(int, int, QImage.Format): argument 1 has unexpected type 'object'
+  QImage(str, int, int, QImage.Format): argument 1 has unexpected type 'object'
+  QImage(sip.voidptr, int, int, QImage.Format): argument 1 has unexpected type
+'object'
+  QImage(str, int, int, int, QImage.Format): argument 1 has unexpected type
+'object'
+  QImage(sip.voidptr, int, int, int, QImage.Format): argument 1 has unexpected
+type 'object'
+  QImage(list-of-str): argument 1 has unexpected type 'object'
+  QImage(QString, str format=None): argument 1 has unexpected type 'object'
+  QImage(QImage): argument 1 has unexpected type 'object'
+  QImage(QVariant): too many arguments
+
+Notice that PyQt offers a 'voidptr' type, which accounts for both actual Python
+strings and buffer-like things such as numpy arrays. The right solution for
+both this bug and #566 would be to have a voidptr-like type that wraps things
+with the Python buffer interface. When returning one from C++, it should
+support the buffer interface on the Python side as well.
+
+I'm working around this for now by making a new QImage(pixels.asstring(), ...)
+for each frame, but that's a performance hit.</pre>
+    </div>
+  <div id="c6" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=565#c6">Comment 6</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-27 16:47:17 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Hi Kenneth Arnold, I'm working on this bug right now, among with other QImage
+issues like the lack of bits(), constBits(), scanLine() and constScanLine()
+methods, i.e. all methods that return internal buffers.
+
+The problem that the previous fix to QImage(uchar,...) constructor copies the
+data isntead of using it as is like the QImage documentation says.
+
+I think all can be solved using Python buffers, the only requirement are that
+the memory pointed by the buffer must be contiguous, but it'll be fast,
+flexible =].</pre>
+    </div>
+  <div id="c7" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=565#c7">Comment 7</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-31 14:48:26 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Fixed in commit:
+pyside/2a4391902406552815140f4ebe078f9f7e9a955c
+
+The constructors now accepts any PyObject which implements the buffer protocol,
+as the C++ and PyQt4 version the buffer must be alive during the life time of
+QImage because QImage *does not* copy the image data.</pre>
+    </div>
+  <div id="c8" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=565#c8">Comment 8</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">renato filho</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-02-02 15:46:05 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >released on beta 5</pre>
+    </div>
+  
+
+
+  
+
+</td>
+<td>
+</td>
+</tr></table>
+  </div>
+        
+
+</form>
+
+<hr>
+<ul class="related_actions">
+    <li><a href="show_bug.cgi?format=multiple&amp;id=565">Format For Printing</a></li>
+    <li>&nbsp;-&nbsp;<a href="show_bug.cgi?ctype=xml&amp;id=565">XML</a></li>
+    <li>&nbsp;-&nbsp;<a href="enter_bug.cgi?cloned_bug_id=565">Clone This Bug</a></li>
+    
+    <li>&nbsp;-&nbsp;<a href="#">Top of page </a></li>
+    </ul>        
+
+
+<div class="navigation">
+  
+  <i><font color="#777777">First</font></i>
+  <i><font color="#777777">Last</font></i>
+  <i><font color="#777777">Prev</font></i>
+  <i><font color="#777777">Next</font></i>
+  &nbsp;&nbsp;
+  <i><font color="#777777">This bug is not in your last
+    search results.</font></i>
+</div>
+
+<br>
+</div>
+
+
+
+<div id="footer">
+  <div class="intro"></div>
+
+
+
+
+<ul id="useful-links">
+  <li id="links-actions"><ul class="links">
+  <li><a href="./">Home</a></li>
+  <li><span class="separator">| </span><a href="enter_bug.cgi">New</a></li>
+  <li><span class="separator">| </span><a href="describecomponents.cgi">Browse</a></li>
+  <li><span class="separator">| </span><a href="query.cgi">Search</a></li>
+
+  <li class="form">
+    <span class="separator">| </span>
+    <form action="buglist.cgi" method="get"
+        onsubmit="if (this.quicksearch.value == '')
+                  { alert('Please enter one or more search terms first.');
+                    return false; } return true;">
+    <input class="txt" type="text" id="quicksearch_bottom" name="quicksearch" 
+           value="">
+    <input class="btn" type="submit" value="Search" 
+           id="find_bottom"></form>
+  <a href="page.cgi?id=quicksearch.html" title="Quicksearch Help">[?]</a></li>
+
+  <li><span class="separator">| </span><a href="report.cgi">Reports</a></li>
+
+  <li></li>
+
+  <li>
+        <span class="separator">| </span>
+        <a href="docs/en/html/bug_page.html" target="_blank">Help</a>
+      </li>
+    
+      <li id="new_account_container_bottom">
+        <span class="separator">| </span>
+        <a href="createaccount.cgi">New&nbsp;Account</a>
+      </li>
+
+    <li id="mini_login_container_bottom">
+  <span class="separator">| </span>
+  <a id="login_link_bottom" href="http://bugs.pyside.org/show_bug.cgi?id=565&amp;GoAheadAndLogIn=1"
+     onclick="return show_mini_login_form('_bottom')">Log In</a>
+  <form action="http://bugs.pyside.org/show_bug.cgi?id=565" method="POST" 
+        class="mini_login bz_default_hidden"
+        id="mini_login_bottom"
+        onsubmit="return check_mini_login_fields( '_bottom' );"
+  >
+    <input id="Bugzilla_login_bottom" 
+           class="bz_login"
+           name="Bugzilla_login"
+           onfocus="mini_login_on_focus('_bottom')"
+    >
+    <input class="bz_password" 
+           id="Bugzilla_password_bottom" 
+           name="Bugzilla_password"
+           type="password"
+    >
+    <input class="bz_password bz_default_hidden bz_mini_login_help" type="text" 
+           id="Bugzilla_password_dummy_bottom" value="password"
+           onfocus="mini_login_on_focus('_bottom')"
+    >
+    <input type="submit" name="GoAheadAndLogIn" value="Log in" 
+            id="log_in_bottom">
+    <script type="text/javascript">
+      mini_login_constants = {
+          "login" : "login",
+          "warning" : "You must set the login and password before logging in."
+      };
+      
+      if (YAHOO.env.ua.gecko || YAHOO.env.ua.ie || YAHOO.env.ua.opera) {
+          YAHOO.util.Event.onDOMReady(function() {
+              init_mini_login_form('_bottom');
+          });
+      }
+      else {
+          YAHOO.util.Event.on(window, 'load', function () {
+              window.setTimeout(function() {
+                  init_mini_login_form('_bottom');
+              }, 200);
+          });
+    }
+    </script>
+    <a href="#" onclick="return hide_mini_login_form('_bottom')">[x]</a>
+  </form>
+</li>
+<li id="forgot_container_bottom">
+  <span class="separator">| </span>
+  <a id="forgot_link_bottom" href="http://bugs.pyside.org/show_bug.cgi?id=565&amp;GoAheadAndLogIn=1#forgot"
+     onclick="return show_forgot_form('_bottom')">Forgot Password</a>
+  <form action="token.cgi" method="post" id="forgot_form_bottom"
+        class="mini_forgot bz_default_hidden">
+    <label>Login: <input type="text" name="loginname" size="20"></label>
+    <input id="forgot_button_bottom" value="Reset Password" 
+           type="submit">
+    <input type="hidden" name="a" value="reqpw">
+    <a href="#" onclick="return hide_forgot_form('_bottom')">[x]</a>
+  </form>
+</li>
+</ul>
+  </li>
+
+  
+    
+
+  
+
+
+  
+</ul>
+
+  <div class="outro"></div>
+</div>
+
+
+</body>
+</html>
