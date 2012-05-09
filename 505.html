@@ -1,0 +1,2212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                      "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <title>Bug 505 &ndash; CppObject was destroyed before __del__ be called</title>
+
+
+<link rel="Top" href="http://bugs.pyside.org/">
+
+  
+
+
+  
+    <link rel="Show" title="Dependency Tree"
+          href="showdependencytree.cgi?id=505&amp;hide_resolved=1">
+      <link rel="Show" title="Dependency Graph"
+            href="showdependencygraph.cgi?id=505">
+
+      <link rel="Show" title="Bug Activity"
+            href="show_activity.cgi?id=505">
+      <link rel="Show" title="Printer-Friendly Version"
+            href="show_bug.cgi?format=multiple&amp;id=505">
+
+
+
+    
+    
+    <link href="skins/standard/global.css"
+          rel="alternate stylesheet" 
+          title="Classic"><link href="js/yui/assets/skins/sam/autocomplete.css" rel="stylesheet"
+        type="text/css" ><link href="js/yui/assets/skins/sam/calendar.css" rel="stylesheet"
+        type="text/css" ><link href="skins/standard/global.css" rel="stylesheet"
+        type="text/css" ><link href="skins/standard/show_bug.css" rel="stylesheet"
+        type="text/css" ><!--[if lte IE 7]>
+      
+
+
+
+  <link href="skins/standard/IE-fixes.css" rel="stylesheet"
+        type="text/css" >
+<![endif]-->
+
+    <link href="skins/contrib/OpenBossa/global.css" rel="stylesheet"
+        type="text/css" title="OpenBossa">
+<link href="skins/contrib/Dusk/global.css" rel="alternate stylesheet"
+        type="text/css" title="Dusk">
+
+    
+
+    
+
+    
+<script type="text/javascript" src="js/yui/yahoo-dom-event/yahoo-dom-event.js"></script><script type="text/javascript" src="js/yui/cookie/cookie-min.js"></script><script type="text/javascript" src="js/yui/datasource/datasource-min.js"></script><script type="text/javascript" src="js/yui/connection/connection-min.js"></script><script type="text/javascript" src="js/yui/json/json-min.js"></script><script type="text/javascript" src="js/yui/autocomplete/autocomplete-min.js"></script><script type="text/javascript" src="js/yui/calendar/calendar-min.js"></script><script type="text/javascript" src="js/global.js"></script>
+
+    <script type="text/javascript">
+    <!--
+        YAHOO.namespace('bugzilla');
+        YAHOO.util.Event.addListener = function (el, sType, fn, obj, overrideContext) {
+               if ( ("onpagehide" in window || YAHOO.env.ua.gecko) && sType === "unload") { sType = "pagehide"; };
+               var capture = ((sType == "focusin" || sType == "focusout") && !YAHOO.env.ua.ie) ? true : false;
+               return this._addListener(el, this._getType(sType), fn, obj, overrideContext, capture);
+         };
+        if ( "onpagehide" in window || YAHOO.env.ua.gecko) {
+            YAHOO.util.Event._simpleRemove(window, "unload", 
+                                           YAHOO.util.Event._unload);
+        }
+        
+        function unhide_language_selector() { 
+            YAHOO.util.Dom.removeClass(
+                'lang_links_container', 'bz_default_hidden'
+            ); 
+        } 
+        YAHOO.util.Event.onDOMReady(unhide_language_selector);
+
+        
+        var BUGZILLA = {
+            param: {
+                cookiepath: '\/',
+                maxusermatches: 1000
+            },
+
+            string: {
+                
+
+                attach_desc_required:
+                    'You must enter a Description for this attachment.',
+                component_required:
+                    'You must select a Component for this bug.',
+                description_required:
+                    'You must enter a Description for this bug.',
+                short_desc_required:
+                    'You must enter a Summary for this bug.',
+                version_required:
+                    'You must select a Version for this bug.'
+            }
+        };
+
+    // -->
+    </script>
+<script type="text/javascript" src="js/util.js"></script><script type="text/javascript" src="js/field.js"></script>
+
+    
+
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+                       title="Bugzilla" href="./search_plugin.cgi">
+    <link rel="shortcut icon" href="images/favicon.ico" >
+  </head>
+
+
+
+  <body onload=""
+        class="bugs-pyside-org bz_bug bz_status_CLOSED bz_product_PySide bz_component_Shiboken bz_bug_505 yui-skin-sam">
+
+
+
+<div id="header">
+<div id="banner">
+  </div>
+
+<table border="0" cellspacing="0" cellpadding="0" id="titles">
+<tr>
+    <td><a id="pysidelogo" href="http://www.pyside.org">&nbsp;</a></td>
+    <td id="title">
+      <p>Bugzilla &ndash; Bug&nbsp;505</p>
+    </td>
+
+    <td id="subtitle">
+      <p class="subheader">CppObject was destroyed before __del__ be called</p>
+    </td>
+
+    <td id="information">
+      <p class="header_addl_info">Last modified: 2011-05-26 17:04:12 EEST</p>
+    </td>
+</tr>
+</table>
+
+<table id="lang_links_container" cellpadding="0" cellspacing="0"
+       class="bz_default_hidden"><tr><td>
+</td></tr></table>
+<ul class="links">
+  <li><a href="./">Home</a></li>
+  <li><span class="separator">| </span><a href="enter_bug.cgi">New</a></li>
+  <li><span class="separator">| </span><a href="describecomponents.cgi">Browse</a></li>
+  <li><span class="separator">| </span><a href="query.cgi">Search</a></li>
+
+  <li class="form">
+    <span class="separator">| </span>
+    <form action="buglist.cgi" method="get"
+        onsubmit="if (this.quicksearch.value == '')
+                  { alert('Please enter one or more search terms first.');
+                    return false; } return true;">
+    <input class="txt" type="text" id="quicksearch_top" name="quicksearch" 
+           value="">
+    <input class="btn" type="submit" value="Search" 
+           id="find_top"></form>
+  <a href="page.cgi?id=quicksearch.html" title="Quicksearch Help">[?]</a></li>
+
+  <li><span class="separator">| </span><a href="report.cgi">Reports</a></li>
+
+  <li></li>
+
+  <li>
+        <span class="separator">| </span>
+        <a href="docs/en/html/bug_page.html" target="_blank">Help</a>
+      </li>
+    
+      <li id="new_account_container_top">
+        <span class="separator">| </span>
+        <a href="createaccount.cgi">New&nbsp;Account</a>
+      </li>
+
+    <li id="mini_login_container_top">
+  <span class="separator">| </span>
+  <a id="login_link_top" href="http://bugs.pyside.org/show_bug.cgi?id=505&amp;GoAheadAndLogIn=1"
+     onclick="return show_mini_login_form('_top')">Log In</a>
+  <form action="http://bugs.pyside.org/show_bug.cgi?id=505" method="POST" 
+        class="mini_login bz_default_hidden"
+        id="mini_login_top"
+        onsubmit="return check_mini_login_fields( '_top' );"
+  >
+    <input id="Bugzilla_login_top" 
+           class="bz_login"
+           name="Bugzilla_login"
+           onfocus="mini_login_on_focus('_top')"
+    >
+    <input class="bz_password" 
+           id="Bugzilla_password_top" 
+           name="Bugzilla_password"
+           type="password"
+    >
+    <input class="bz_password bz_default_hidden bz_mini_login_help" type="text" 
+           id="Bugzilla_password_dummy_top" value="password"
+           onfocus="mini_login_on_focus('_top')"
+    >
+    <input type="submit" name="GoAheadAndLogIn" value="Log in" 
+            id="log_in_top">
+    <script type="text/javascript">
+      mini_login_constants = {
+          "login" : "login",
+          "warning" : "You must set the login and password before logging in."
+      };
+      
+      if (YAHOO.env.ua.gecko || YAHOO.env.ua.ie || YAHOO.env.ua.opera) {
+          YAHOO.util.Event.onDOMReady(function() {
+              init_mini_login_form('_top');
+          });
+      }
+      else {
+          YAHOO.util.Event.on(window, 'load', function () {
+              window.setTimeout(function() {
+                  init_mini_login_form('_top');
+              }, 200);
+          });
+    }
+    </script>
+    <a href="#" onclick="return hide_mini_login_form('_top')">[x]</a>
+  </form>
+</li>
+<li id="forgot_container_top">
+  <span class="separator">| </span>
+  <a id="forgot_link_top" href="http://bugs.pyside.org/show_bug.cgi?id=505&amp;GoAheadAndLogIn=1#forgot"
+     onclick="return show_forgot_form('_top')">Forgot Password</a>
+  <form action="token.cgi" method="post" id="forgot_form_top"
+        class="mini_forgot bz_default_hidden">
+    <label>Login: <input type="text" name="loginname" size="20"></label>
+    <input id="forgot_button_top" value="Reset Password" 
+           type="submit">
+    <input type="hidden" name="a" value="reqpw">
+    <a href="#" onclick="return hide_forgot_form('_top')">[x]</a>
+  </form>
+</li>
+</ul>
+</div> 
+
+<div id="bugzilla-body">
+<div id="message">
+<p><strong>PySide Bugzilla Closed for New Bugs</strong></p>
+<p>PySide is now a Qt Add-on and uses the Qt Project's <a href="https://bugreports.qt-project.org/">JIRA Bug Tracker</a> instead of this Bugzilla instance. This Bugzilla is left for reference purposes.</p>
+</div>
+
+<div class="navigation">
+  
+  <i><font color="#777777">First</font></i>
+  <i><font color="#777777">Last</font></i>
+  <i><font color="#777777">Prev</font></i>
+  <i><font color="#777777">Next</font></i>
+  &nbsp;&nbsp;
+  <i><font color="#777777">This bug is not in your last
+    search results.</font></i>
+</div>
+<script type="text/javascript">
+  <!--
+  
+  /* Outputs a link to call replyToComment(); used to reduce HTML output */
+  function addReplyLink(id, real_id) {
+      /* XXX this should really be updated to use the DOM Core's
+       * createElement, but finding a container isn't trivial.
+       */
+        document.write('[<a href="#add_comment" onclick="replyToComment(' + 
+                       id + ',' + real_id + '); return false;">reply<' + '/a>]');
+  }
+
+  /* Adds the reply text to the `comment' textarea */
+  function replyToComment(id, real_id) {
+      var prefix = "(In reply to comment #" + id + ")\n";
+      var replytext = "";
+        /* pre id="comment_name_N" */
+        var text_elem = document.getElementById('comment_text_'+id);
+        var text = getText(text_elem);
+
+        /* make sure we split on all newlines -- IE or Moz use \r and \n
+         * respectively.
+         */
+        text = text.split(/\r|\n/);
+
+        for (var i=0; i < text.length; i++) {
+            replytext += "> " + text[i] + "\n"; 
+        }
+
+        replytext = prefix + replytext + "\n";
+
+
+      /* <textarea id="comment"> */
+      var textarea = document.getElementById('comment');
+      textarea.value += replytext;
+
+      textarea.focus();
+  }
+
+  if (typeof Node == 'undefined') {
+      /* MSIE doesn't define Node, so provide a compatibility object */
+      window.Node = {
+          TEXT_NODE: 3,
+          ENTITY_REFERENCE_NODE: 5
+      };
+  }
+
+  /* Concatenates all text from element's childNodes. This is used
+   * instead of innerHTML because we want the actual text (and
+   * innerText is non-standard).
+   */
+  function getText(element) {
+      var child, text = "";
+      for (var i=0; i < element.childNodes.length; i++) {
+          child = element.childNodes[i];
+          var type = child.nodeType;
+          if (type == Node.TEXT_NODE || type == Node.ENTITY_REFERENCE_NODE) {
+              text += child.nodeValue;
+          } else {
+              /* recurse into nodes of other types */
+              text += getText(child);
+          }
+      }
+      return text;
+  }
+
+
+  /* Index all classifications so we can keep track of the classification
+   * for the selected product, which could control field visibility.
+   */
+  var all_classifications = new Array(1);
+      all_classifications['PySide'] = 'Unclassified';
+
+  //-->
+  </script>
+
+<form name="changeform" id="changeform" method="post" action="process_bug.cgi">
+
+  <input type="hidden" name="delta_ts" value="2011-05-26 17:04:12">
+  <input type="hidden" name="longdesclength" value="32">
+  <input type="hidden" name="id" value="505">
+  <input type="hidden" name="token" value="1336600118-cfbd86003e152baf4d830112cf29e35b">
+<div class="bz_alias_short_desc_container edit_form">
+     <a href="show_bug.cgi?id=505"><b>Bug&nbsp;505</b></a> -<span id="summary_alias_container" class="bz_default_hidden"> 
+      <span id="short_desc_nonedit_display">CppObject was destroyed before __del__ be called</span>
+     </span>
+  
+       
+    <div id="summary_alias_input">
+      <table id="summary">  
+        
+        <tr>
+          <td>
+            <label accesskey="s" for="short_desc"><u>S</u>ummary</label>:
+          </td>
+          <td>CppObject was destroyed before __del__ be called
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script type="text/javascript">
+    hideAliasAndSummary('CppObject was destroyed before __del__ be called', '');
+  </script>
+  <table class="edit_form">
+    <tr>
+      
+      <td id="bz_show_bug_column_1" class="bz_show_bug_column">     
+        <table>
+          <tr>
+    <td class="field_label">
+      <b><a href="page.cgi?id=fields.html#status">Status</a></b>:
+    </td>
+    <td id="bz_field_status">
+      <span id="static_bug_status">CLOSED
+          FIXED
+      </span>
+    </td>
+  </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          <tr><th class="field_label "
+    id="field_label_product">
+
+
+  <a 
+      title="Bugs are categorised into Products and Components."
+      class="field_help_link"
+      href="describecomponents.cgi"
+  >Product:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_product" >PySide</td>
+    </tr>
+
+    
+    <tr class="bz_default_hidden"><th class="field_label "
+    id="field_label_classification">
+
+
+  <a 
+      title="Bugs are categorised into Classifications, Products and Components. classifications is the top-level categorisation."
+      class="field_help_link"
+      href="page.cgi?id=fields.html#classification"
+  >Classification:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_classification" >Unclassified</td>
+    </tr>
+        
+    
+    
+    <tr><th class="field_label "
+    id="field_label_component">
+
+
+  <a 
+      title="Components are second-level categories; each belongs to a particular Product. Select a Product to narrow down this list."
+      class="field_help_link"
+      href="describecomponents.cgi?product=PySide"
+  >Component:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_component" >Shiboken</td>
+    </tr>
+    <tr>
+      <td class="field_label">
+        <label for="version"><b>Version</b></label>:
+      </td>
+<td>HEAD
+  </td>
+    </tr>
+        
+    
+        
+    <tr>
+      <td class="field_label">
+        <label for="rep_platform" accesskey="h"><b>Platform</b></label>:
+      </td>
+      <td class="field_value">PC
+       MS Windows XP/Vista/7
+       <script type="text/javascript">
+         assignToDefaultOnChange(['product', 'component']);
+       </script>
+      </td>
+    </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          
+          <tr>
+      <td class="field_label">
+        <label for="priority" accesskey="i">
+          <b><a href="page.cgi?id=fields.html#importance"><u>I</u>mportance</a></b></label>:
+      </td>
+      <td>P4
+       normal
+      </td>
+    </tr>            
+          
+          <tr>
+      <td class="field_label">
+        <b><a href="page.cgi?id=fields.html#assigned_to">Assigned To</a></b>:
+      </td>
+      <td><span class="vcard"><span class="fn">renato filho</span>
+</span>
+      </td>
+    </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          <tr>
+    <td class="field_label">
+      <label for="bug_file_loc" accesskey="u"><b>
+          <u>U</u>RL</b></label>:
+    </td>
+    <td>
+      <span id="bz_url_input_area">
+      </span>
+    </td>
+  </tr>
+          <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+          
+          <tr><th class="field_label">
+    <label for="dependson">Depends&nbsp;on</label>:
+  </th>
+  <td>    
+    <span id="dependson_input_area">
+    </span>
+    
+  </td>
+  </tr>
+  
+  <tr><th class="field_label">
+    <label for="blocked" accesskey="b"><u>B</u>locks</label>:
+  </th>
+  <td>    
+    <span id="blocked_input_area">
+    </span>
+    
+  </td>
+  
+  <tr>
+    <th>&nbsp;</th>
+  
+    <td colspan="2" align="left" id="show_dependency_tree_or_graph">
+      Show dependency <a href="showdependencytree.cgi?id=505&amp;hide_resolved=1">tree</a>
+  
+        /&nbsp;<a href="showdependencygraph.cgi?id=505">graph</a>
+    </td>
+  </tr>
+          
+        </table>
+      </td>
+      <td>
+        <div class="bz_column_spacer">&nbsp;</div>
+      </td>
+      
+      <td id="bz_show_bug_column_2" class="bz_show_bug_column">
+        <table cellpadding="3" cellspacing="1">
+        <tr>
+    <td class="field_label">
+      <b>Reported</b>:
+    </td>
+    <td>2010-11-26 18:17 EET by <span class="vcard"><span class="fn">renato filho</span>
+</span>
+    </td>
+  </tr>
+  
+  <tr>
+    <td class="field_label">
+      <b> Modified</b>:
+    </td>
+    <td>2011-05-26 17:04 EEST 
+      (<a href="show_activity.cgi?id=505">History</a>)
+    </td>
+  
+  </tr>
+         <tr>
+      <td class="field_label">
+        <label for="newcc" accesskey="a"><b>CC List</b>:</label>
+      </td>
+      <td>9 
+          users
+          <span id="cc_edit_area_showhide_container" class="bz_default_hidden">
+            (<a href="#" id="cc_edit_area_showhide">show</a>)
+          </span>
+        <div id="cc_edit_area">
+          <br>
+            <select id="cc" name="cc" multiple="multiple" size="5">
+                <option value="bruno.araujo">bruno.araujo</option>
+                <option value="farsmo">farsmo</option>
+                <option value="hugo.lima">hugo.lima</option>
+                <option value="lauro.neto">lauro.neto</option>
+                <option value="luciano.wolf">luciano.wolf</option>
+                <option value="marcelo.lira">marcelo.lira</option>
+                <option value="matti.p.airas">matti.p.airas</option>
+                <option value="renatox">renatox</option>
+                <option value="willer.moreira">willer.moreira</option>
+            </select>
+        </div>
+          <script type="text/javascript">
+            hideEditableField( 'cc_edit_area_showhide_container', 
+                               'cc_edit_area', 
+                               'cc_edit_area_showhide', 
+                               '', 
+                               '');  
+          </script>
+      </td>
+    </tr>
+         <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+<tr><th class="field_label "
+    id="field_label_see_also">
+
+
+  <a 
+      title="This allows you to refer to bugs in other installations. You can enter a URL to a bug in the 'Add Bug URLs' field to note that that bug is related to this one. You can enter multiple URLs at once by separating them with a comma. You should normally use this field to refer to bugs in other installations. For bugs in this installation, it is better to use the Depends on and Blocks fields."
+      class="field_help_link"
+      href="page.cgi?id=fields.html#see_also"
+  >See Also:</a>
+
+</th>
+  <td class="field_value "
+      id="field_container_see_also" ></td>
+    </tr> 
+         
+         <tr>
+    <td colspan="2" class="bz_section_spacer"></td>
+  </tr>
+         
+                
+
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+          <hr id="bz_top_half_spacer">
+      </td>
+    </tr>
+  </table>
+
+  <table id="bz_big_form_parts" cellspacing="0" cellpadding="0"><tr>
+  <td>
+
+    
+<script type="text/javascript">
+<!--
+function toggle_display(link) {
+    var table = document.getElementById("attachment_table");
+    // Store current height for scrolling later
+    var originalHeight = table.offsetHeight;
+    var rows = YAHOO.util.Dom.getElementsByClassName(
+        'bz_tr_obsolete', 'tr', table);
+
+    for (var i = 0; i < rows.length; i++) {
+        bz_toggleClass(rows[i], 'bz_default_hidden');
+    }
+
+    if (YAHOO.util.Dom.hasClass(rows[0], 'bz_default_hidden')) {
+        link.innerHTML = "Show Obsolete";
+    }
+    else {
+        link.innerHTML = "Hide Obsolete";
+    }
+
+    var newHeight = table.offsetHeight;
+    // This scrolling makes the window appear to not move at all.
+    window.scrollBy(0, newHeight - originalHeight);
+
+    return false;
+}
+//-->
+</script>
+
+<br>
+<table id="attachment_table" cellspacing="0" cellpadding="4">
+  <tr id="a0">
+    <th colspan="2" align="left">
+      Attachments
+    </th>
+  </tr>
+
+
+
+  <tr class="bz_attach_footer">
+    <td colspan="2">
+        <a href="attachment.cgi?bugid=505&amp;action=enter">Add an attachment</a>
+        (proposed patch, testcase, etc.)
+    </td>
+  </tr>
+</table>
+<br>
+<div id="add_comment" class="bz_section_additional_comments">
+      <table><tr><td><fieldset>
+        <legend>Note</legend>
+        You need to
+        <a href="show_bug.cgi?id=505&amp;GoAheadAndLogIn=1">log in</a>
+         before you can comment on or make changes to this bug.
+      </fieldset></table><tr></td>
+  </div>
+  </td>
+  <td>
+  </td>
+  </tr></table>
+
+  
+  <div id="comments"><script src="js/comments.js" type="text/javascript">
+</script>
+
+
+
+
+
+
+
+<!-- This auto-sizes the comments and positions the collapse/expand links 
+     to the right. -->
+<table class="bz_comment_table" cellpadding="0" cellspacing="0"><tr>
+<td>
+<div id="c0" class="bz_comment bz_first_comment">
+
+      <div class="bz_first_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c0">Description</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">renato filho</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2010-11-26 18:17:48 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >the cpp object is deleted before the python __del__ function, then if you need
+use self inside this __del__ function you get the error: 
+
+&quot;RuntimeError: Internal C++ object (%s) already deleted&quot;
+
+effected examples:
+
+pyside-examples/examples/opengl/overpainting.py
+pyside-examples/examples/opengl/textures/textures.py
+pyside-examples/examples/network/blockingfortuneclient.py</pre>
+    </div>
+  <div id="c1" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c1">Comment 1</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Matti Airas</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2010-11-29 06:07:44 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >This must be a regression - at least the fortuneclients all used to work, IIRC.
+
+Prioritizing P2.</pre>
+    </div>
+  <div id="c2" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c2">Comment 2</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">renato filho</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2010-12-03 21:04:26 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >*** <span class="bz_closed"><a href="show_bug.cgi?id=521" title="CLOSED DUPLICATE - &quot;Internal C++ object (GLWidget) already deleted&quot; after running examples">Bug 521</a></span> has been marked as a duplicate of this bug. ***</pre>
+    </div>
+  <div id="c3" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c3">Comment 3</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">renato filho</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2010-12-14 18:19:31 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >fixed on shiboken commit:
+
+commit fb4035a69475759e58e25d5aa0f061d6c212f4af
+Author: Renato Araujo Oliveira Filho &lt;renato.filho&#64;openbossa.org&gt;
+Date:   Tue Dec 14 15:19:37 2010 -0300</pre>
+    </div>
+  <div id="c4" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c4">Comment 4</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2010-12-20 11:26:09 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Closign bugs after release of 1.0.0 beta2.</pre>
+    </div>
+  <div id="c5" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c5">Comment 5</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Farsmo</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-17 20:23:47 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >On Windows 1.0.0-beta3, this is still not fixed.</pre>
+    </div>
+  <div id="c6" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c6">Comment 6</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Matti Airas</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-18 07:57:27 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >OK, retaining P2 prioritization until the issue has been re-investigated.</pre>
+    </div>
+  <div id="c7" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c7">Comment 7</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-18 18:47:07 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >It works on Linux, we are going to check it on Windows and add a unit test.</pre>
+    </div>
+  <div id="c8" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c8">Comment 8</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-19 15:50:34 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >The __del__ still get called before the C++ object get destroyed, but...
+
+Before the destruction of Q(Core)Application we need to destroy all QObjects to
+avoid dead locks beside other issues... when fixing <span class="bz_closed"><a href="show_bug.cgi?id=552" title="CLOSED FIXED - Segmentation fault when using QUiLoader and QTabWidget">bug 552</a></span> I saw that we were
+destroying the QObjects but not setting the object as invalid, so when the
+__del__ gets called by the Python interpreter if the python object access the
+C++ object a crash could happen because the Python object didn't get the notice
+that the C++ object was deleted.
+
+I fixed this in a local commit as it is the fix for <span class="bz_closed"><a href="show_bug.cgi?id=552" title="CLOSED FIXED - Segmentation fault when using QUiLoader and QTabWidget">bug 552</a></span> and now it sets the
+object as invalid and you get the runtime exception, but...
+
+Conclusion: When inside the __del__ method you can have access to the C++
+object or not, it depends if the QApplication was destroyed or not and if your
+class is inherited from QObject.
+
+I can easilly fix the examples by connecting using the destroyed signal, but I
+guess we should open another bug to document this __del__ behaviour somewhere.</pre>
+    </div>
+  <div id="c9" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c9">Comment 9</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Farsmo</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-19 20:35:07 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >(In reply to <a href="show_bug.cgi?id=505#c8">comment #8</a>)
+<span class="quote">&gt; Before the destruction of Q(Core)Application we need to destroy all QObjects to
+&gt; avoid dead locks beside other issues...</span >
+
+I assume this is a PySide-only behavior? If so, is there something that
+prevents you from deleting objects at the Shiboken/Python level rather than
+doing it only at the Qt/C++ level? And if you can't delete them, wouldn't it
+still be possible to call their __del__ method and replace the whole object by
+a placeholder that raises an exception whenever any method is called? (that is,
+it would be like the solution you're describing except it would include Python
+code instead of stopping at the C++ boundary)</pre>
+    </div>
+  <div id="c10" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c10">Comment 10</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-20 13:32:17 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" ><span class="quote">&gt; Yes it works fine.
+&gt; 
+&gt; I don't really like removing the mutex as it relies on the existence of a GIL
+&gt; (CPython itself hopes to remove it at some point). A simple renaming of __del__
+&gt; could do the job just as well:</span >
+
+You are right, it's even simpler.
+
+<span class="quote">&gt; (In reply to <a href="show_bug.cgi?id=505#c10">comment #10</a>)
+&gt; &gt; The problem with the Python code is that it rely on the object destruction
+&gt; &gt; order, but Python don't have a deterministic one as C++ have, this is why the
+&gt; &gt; C++ code works without warning and the Python one not.
+&gt; 
+&gt; Not really: I don't think Python would delete a base class instance before it
+&gt; deletes the derived class instance. So it should be possible for __del__ to be
+&gt; called with the guarantee that the QThread hasn't been destroyed.</span >
+
+There's no two instances, no matter how many base classes exists there will be
+just one PyObject and this PyObject need to have info about the C++ Object(s)
+it represents so when the object dies it dies.</pre>
+    </div>
+  <div id="c11" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c11">Comment 11</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Farsmo</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-20 13:46:17 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >What about <a href="show_bug.cgi?id=505#c9">comment #9</a>?</pre>
+    </div>
+  <div id="c12" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c12">Comment 12</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-20 13:48:11 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >(In reply to <a href="show_bug.cgi?id=505#c9">comment #9</a>)
+<span class="quote">&gt; (In reply to <a href="show_bug.cgi?id=505#c8">comment #8</a>)
+&gt; &gt; Before the destruction of Q(Core)Application we need to destroy all QObjects to
+&gt; &gt; avoid dead locks beside other issues...
+&gt; 
+&gt; I assume this is a PySide-only behavior? If so, is there something that
+&gt; prevents you from deleting objects at the Shiboken/Python level rather than
+&gt; doing it only at the Qt/C++ level? And if you can't delete them, wouldn't it
+&gt; still be possible to call their __del__ method and replace the whole object by
+&gt; a placeholder that raises an exception whenever any method is called? (that is,
+&gt; it would be like the solution you're describing except it would include Python
+&gt; code instead of stopping at the C++ boundary)</span >
+
+The problem is:
+
+We overwrite QCoreApplication::notify method because it's virtual and need to
+be overwritten to add the possibility to the user to reimplement it in Python.
+
+When the Python interpreter dies, you can't call any Python C API function, and
+our version of the notify method do.
+
+When any QObject dies, if there's a QApplication it will call the notify method
+to tell about your death.
+
+This problem isn't limited to the notify method, but for any virtual method
+that could be called at destruction time of any class.
+
+We need to make sure that QApplication will be the last QObject to die, to
+prove the problem try this C++ example:
+
+#include &lt;QtCore&gt;
+#include &lt;QtGui&gt;
+
+int main(int argc, char** argv) {
+    QApplication* app = new QApplication(argc, argv);
+    QWidget* w = new QWidget;
+    w-&gt;show();
+    app-&gt;exec();
+    delete app;
+    delete w;
+}
+
+
+The solution? We need to make sure that QApplication will be the last one to
+die, how!? Killing all other QObjects alive.
+
+When we kill a QObject, we don't kill their Python reference (because we
+can't!), we just delete the underlying C++ object and set the object as
+invalid, so why not calling the __del__ at this moment!?
+
+Because if we call the __del__ by ourselves, when the last reference to this
+Python object vanishes the Python interpreter will call the __del__ method
+again and for sure this is not a desired effect.
+
+Why PyQt works? because it doesn't call the __del__ method and probably does
+not even delete the QApplication to avoid this kind of problems. IMO this isn't
+an option, so we took the decision of avoid this memory leak and suffer the
+consequences</pre>
+    </div>
+  <div id="c13" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c13">Comment 13</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-20 13:51:39 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >(In reply to <a href="show_bug.cgi?id=505#c9">comment #9</a>)
+<span class="quote">&gt; (In reply to <a href="show_bug.cgi?id=505#c8">comment #8</a>)
+&gt; &gt; Before the destruction of Q(Core)Application we need to destroy all QObjects to
+&gt; &gt; avoid dead locks beside other issues...
+&gt; 
+&gt; I assume this is a PySide-only behavior? If so, is there something that
+&gt; prevents you from deleting objects at the Shiboken/Python level rather than
+&gt; doing it only at the Qt/C++ level? And if you can't delete them, wouldn't it
+&gt; still be possible to call their __del__ method and replace the whole object by
+&gt; a placeholder that raises an exception whenever any method is called? (that is,
+&gt; it would be like the solution you're describing except it would include Python
+&gt; code instead of stopping at the C++ boundary)</span >
+
+Calling the __del__ method when the objects still having a lot of references
+sounds to me like a rape to Python reference model, but you could argue that in
+pratice it's not too much different of setting a object as invalid because in
+both cases the object will be useless for a period of time.</pre>
+    </div>
+  <div id="c14" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c14">Comment 14</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Farsmo</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-20 21:21:27 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >(In reply to <a href="show_bug.cgi?id=505#c12">comment #12</a>)
+<span class="quote">&gt; int main(int argc, char** argv) {
+&gt;     QApplication* app = new QApplication(argc, argv);
+&gt;     QWidget* w = new QWidget;
+&gt;     w-&gt;show();
+&gt;     app-&gt;exec();
+&gt;     delete app;
+&gt;     delete w;
+&gt; }</span >
+
+The code works on my system, and I don't see any problem with it: you have to
+construct the QWidget after the QApplication but there's no reason you need to
+delete it before deleting the QApplication. The code of ~QWidget takes steps to
+handle this case, so it seems logical that it should be supported. Does it say
+anywhere in the Qt doc that this is a bad idea?
+
+
+Regarding PySide destruction: I'm not sure what exactly is happening. You're
+saying that you're cleaning up when the interpreter is exiting, and that at
+that point no Python code can run. Fine, but what happens to QThreads that are
+running? Are they still running Python code, or are they suspended? If they're
+still running, is the Python code executed successfully or will it crash?
+
+If interpreter death is an issue, would it be feasible to move forward the
+destruction of objects so that it happens when the interpreter is still alive?
+
+Also, why is it so important to destroy objects when the process is exiting,
+apart from the fact that it sounds cleaner? Are there platforms where the OS
+can't clean up everything that Qt has allocated?
+
+I understand your final point: forcefully destroying objects in a way that's
+not transparent is highly unexpected in a scripting language, but if we're
+really forced to do it then there's no harm in letting Python code know that
+(so it can better deal with this forceful destruction). However it might not be
+easy to implement, because we don't want to just destroy objects in a random
+order...</pre>
+    </div>
+  <div id="c15" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c15">Comment 15</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-21 10:56:38 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >(In reply to <a href="show_bug.cgi?id=505#c14">comment #14</a>)
+<span class="quote">&gt; (In reply to <a href="show_bug.cgi?id=505#c12">comment #12</a>)
+&gt; &gt; int main(int argc, char** argv) {
+&gt; &gt;     QApplication* app = new QApplication(argc, argv);
+&gt; &gt;     QWidget* w = new QWidget;
+&gt; &gt;     w-&gt;show();
+&gt; &gt;     app-&gt;exec();
+&gt; &gt;     delete app;
+&gt; &gt;     delete w;
+&gt; &gt; }
+&gt; 
+&gt; The code works on my system, and I don't see any problem with it: you have to
+&gt; construct the QWidget after the QApplication but there's no reason you need to
+&gt; delete it before deleting the QApplication. The code of ~QWidget takes steps to
+&gt; handle this case, so it seems logical that it should be supported. Does it say
+&gt; anywhere in the Qt doc that this is a bad idea?</span >
+
+If it works for you it was a matter of coincidence, because with me if
+segfaults 100% of times.
+
+[hugo&#64;thinkpadugo foo  4.7] $ cat &gt; main.cpp                                    
+#include &lt;QtCore&gt;                                                               
+#include &lt;QtGui&gt;                                                                
+
+int main(int argc, char** argv) {                                               
+    QApplication* app = new QApplication(argc, argv);                           
+    QWidget* w = new QWidget;                                                   
+    w-&gt;show();                                                                  
+    app-&gt;exec();                                                                
+    delete app;                                                                 
+    delete w;                                                                   
+}                                                                               
+
+[hugo&#64;thinkpadugo foo  4.7] $ qmake -project                                    
+[hugo&#64;thinkpadugo foo  4.7] $ qmake                                             
+[hugo&#64;thinkpadugo foo  4.7] $ make                                              
+g++ -c -m64 -pipe -march=x86-64 -mtune=generic -O2 -pipe -Wall -W -D_REENTRANT
+-DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED
+-I/usr/share/qt/mkspecs/linux-g++-64 -I. -I/usr/include/QtCore
+-I/usr/include/QtGui -I/usr/include -I. -I. -o main.o main.cpp                  
+g++ -m64 -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-O1 -o foo main.o   
+-L/usr/lib -lQtGui -lQtCore -lpthread                                           
+[hugo&#64;thinkpadugo foo  4.7] $ ./foo                                             
+Segmentation fault                                                              
+[hugo&#64;thinkpadugo foo  4.7] $ gdb ./foo                                         
+GNU gdb (GDB) 7.2                                                               
+Copyright (C) 2010 Free Software Foundation, Inc.                               
+License GPLv3+: GNU GPL version 3 or later &lt;<a href="http://gnu.org/licenses/gpl.html">http://gnu.org/licenses/gpl.html</a>&gt;   
+This is free software: you are free to change and redistribute it.              
+There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;      
+and &quot;show warranty&quot; for details.                                                
+This GDB was configured as &quot;x86_64-unknown-linux-gnu&quot;.                          
+For bug reporting instructions, please see:                                     
+&lt;<a href="http://www.gnu.org/software/gdb/bugs/">http://www.gnu.org/software/gdb/bugs/</a>&gt;...                                      
+Reading symbols from /tmp/foo/foo...(no debugging symbols found)...done.        
+(gdb) r                                                                         
+Starting program: /tmp/foo/foo                                                  
+[Thread debugging using libthread_db enabled]                                   
+Qt: gdb: -nograb added to command-line options.                                 
+         Use the -dograb option to enforce grabbing.                            
+
+Program received signal SIGSEGV, Segmentation fault.                            
+0x00007ffff73096d1 in QX11WindowSurface::~QX11WindowSurface (this=0x64f050,
+__in_chrg=&lt;value optimized out&gt;) at
+/home/hugo/src/qt/src/gui/painting/qwindowsurface_x11.cpp:84                    
+84              XFreeGC(X11-&gt;display, gc);                                      
+(gdb) bt                                                                        
+#0  0x00007ffff73096d1 in QX11WindowSurface::~QX11WindowSurface (this=0x64f050,
+__in_chrg=&lt;value optimized out&gt;) at
+/home/hugo/src/qt/src/gui/painting/qwindowsurface_x11.cpp:84                    
+#1  0x00007ffff730974c in QX11WindowSurface::~QX11WindowSurface (this=0x64f050,
+__in_chrg=&lt;value optimized out&gt;) at
+/home/hugo/src/qt/src/gui/painting/qwindowsurface_x11.cpp:87                    
+#2  0x00007ffff7303203 in QWidgetBackingStore::~QWidgetBackingStore
+(this=0x79a960, __in_chrg=&lt;value optimized out&gt;) at
+/home/hugo/src/qt/src/gui/painting/qbackingstore.cpp:883                        
+#3  0x00007ffff70be473 in QWidgetBackingStoreTracker::destroy (this=0x793260)
+at /home/hugo/src/qt/src/gui/kernel/qwidget.cpp:205                             
+#4  0x00007ffff70c15d2 in QWidgetPrivate::deleteExtra (this=0x673ff0) at
+/home/hugo/src/qt/src/gui/kernel/qwidget.cpp:1750                               
+#5  0x00007ffff70beb0c in QWidgetPrivate::~QWidgetPrivate (this=0x673ff0,
+__in_chrg=&lt;value optimized out&gt;) at
+/home/hugo/src/qt/src/gui/kernel/qwidget.cpp:318                                
+#6  0x00007ffff70bed94 in QWidgetPrivate::~QWidgetPrivate (this=0x673ff0,
+__in_chrg=&lt;value optimized out&gt;) at
+/home/hugo/src/qt/src/gui/kernel/qwidget.cpp:323                                
+#7  0x00007ffff6251b58 in QScopedPointerDeleter&lt;QObjectData&gt;::cleanup
+(pointer=0x673ff0) at
+../../include/QtCore/../../../qt/src/corelib/tools/qscopedpointer.h:62          
+#8  0x00007ffff62505e9 in QScopedPointer&lt;QObjectData,
+QScopedPointerDeleter&lt;QObjectData&gt; &gt;::~QScopedPointer (this=0x604658,
+__in_chrg=&lt;value optimized out&gt;)                                                
+    at ../../include/QtCore/../../../qt/src/corelib/tools/qscopedpointer.h:100  
+#9  0x00007ffff6249825 in QObject::~QObject (this=0x604650, __in_chrg=&lt;value
+optimized out&gt;) at /home/hugo/src/qt/src/corelib/kernel/qobject.cpp:817         
+#10 0x00007ffff70c0e8d in QWidget::~QWidget (this=0x604650, __in_chrg=&lt;value
+optimized out&gt;) at /home/hugo/src/qt/src/gui/kernel/qwidget.cpp:1477            
+#11 0x00007ffff70c0fee in QWidget::~QWidget (this=0x604650, __in_chrg=&lt;value
+optimized out&gt;) at /home/hugo/src/qt/src/gui/kernel/qwidget.cpp:1620            
+#12 0x00000000004008de in main ()                                               
+
+No matter if I use Qt in debug mode or the Qt in release mode used by my own
+system.
+
+<span class="quote">&gt; Regarding PySide destruction: I'm not sure what exactly is happening. You're
+&gt; saying that you're cleaning up when the interpreter is exiting, and that at
+&gt; that point no Python code can run. Fine, but what happens to QThreads that are
+&gt; running? Are they still running Python code, or are they suspended? If they're
+&gt; still running, is the Python code executed successfully or will it crash?</span >
+
+No, they will die because we kill all QObjects, anyway if the program finishes
+and not all your threads get finished you have a logic problem on your code.
+
+<span class="quote">&gt; If interpreter death is an issue, would it be feasible to move forward the
+&gt; destruction of objects so that it happens when the interpreter is still alive?
+&gt; 
+&gt; Also, why is it so important to destroy objects when the process is exiting,
+&gt; apart from the fact that it sounds cleaner? Are there platforms where the OS
+&gt; can't clean up everything that Qt has allocated?</span >
+
+That's no just about memory, but resources in general, like flushing contents
+to files, etc...  many of these tasks are done on destructors when programming
+in C++. Clean exit is crucial for any well formed program.
+
+<span class="quote">&gt; I understand your final point: forcefully destroying objects in a way that's
+&gt; not transparent is highly unexpected in a scripting language, but if we're
+&gt; really forced to do it then there's no harm in letting Python code know that
+&gt; (so it can better deal with this forceful destruction). However it might not be
+&gt; easy to implement, because we don't want to just destroy objects in a random
+&gt; order...</span >
+
+In PySide we have more reliable alternatives to the __del__ method like the
+destroyed signal, so I guess that what we should do is to document why you can
+have problems writing your own __del__ function.</pre>
+    </div>
+  <div id="c16" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c16">Comment 16</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-21 11:00:13 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >(In reply to <a href="show_bug.cgi?id=505#c14">comment #14</a>)
+<span class="quote">&gt; If interpreter death is an issue, would it be feasible to move forward the
+&gt; destruction of objects so that it happens when the interpreter is still alive?</span >
+
+Oops, I forgot this one.
+
+We already do it, we destroy the (C++) objects when the interpreter still
+alive, but we can't decref all Python references to destroy the PyObjects as
+well. If we do so the Python interpreter probably will crash because we can
+only decref references that we own... this is the law in Python C API.</pre>
+    </div>
+  <div id="c17" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c17">Comment 17</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-26 10:25:47 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >So... Can I re-close this bug?</pre>
+    </div>
+  <div id="c18" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c18">Comment 18</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Matti Airas</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-26 10:56:00 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >(In reply to <a href="show_bug.cgi?id=505#c17">comment #17</a>)
+<span class="quote">&gt; So... Can I re-close this bug?</span >
+
+If you think the issue is resolved, of course.</pre>
+    </div>
+  <div id="c19" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c19">Comment 19</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-27 14:44:58 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >I think it's, and I think Farsno understood the whole picture of the __del__
+method in Qt bindings, so re-closing it!</pre>
+    </div>
+  <div id="c20" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c20">Comment 20</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Farsmo</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-27 15:23:35 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Sorry, didn't have time to respond any sooner.
+
+Your answers were very helpful in clarifying what currently happens, but there
+are still some complex issues to discuss.
+
+All QWidgets need to be deleted before QApplication on X11 because
+~QApplication closes the X11 display, and QWidget::destroy does not expect
+that. This might actually be a bug in Qt/X11, since the behavior is not
+documented, does not happen on Windows and there are checks to avoid similar
+crashes in ~QWidget; perhaps the call to XFreeGC is simply missing a null
+check.
+
+On the other hand, deleting other kinds of objects should not depend on the
+existence of a QApplication. If your Qt application has a backend library that
+uses QFile instead of Python files, then when you use that library in a non-GUI
+context you still expect the QFiles to be flushed, even if you don't create a
+QCoreApplication. Note that Python itself does not force the destruction of
+file objects, but it relies on the C library to flush its FILEs on exit. So
+this means the Python destructor never gets called: perhaps we could do the
+same with PySide, simply deleting all remaining QObjects when the Python
+interpreter dies. That way Python never has to care about whether the internal
+C++ object has been deleted...
+
+In order to solve the first issue, would it make sense to delay the destruction
+of QApplication instead of advancing the destruction of QWidget? One way to do
+it would be to add a reference from all Shiboken-managed QWidgets to qApp,
+since the fact that ~QWidget depends on qApp is a hidden form of dependency
+that Python must be made aware of.
+
+
+Then, the most important question that needs to be answered is: do we want
+destructors to only release low-level system resources (which can adequately be
+handled by C++ destructors, and looks very much like what plain Python does),
+or do we want to allow them to do some application-specific stuff like
+requesting some QThreads to stop?
+
+In the latter case, we can't rely on Python's garbage-collection if we NEED all
+QWidgets to be deleted even if they are in a cycle, and since as you point out
+we can't request Python to forcefully delete an object, we should call both
+Python and C++ destructors and replace the object by a dummy object (which is
+exactly like what PySide does right now, except that it would include both the
+Python and C++ layer instead of just the C++ one).
+
+I don't think there's any reason to avoid calling the __del__ method:
+QObject.destroyed can get called too late to be of any use (for example it gets
+called after the QThread has been destroyed).
+
+As soon as Python destructors come into play, it is also vital to consider the
+order of execution: you wouldn't want to call the destructor of the QThread
+before the destructor of the QWidget, for example.
+At this point, there are two solutions:
+- consider only the QObject children tree
+- consider the graph formed by both QObject children and Python references
+
+The issue with the first solution is that it introduces a lot of
+non-determinism if the program forgets to make instance variables it uses in
+the destructor children of self, potentially causing program crashes
+consequently to PySide updates or platform changes.
+
+The issue with the second solution is that it forces us to walk the whole graph
+of Python objects, storing a boolean flag for each Python object to remember
+whether it was visited. If a number of Python objects were swapped to disk,
+this might make program shutdown very slow (but perhaps Python shutdown itself
+would be slow in this case?)</pre>
+    </div>
+  <div id="c21" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c21">Comment 21</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-27 16:30:01 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >(In reply to <a href="show_bug.cgi?id=505#c20">comment #20</a>)
+<span class="quote">&gt; Sorry, didn't have time to respond any sooner.
+&gt; 
+&gt; Your answers were very helpful in clarifying what currently happens, but there
+&gt; are still some complex issues to discuss.
+&gt; 
+&gt; All QWidgets need to be deleted before QApplication on X11 because
+&gt; ~QApplication closes the X11 display, and QWidget::destroy does not expect
+&gt; that. This might actually be a bug in Qt/X11, since the behavior is not
+&gt; documented, does not happen on Windows and there are checks to avoid similar
+&gt; crashes in ~QWidget; perhaps the call to XFreeGC is simply missing a null
+&gt; check.</span >
+
+I filed a bug on Qt about this issue:
+
+<a href="http://bugreports.qt.nokia.com/browse/QTBUG-16974">http://bugreports.qt.nokia.com/browse/QTBUG-16974</a>
+
+Anyway Linux is our major target platform and PySide should work well on it, so
+if it's a Qt bug consider our current behaviour as a workaround.
+
+<span class="quote">&gt; On the other hand, deleting other kinds of objects should not depend on the
+&gt; existence of a QApplication. If your Qt application has a backend library that
+&gt; uses QFile instead of Python files, then when you use that library in a non-GUI
+&gt; context you still expect the QFiles to be flushed, even if you don't create a
+&gt; QCoreApplication. Note that Python itself does not force the destruction of
+&gt; file objects, but it relies on the C library to flush its FILEs on exit. So
+&gt; this means the Python destructor never gets called: perhaps we could do the
+&gt; same with PySide, simply deleting all remaining QObjects when the Python
+&gt; interpreter dies. That way Python never has to care about whether the internal
+&gt; C++ object has been deleted...</span >
+
+Your files will be flushed, QFile destructors always are going to be called and
+QFile flushes the contents on the destructor as any other file abstraction I
+ever saw in C++. The Python __del__ operator also gets called, but depending on
+the context it can be called when the QFile was already deleted or not, this is
+the problem, because called it will be, for sure.
+
+<span class="quote">&gt; In order to solve the first issue, would it make sense to delay the destruction
+&gt; of QApplication instead of advancing the destruction of QWidget? One way to do
+&gt; it would be to add a reference from all Shiboken-managed QWidgets to qApp,
+&gt; since the fact that ~QWidget depends on qApp is a hidden form of dependency
+&gt; that Python must be made aware of.</span >
+
+Delay the destruction of the QApplication is another way to solve the problem
+but causes other issues as well and I'm not sure if this solution is really
+better than the current one.
+
+<span class="quote">&gt; Then, the most important question that needs to be answered is: do we want
+&gt; destructors to only release low-level system resources (which can adequately be
+&gt; handled by C++ destructors, and looks very much like what plain Python does),
+&gt; or do we want to allow them to do some application-specific stuff like
+&gt; requesting some QThreads to stop?
+&gt; 
+&gt; In the latter case, we can't rely on Python's garbage-collection if we NEED all
+&gt; QWidgets to be deleted even if they are in a cycle, and since as you point out
+&gt; we can't request Python to forcefully delete an object, we should call both
+&gt; Python and C++ destructors and replace the object by a dummy object (which is
+&gt; exactly like what PySide does right now, except that it would include both the
+&gt; Python and C++ layer instead of just the C++ one).</span >
+
+A prefer an exception being throw than an method call that silently does
+nothing, so I think having a dummy object isn't a good idea if I understood
+correctly.
+
+<span class="quote">&gt; [snip]</span >
+
+Well... if the Qt bug gets solved we can forget all this discussion and all
+will be magically solved, otherwise we still in the same situation:
+
+* __del__ *always* get called if the Python interpreter wants to (this is why I
+think this bug is solved).
+* The underlying C++ object may be destroyed before the __del__ gets called if
+the QApplication was destroyed beforehand. the C++ object destruction was made
+to avoid the the bug QTBUG-16974.
+
+The last item is only thing that can cause complaints, but it's a well definied
+behaviour that exists to avoid a crash in Qt and as we saw, get ride of it
+isn't easy without a fix for QTBUG-16974.</pre>
+    </div>
+  <div id="c22" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c22">Comment 22</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Matti Airas</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-28 10:38:14 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Hugo, what do you think, should we reopen the bug and mark it WAITING for
+QTBUG-16974?</pre>
+    </div>
+  <div id="c23" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c23">Comment 23</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-28 11:09:32 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Could be, I'm doing it.</pre>
+    </div>
+  <div id="c24" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c24">Comment 24</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Hugo Parente Lima</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-28 11:31:31 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >The Qt bug was marked as invalid, the best thing that could happen is it to be
+interpreted as a documentation issue, so I'm re-re-closing this bug.</pre>
+    </div>
+  <div id="c25" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c25">Comment 25</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Farsmo</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-29 14:02:52 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >(In reply to <a href="show_bug.cgi?id=505#c21">comment #21</a>)
+<span class="quote">&gt; A prefer an exception being throw than an method call that silently does
+&gt; nothing, so I think having a dummy object isn't a good idea if I understood
+&gt; correctly.</span >
+
+Of course when I said dummy object I meant something that throws an exception
+when anything is called, not an object that ignores everything.
+
+I don't think QTBUG-16974 would help solve the problem at all, because we would
+still have to delete all QObjects to avoid unflushed QFiles when referenced by
+Python cycles, and similar issues with other classes.
+
+My proposal is simple: we should modify Shiboken::Object::destroy to append
+code after the GIL locking that:
+1. Calls the object's __del__, if any.
+2. Clears the Python __dict__ and whatever other variables may need to be
+released.
+3. Sets a flag in the SbkObject so that it now behaves as an exception-throwing
+dummy object.
+
+I can't really see any drawback to this approach, and it would help solve a lot
+of problems: destructors are vital in C++ to release various kinds of
+resources, and Python still has many resources to worry about (it's critical to
+clean up QThreads), so it's logical to give access to this tool to Python
+programmers.
+
+Look at your patch in <span class="bz_closed"><a href="show_bug.cgi?id=647" title="CLOSED FIXED - QGLWidget.bindTexture(QPixmap) causes program crash">bug 647</a></span>: you had to do something very dirty to work
+around the lack of __del__, namely waiting until the whole app has been closed
+to release the resources of a single widget. This doesn't scale well at all.
+
+Of course you can find other workarounds, but you would still end up with
+something rather cumbersome or inefficient.</pre>
+    </div>
+  <div id="c26" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c26">Comment 26</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Farsmo</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-29 14:07:30 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >And to clarify: in my proposal, a Shiboken object's __del__ method would never
+be called by Python itself, but always by Shiboken::Object::destroy. If Python
+decides to garbage-collect the object, it will look up the dummy object's
+__del__ method, which should be one of the few methods that does not throw an
+exception. The QObject's __del__ method is, of course, never called twice.</pre>
+    </div>
+  <div id="c27" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c27">Comment 27</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Farsmo</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-29 14:22:42 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Scratch that: __del__ can still get called by Python before destroying the
+object, so we should check that it hasn't been called.</pre>
+    </div>
+  <div id="c28" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c28">Comment 28</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Matti Airas</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-31 06:10:22 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >Since there still is traffic around this issue, I'm reopening the bug to ensure
+it won't get buried away. Re-close if you strongly disagree with this. :-)
+
+I'm also prioritizing this P4: maybe this can wait until after 1.0 to get
+fixed?</pre>
+    </div>
+  <div id="c29" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c29">Comment 29</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">Farsmo</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-01-31 12:29:55 EET
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >I'm not sure I agree with this priority: since __del__ gets called with an
+invalid object this creates regressions compared to PyQt, as evidenced by the
+many examples that had to be manually tweaked. Worse, since this can happen
+randomly it can be hard to diagnose, as evidenced by comments #1-#7.
+
+The good news is that I think it's fixable without adding much code.</pre>
+    </div>
+  <div id="c30" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c30">Comment 30</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">renato filho</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-05-24 00:32:35 EEST
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >fixed on commit:
+
+Shiboken:
+commit 728fb484a990408394dc56b137e951d11a251d54
+Author: Renato Filho &lt;renato.filho&#64;openbossa.org&gt;
+Date:   Mon May 23 11:42:14 2011 -0300
+
+PySide:
+commit 959aa385f576aca35f86fc04f8336e6a4ce044f1
+Author: Renato Filho &lt;renato.filho&#64;openbossa.org&gt;
+Date:   Mon May 23 11:39:17 2011 -0300</pre>
+    </div>
+  <div id="c31" class="bz_comment">
+
+      <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a 
+             href="show_bug.cgi?id=505#c31">Comment 31</a>
+        </span>
+
+        <span class="bz_comment_user"><span class="vcard"><span class="fn">renato filho</span>
+</span>
+        </span>
+
+        <span class="bz_comment_user_images">
+        </span>
+
+        <span class="bz_comment_time">
+          2011-05-26 17:04:12 EEST
+        </span>
+      </div>
+
+
+
+<pre class="bz_comment_text" >PySide release 1.0.3</pre>
+    </div>
+  
+
+
+  
+
+</td>
+<td>
+</td>
+</tr></table>
+  </div>
+        
+
+</form>
+
+<hr>
+<ul class="related_actions">
+    <li><a href="show_bug.cgi?format=multiple&amp;id=505">Format For Printing</a></li>
+    <li>&nbsp;-&nbsp;<a href="show_bug.cgi?ctype=xml&amp;id=505">XML</a></li>
+    <li>&nbsp;-&nbsp;<a href="enter_bug.cgi?cloned_bug_id=505">Clone This Bug</a></li>
+    
+    <li>&nbsp;-&nbsp;<a href="#">Top of page </a></li>
+    </ul>        
+
+
+<div class="navigation">
+  
+  <i><font color="#777777">First</font></i>
+  <i><font color="#777777">Last</font></i>
+  <i><font color="#777777">Prev</font></i>
+  <i><font color="#777777">Next</font></i>
+  &nbsp;&nbsp;
+  <i><font color="#777777">This bug is not in your last
+    search results.</font></i>
+</div>
+
+<br>
+</div>
+
+
+
+<div id="footer">
+  <div class="intro"></div>
+
+
+
+
+<ul id="useful-links">
+  <li id="links-actions"><ul class="links">
+  <li><a href="./">Home</a></li>
+  <li><span class="separator">| </span><a href="enter_bug.cgi">New</a></li>
+  <li><span class="separator">| </span><a href="describecomponents.cgi">Browse</a></li>
+  <li><span class="separator">| </span><a href="query.cgi">Search</a></li>
+
+  <li class="form">
+    <span class="separator">| </span>
+    <form action="buglist.cgi" method="get"
+        onsubmit="if (this.quicksearch.value == '')
+                  { alert('Please enter one or more search terms first.');
+                    return false; } return true;">
+    <input class="txt" type="text" id="quicksearch_bottom" name="quicksearch" 
+           value="">
+    <input class="btn" type="submit" value="Search" 
+           id="find_bottom"></form>
+  <a href="page.cgi?id=quicksearch.html" title="Quicksearch Help">[?]</a></li>
+
+  <li><span class="separator">| </span><a href="report.cgi">Reports</a></li>
+
+  <li></li>
+
+  <li>
+        <span class="separator">| </span>
+        <a href="docs/en/html/bug_page.html" target="_blank">Help</a>
+      </li>
+    
+      <li id="new_account_container_bottom">
+        <span class="separator">| </span>
+        <a href="createaccount.cgi">New&nbsp;Account</a>
+      </li>
+
+    <li id="mini_login_container_bottom">
+  <span class="separator">| </span>
+  <a id="login_link_bottom" href="http://bugs.pyside.org/show_bug.cgi?id=505&amp;GoAheadAndLogIn=1"
+     onclick="return show_mini_login_form('_bottom')">Log In</a>
+  <form action="http://bugs.pyside.org/show_bug.cgi?id=505" method="POST" 
+        class="mini_login bz_default_hidden"
+        id="mini_login_bottom"
+        onsubmit="return check_mini_login_fields( '_bottom' );"
+  >
+    <input id="Bugzilla_login_bottom" 
+           class="bz_login"
+           name="Bugzilla_login"
+           onfocus="mini_login_on_focus('_bottom')"
+    >
+    <input class="bz_password" 
+           id="Bugzilla_password_bottom" 
+           name="Bugzilla_password"
+           type="password"
+    >
+    <input class="bz_password bz_default_hidden bz_mini_login_help" type="text" 
+           id="Bugzilla_password_dummy_bottom" value="password"
+           onfocus="mini_login_on_focus('_bottom')"
+    >
+    <input type="submit" name="GoAheadAndLogIn" value="Log in" 
+            id="log_in_bottom">
+    <script type="text/javascript">
+      mini_login_constants = {
+          "login" : "login",
+          "warning" : "You must set the login and password before logging in."
+      };
+      
+      if (YAHOO.env.ua.gecko || YAHOO.env.ua.ie || YAHOO.env.ua.opera) {
+          YAHOO.util.Event.onDOMReady(function() {
+              init_mini_login_form('_bottom');
+          });
+      }
+      else {
+          YAHOO.util.Event.on(window, 'load', function () {
+              window.setTimeout(function() {
+                  init_mini_login_form('_bottom');
+              }, 200);
+          });
+    }
+    </script>
+    <a href="#" onclick="return hide_mini_login_form('_bottom')">[x]</a>
+  </form>
+</li>
+<li id="forgot_container_bottom">
+  <span class="separator">| </span>
+  <a id="forgot_link_bottom" href="http://bugs.pyside.org/show_bug.cgi?id=505&amp;GoAheadAndLogIn=1#forgot"
+     onclick="return show_forgot_form('_bottom')">Forgot Password</a>
+  <form action="token.cgi" method="post" id="forgot_form_bottom"
+        class="mini_forgot bz_default_hidden">
+    <label>Login: <input type="text" name="loginname" size="20"></label>
+    <input id="forgot_button_bottom" value="Reset Password" 
+           type="submit">
+    <input type="hidden" name="a" value="reqpw">
+    <a href="#" onclick="return hide_forgot_form('_bottom')">[x]</a>
+  </form>
+</li>
+</ul>
+  </li>
+
+  
+    
+
+  
+
+
+  
+</ul>
+
+  <div class="outro"></div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+/*
+ * Custom rules for index.css.
+ * The rules you put here override rules in that stylesheet.
+ */
+    
+    div#page-index .outro 
+    {
+        clear:both;
+    }
+
+#page-index {
+    margin: auto;
+}
+
+#page-index a {
+    border: 1px solid transparent;
+    padding-bottom: 25px;
+}
+
+#page-index a:hover {
+    border: 1px solid #009491;
+    text-decoration: none;
+    border-radius: 15px;    
+}
+
+#page-index #quicksearchForm a {
+    margin-bottom: 25px;
+    padding-bottom: 0px;
+}
+
+#page-index #quicksearchForm a:hover {
+    border: 1px solid transparent;
+}
+
+#quicksearch_links {
+    margin-top: 10px;
+}
+
+
+
